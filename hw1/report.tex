@@ -1,0 +1,120 @@
+   
+\documentclass[11pt]{article}
+\renewcommand{\baselinestretch}{1.05}
+\usepackage{amsmath,amsthm,verbatim,amssymb,amsfonts,amscd, graphicx}
+\usepackage{graphics}
+\topmargin0.0cm
+\headheight0.0cm
+\headsep0.0cm
+\oddsidemargin0.0cm
+\textheight23.0cm
+\textwidth16.5cm
+\footskip1.0cm
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{surfacecor}{Corollary 1}
+\newtheorem{conjecture}{Conjecture} 
+\newtheorem{question}{Question} 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}% http://ctan.org/pkg/amsfonts
+%\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{enumitem}
+\usepackage{enumerate}% http://ctan.org/pkg/enumerate
+%\usepackage{pdfpages}
+
+
+\begin{document}
+ 
+
+
+\title{CS 464: HW 1}
+\author{Joshua Shepherd\\011474294}
+\maketitle
+
+
+\begin{enumerate}
+	% Question 1
+	\item \textit{Give five types of hardware resource and five types of data or software resource that can usefully be shared. Give examples of their sharing as it occurs in distributed systems.} \\
+	\\
+	5 example types of hardware resources:
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item printers - CougPrints here at WSU could utilize its printer in a DS manner
+		\item disks - Disks can be used to store arbitrary information (potentially replicated) that can be messaged by request
+		\item CPU's - Nodes in a DS can balance loads so that CPU resources are more equally shared (for computing some task)
+		\item GPU's - Similar to CPU's, GPU resources can be shared to balance/distribute some task
+		\item screens/monitors - xwindows servers can have various entities modify its content which may be displayed on screens/monitors
+	\end{enumerate}
+	5 example types of software/data resources:
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item files - Google Drive stores 15 GB of files 
+		\item databases - SQL servers can be set up in DS manner
+		\item data objects - Such as those stored by banks can be shared in a DS
+		\item web page - Servers can distribute web pages
+		\item User history - For example tracking viewing histories in web browsers across multiple browsers
+		
+	\end{enumerate}
+	
+	\item \textit{Consider the implementation strategies for massively multiplayer online games as discussed in Section 1.2.2. In particular, what advantages do you see in adopting a single server approach for representing the state of the multiplayer game? What problems can you identify and how might they be resolved? }\\
+	\\
+	The single server approach is helps significantly when addressing consistency concerns since the virtual world is represented as a single copy with subsections dedicated to particular nodes. Problems would arise if a particular subsection (eg. a star system in the case of EVE Online) is flooded with users all updating and requesting updates of their virtual world. In the case of EVE Online, one solution is to literally slow down the game time (something about time dilation) in order to make computations more reasonable.
+	\item \textit{Compare and contrast cloud computing with more traditional client-server computing? What is novel about cloud computing as a concept?} \\
+	\\
+	Cloud computing is novel since it captures the vision of computing as a utility, thus reducing requirements on users' devices. Rather than requiring an independent implementation/allocation of physical resources and software services, those services can be offloaded into a distinct commodity/utility that can be rented rather than the traditional notion of being owned.
+	\item \textit{A server program written in one language (for example C++) provides the implementation of a BLOB object that is intended to be accessed by clients that may be written in a different language (for example Java). The client and server computers may have different hardware, but all of them are attached to an Internet. Describe the problems due to each of the five aspects of heterogeneity that need to be solved to make it possible for a client object to invoke a method on the server object.}
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item operating systems - OS's do not necessarily all provide the same API's for Internet protocols (eg. exchanging messages in UNIX vs calls in Windows). This problem could arise with BLOB if the client were ran on Windows and the server on Linux.
+		\item programming languages - different programming languages use different representations for characters and data structures (eg. arrays and records). In the case of the BLOB class, data structures of data members may have different representations in C++ vs Java.
+		\item networks - computers on different network types need separate implementations of the Internet protocols for their respective networks
+		\item computer hardware - data types (eg. integers) may be represented differently on different hardware (eg. Big Endian vs Little Endian in AMD vs Intel).
+		\item implementations by different developers - if the clients are written by different developers than the server programmers, then the programs would need to communicate over common standards (eg. the representation of data items in messages of BLOB)
+	\end{enumerate}
+	\item \textit{List the three main software components that may fail when a client process invokes a method in a server object, giving an example of a failure in each case. To what extent are these failures independent of one another? Suggest how the components can be made to tolerate one anotherâ€™s failures.}
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item The server process - it could crash
+		\item The client process - it could crash
+		\item The communication platform - it could fail to send a message, corrupt the message, or take too long to send it
+		
+	\end{enumerate}
+	Generally these failures are independent but there are of course cases were they might not be independent from each other eg. a statewide power-outage, or the client crashes upon unwittingly receiving a corrupted message. In order to tolerate these failures, the components could be made more robust by implementing timeout periods for sending/receiving messages. Checksums could be utilized by the communication software to minimize the likelihood of corrupted messages.
+	\item \textit{A service is implemented by several servers. Explain why resources might be transferred between them. Would it be satisfactory for clients to multicast all requests to the group of servers as a way of achieving mobility transparency for clients?} \\
+	\\
+	Resources may be transferred in order to balance the load to the servers to ensure more predictable timings for the service. Additionally, they might be transferred in order to reduce latency (eg. the destination server is geographically closer as particularly frequent users). It would likely not be satisfactory for clients to multicast all requests in order to achieve transparency for clients since it would put unnecessary load on the network and servers. This effect would be minimized as the number of clients relative to servers goes down.
+	\item \textit{Provide three specific and contrasting examples of the increasing levels of heterogeneity experienced in contemporary distributed systems as defined in Section 2.2.}
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item Networking - the Internet demonstrates increasing levels of heterogeneity as new smartphones and new communication protocols are developed (eg. GPON)
+		\item Hardware - DS's continually adopt new multi-core processors and GPU's 
+		\item OS - DS's can be comprised of any number of OS's usually Linux, Windows, and MacOS especially as new versions are continually developed
+	\end{enumerate}
+	\item \textit{What problems do you foresee in the direct coupling between communicating entities that is implicit in remote invocation approaches? Consequently, what advantages do you anticipate from a level of decoupling as offered by space and time uncoupling? Note: you might want to revisit this answer after reading Chapters 5 and 6, and thinking about RTI DDS and the Linda coordination language.} \\
+	\\
+	Generally, a high-degree of coupling indicates a resistance to a dynamic environment eg. if a server goes down then so does the client. Space uncoupling allows for better routes in dealing with change eg. a new server is added. Time uncoupling allows for communication with entities when they are added or removed.
+	\item \textit{The host computers used in peer-to-peer systems are often simply desktop computers in usersâ€™ offices or homes. What are the implications of this for the availability and security of any shared data objects that they hold and to what extent can any weaknesses be overcome through the use of replication?} \\
+	\\
+	Often, users' offices and homes may not have excellent Internet bandwidth when compared to traditional DS's. Also, it's not especially uncommon for users to power off their computers in order to conserve on electricity bills or preventing excess heat. Additionally, the users may be succeptible to network attacks such as DDoS. These effects would result in less accessible data objects. As for security, if not handled correctly, the users could alter the shared data objects and distribute corrupt data. \\
+	With replication, the data could be replicated as to make it unlikely that a particular resource is unavailable. With regards to security, multiple copies could be retrieved (or their hashes) in order to confirm their integrity.
+	\item \textit{List the types of local resource that are vulnerable to an attack by an untrusted program that is downloaded from a remote site and run in a local computer.} \\
+	\\
+	Depending on the permissions granted to the untrusted program, it could read/write files and data objects. It could also potentially access the CPU/GPU to perform miscellaneous computations. On the network, the program may create/write to sockets in order to distribute desired information.
+	\item \textit{Consider a hypothetical car hire company and sketch out a three-tier solution to the provision of their underlying distributed car hire service. Use this to illustrate the benefits and drawbacks of a three-tier solution considering issues such as performance, scalability, dealing with failure and also maintaining the software over time.} \\
+	\\
+	The standard 3-tier solution would be composed of:
+	\begin{enumerate}[\hspace{0.5cm}(1)]
+		\item Presentation logic - the frontend UI/UX designed in HTML/JS that displays the car hire service to the clients
+		\item Application/business logic - receives queries from the frontend about the a particular car's make/model and price and returns it
+		\item Data logic - the persistent database which stores all of the information about all of the available cars and their attributes
+	\end{enumerate}
+	With regards to performance, the 3-tier solution may be better since the processing load is spread over 3 potential machines, but on the other hand, the latency is increased since communication must take place between each of the 3 tiers. The 3-tier may be more scalable since it distributes the processing load over each of the 3 tiers. In dealing with failure, the 3-tier might perform worse since the extra entity increases the odds of a single failure and the result of any one of the 3-tiers not performing correctly would result in the entire system not performing correctly. Considering maintainability, the 3-tier solution may be superior since the low coupling allows for simpler development and allocation of development work.
+	\item \textit{For each of the factors that contribute to the time taken to transmit a message between two processes over a communication channel, state what measures would be needed to set a bound on its contribution to the total time. Why are these measures not provided in current general-purpose distributed systems?} \\
+	\\
+	The 2 processes would need the time to transmit to be constant once on the network. The 2 processes would need to be guaranteed the necessary time by the OS send/receive. The processes would also need to be guaranteed network capacity to send/receive the message.General-purpose DS's don't guarantee message transmittance within an interval since it would restrict the number of clients for a given server/system of servers.
+	
+\end{enumerate}
+\end{document}
