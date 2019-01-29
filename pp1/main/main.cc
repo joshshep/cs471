@@ -24,6 +24,12 @@ void print_help() {
 	std::cout << "E.g., ~$ ./align gene.fasta 0 parameters.config" << std::endl;
 }
 
+void format_bps(std::string & str) {
+	for(auto& c : str) {
+		c = tolower(c);
+	}
+}
+
 std::vector<std::string> load_sequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
@@ -48,6 +54,7 @@ std::vector<std::string> load_sequences(const char* fasta_fname) {
 				std::cout << "Reading sequence: '" << line << "' ..." << std::endl;
 				iterating_through_seq = true;
 			} else {
+				format_bps(line);
 				sequence += line;
 			}
 		}
