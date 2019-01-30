@@ -8,6 +8,11 @@ TODO
 
 https://docs.bazel.build/versions/master/install.html
 
+## Build the alignment program
+```
+bazel build //src:aligner
+```
+
 ## Run the tests
 ```
 bazel test //test:aligner-test --test_output=all
