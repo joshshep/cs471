@@ -91,6 +91,14 @@ ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
 	return align_scope;
 }
 
+void print_score_config(SCORE_CONFIG & scores) {
+	std::cout << "--Scoring configuration settings--" << std::endl;
+	std::cout << "match: " << scores.match << std::endl;
+	std::cout << "mismatch: " << scores.mismatch << std::endl;
+	std::cout << "g: " << scores.g << std::endl;
+	std::cout << "h: " << scores.h << std::endl;
+}
+
 SCORE_CONFIG load_config(const char *config_fname) {
 	std::cout << "Loading configuration settings from file '" << config_fname << "' ..." << std::endl;
 	std::ifstream config_stream(config_fname);
@@ -125,12 +133,23 @@ SCORE_CONFIG load_config(const char *config_fname) {
 	if (provided != 0b1111) {
 		std::cout << "Warning: the parameter file '" << config_fname << "' did not provide values for each parameter (default value 0)" << std::endl;
 	}
-	std::cout << "--Scoring configuration settings--" << std::endl;
-	std::cout << "match: " << scores.match << std::endl;
-	std::cout << "mismatch: " << scores.mismatch << std::endl;
-	std::cout << "g: " << scores.g << std::endl;
-	std::cout << "h: " << scores.h << std::endl;
+	print_score_config(scores);
 	return scores;
+}
+
+int align_global(std::string & s1, std::string & s2, SCORE_CONFIG scores) {
+	const size_t m = s1.size();
+	const size_t n = s2.size();
+	/*
+				s2
+		__________________
+	   |
+       |
+	s1 |
+	   |
+	   |
+	*/
+	return 0;
 }
 
 int main(int argc, char *argv[]) {
