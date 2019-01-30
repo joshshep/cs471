@@ -175,7 +175,7 @@ void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
 				std::max(int_len(dp[j][i].S), int_len(dp[j][i].D))
 			);
 		}
-		printf("col_widths[%2d] = %d\n", i, col_widths[i]);
+		//printf("col_widths[%2d] = %d\n", i, col_widths[i]);
 	}
 
 	// print numbers on first row
@@ -295,7 +295,7 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 		}
 	}
 
-	//print_dp_table(dp, n_cols, n_rows);
+	print_dp_table(dp, n_cols, n_rows);
 
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
