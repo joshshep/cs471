@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <limits.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -11,6 +13,12 @@
 #define DFLT_CONFIG_FNAME "parameters.config"
 
 enum ALIGN_SCOPE {GLOBAL, LOCAL};
+
+typedef struct dp_cell {
+	int S;
+	int D;
+	int I;
+} DP_CELL;
 
 typedef struct score_config {
 	int match;
@@ -137,18 +145,102 @@ SCORE_CONFIG load_config(const char *config_fname) {
 	return scores;
 }
 
-int align_global(std::string & s1, std::string & s2, SCORE_CONFIG scores) {
-	const size_t m = s1.size();
-	const size_t n = s2.size();
+void print_size(size_t asize) {
+	if ((asize >> 30) > 0) {
+		printf("%.2lf GiB", (double) asize / (1<<30));
+	} else if ((asize >> 20) > 0) {
+		printf("%.2lf MiB", (double) asize / (1<<20));
+	} else if ((asize >> 10) > 0) {
+		printf("%.2lf KiB", (double) asize / (1<<10));
+	} else {
+		printf("%d B", (int)asize);
+	}
+}
+
+int cost2sub(char c1, char c2, SCORE_CONFIG & scores) {
+	if (c1 == c2) {
+		return scores.match;
+	}
+	return scores.mismatch;
+}
+
+int max3(int &i0, int &i1, int &i2) {
+	return std::max(i0, std::max(i1, i2));
+}
+
+int max3(DP_CELL & a) {
+	return max3(a.D, a.I, a.S);
+}
+
+int align_global(std::string & s1, std::string & s2, SCORE_CONFIG & scores) {
 	/*
-				s2
-		__________________
-	   |
-       |
-	s1 |
+	            s1
+	   __________________ m
 	   |
 	   |
+	s2 |
+	   |
+	   |
+	   n
 	*/
+	const int n_cols = s1.size() + 1;
+	const int n_rows = s2.size() + 1;
+	std::cout << "Allocating dp table of size = " ;
+	print_size(n_cols * n_rows * sizeof(DP_CELL));
+	std::cout << " ..." << std::endl;
+
+	// allocate memory for dp table
+	DP_CELL** dp = new DP_CELL*[n_rows];
+	for (int j=0; j < n_rows; j++) {
+		dp[j] = new DP_CELL[n_cols];
+	}
+
+	// initialize edge values
+	dp[0][0] = {0};
+	for (int i=1; i<n_cols; i++) {
+		dp[0][i].S = INT_MIN;
+		dp[0][i].D = INT_MIN;
+		dp[0][i].I = scores.h + i * scores.g;
+	}
+	for (int j=1; j<n_rows; j++) {
+		dp[j][0].S = INT_MIN;
+		dp[j][0].D = scores.h + j * scores.g;
+		dp[j][0].I = INT_MIN;
+	}
+
+	// main dp processing loop
+	for (int j=1; j<n_rows; j++) {
+		for (int i=1; i<n_cols; i++){
+			// substitute
+			dp[j][i].S = max3(dp[j-1][i-1]) + cost2sub(s1[i-1], s2[j-1], scores);
+
+			// delete
+			DP_CELL & cell_up = dp[j-1][i];
+			int d_d = cell_up.D + scores.g;
+			int d_s = cell_up.S + scores.g + scores.h;
+			int d_i = cell_up.I + scores.g + scores.h;
+			dp[j][i].D = max3(d_d, d_s, d_i);
+
+			// insert
+			DP_CELL & cell_left = dp[j][i-1];
+			int i_i = cell_left.I + scores.g;
+			int i_s = cell_left.S + scores.g + scores.h;
+			int i_d = cell_left.D + scores.g + scores.h;
+			dp[j][i].I = max3(i_i, i_s, i_d);
+		}
+	}
+
+	int align_score = max3(dp[n_rows-1][n_cols-1]);
+
+
+	
+	for (int i =0; i < n_rows; i++) {
+		delete[] dp[i];
+	}
+	delete[] dp;
+
+	std::cout << "Alignment score: " << align_score << std::endl;
+
 	return 0;
 }
 
@@ -176,6 +268,11 @@ int main(int argc, char *argv[]) {
 	}
 	SCORE_CONFIG scores = load_config(config_fname);
 
-
+	if (align_scope == GLOBAL) {
+		align_global(sequences[0], sequences[1], scores);
+	} else {
+		std::cout << "Error: local alignment has not been implemented" << std::endl;
+		exit(1);
+	}
 	return 0;
 }
