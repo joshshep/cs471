@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 
 	if (align_scope == GLOBAL) {
 		int align_score = align_global(sequences[0], sequences[1], scores);
-        std::cout << "Alignment score: " << align_score << std::endl;
+		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
 		std::cout << "Error: local alignment has not been implemented" << std::endl;
 		exit(1);
