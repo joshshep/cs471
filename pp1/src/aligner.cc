@@ -72,7 +72,7 @@ ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
 	return align_scope;
 }
 
-void print_score_config(SCORE_CONFIG & scores) {
+void print_score_config(const SCORE_CONFIG & scores) {
 	std::cout << "--Scoring configuration settings--" << std::endl;
 	std::cout << "match: " << scores.match << std::endl;
 	std::cout << "mismatch: " << scores.mismatch << std::endl;
@@ -130,7 +130,7 @@ void print_size(size_t asize) {
 	}
 }
 
-int cost2sub(char c1, char c2, SCORE_CONFIG & scores) {
+int cost2sub(char c1, char c2, const SCORE_CONFIG & scores) {
 	if (c1 == c2) {
 		return scores.match;
 	}
@@ -145,7 +145,7 @@ int max3(DP_CELL & a) {
 	return max3(a.D, a.I, a.S);
 }
 
-int align_global(std::string & s1, std::string & s2, SCORE_CONFIG & scores) {
+int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
 	/*
 	            s1
 	   __________________ m

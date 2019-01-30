@@ -48,6 +48,6 @@ int cost2sub(char c1, char c2, const SCORE_CONFIG & scores);
 int max3(int &i0, int &i1, int &i2);
 int max3(DP_CELL & a);
 
-int align_global(std::string & s1, std::string & s2, SCORE_CONFIG & scores);
+int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores);
 
 #endif // ALIGNER_H
