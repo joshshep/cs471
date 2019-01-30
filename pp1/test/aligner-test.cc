@@ -22,7 +22,7 @@ TEST(AlignGlobal, S1SameAsS2) {
 
 TEST(AlignGlobal, Insert) {
 	std::string s1 = "abcdefghi";
-	std::string s2 = "zabcdefgh";
+	std::string s2 = "zabcdefghi";
 	EXPECT_EQ(3, align_global(s1, s2, dflt_scores));
 }
 
