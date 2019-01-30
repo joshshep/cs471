@@ -1,3 +1,6 @@
+#ifndef ALIGNER_H
+#define ALIGNER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,7 +31,7 @@ typedef struct score_config {
 } SCORE_CONFIG;
 
 void print_help();
-void print_score_config(SCORE_CONFIG & scores);
+void print_score_config(const SCORE_CONFIG & scores);
 void print_size(size_t asize);
 
 void format_bps(std::string & str);
@@ -40,9 +43,11 @@ SCORE_CONFIG load_config(const char *config_fname);
 
 ALIGN_SCOPE parse_align_scope(const char *alignment_str);
 
-int cost2sub(char c1, char c2, SCORE_CONFIG & scores);
+int cost2sub(char c1, char c2, const SCORE_CONFIG & scores);
 
 int max3(int &i0, int &i1, int &i2);
 int max3(DP_CELL & a);
 
 int align_global(std::string & s1, std::string & s2, SCORE_CONFIG & scores);
+
+#endif // ALIGNER_H

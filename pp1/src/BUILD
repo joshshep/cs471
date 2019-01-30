@@ -1,12 +1,12 @@
 cc_binary(
 	name = "aligner",
-	srcs = glob(["*.cc"]),
+	srcs = glob(["main.cc"]),
 	deps = [":alignerlib"],
 )
 
 cc_library(
 	name = "alignerlib",
-	srcs = glob(["*.cc"]),
-	hdrs = glob(["*.h"]),
+	srcs = glob(["aligner.cc"]),
+	hdrs = glob(["aligner.h"]),
 	visibility = ["//visibility:public"],
 )
