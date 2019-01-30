@@ -145,6 +145,10 @@ int max3(DP_CELL & a) {
 	return max3(a.D, a.I, a.S);
 }
 
+void print_dp_cell(DP_CELL & a) {
+	printf("(I: %d, D: %d, S: %d)", a.I, a.D, a.S);
+}
+
 int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
 	/*
 	            s1
@@ -158,9 +162,9 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	*/
 	const int n_cols = s1.size() + 1;
 	const int n_rows = s2.size() + 1;
-	std::cout << "Allocating dp table of size = " ;
-	print_size(n_cols * n_rows * sizeof(DP_CELL));
-	std::cout << " ..." << std::endl;
+	//std::cout << "Allocating dp table of size = " ;
+	//print_size(n_cols * n_rows * sizeof(DP_CELL));
+	//std::cout << " ..." << std::endl;
 
 	// allocate memory for dp table
 	DP_CELL** dp = new DP_CELL*[n_rows];
@@ -171,14 +175,24 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	// initialize edge values
 	dp[0][0] = {0};
 	for (int i=1; i<n_cols; i++) {
-		dp[0][i].S = INT_MIN;
-		dp[0][i].D = INT_MIN;
+		dp[0][i].S = INT_MIN >> 1; // TODO low-ish?
+		dp[0][i].D = INT_MIN >> 1;
 		dp[0][i].I = scores.h + i * scores.g;
+		/*
+		printf("(i: %d, j: %d): ", i, 0);
+		print_dp_cell(dp[0][i]);
+		std::cout << std::endl;
+		*/
 	}
 	for (int j=1; j<n_rows; j++) {
-		dp[j][0].S = INT_MIN;
+		dp[j][0].S = INT_MIN >> 1;
 		dp[j][0].D = scores.h + j * scores.g;
-		dp[j][0].I = INT_MIN;
+		dp[j][0].I = INT_MIN >> 1;
+		/*
+		printf("(i: %d, j: %d): ", 0, j);
+		print_dp_cell(dp[j][0]);
+		std::cout << std::endl;
+		*/
 	}
 
 	// main dp processing loop
@@ -200,6 +214,12 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 			int i_s = cell_left.S + scores.g + scores.h;
 			int i_d = cell_left.D + scores.g + scores.h;
 			dp[j][i].I = max3(i_i, i_s, i_d);
+
+			/*
+			printf("(i: %d, j: %d): ", i, j);
+			print_dp_cell(dp[j][i]);
+			std::cout << std::endl;
+			*/
 		}
 	}
 
@@ -210,7 +230,5 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	}
 	delete[] dp;
 
-	std::cout << "Alignment score: " << align_score << std::endl;
-
-	return 0;
+	return align_score;
 }

@@ -25,7 +25,8 @@ int main(int argc, char *argv[]) {
 	SCORE_CONFIG scores = load_config(config_fname);
 
 	if (align_scope == GLOBAL) {
-		align_global(sequences[0], sequences[1], scores);
+		int align_score = align_global(sequences[0], sequences[1], scores);
+        std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
 		std::cout << "Error: local alignment has not been implemented" << std::endl;
 		exit(1);

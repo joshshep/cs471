@@ -15,8 +15,24 @@ TEST(AlignGlobal, EmptyS1EmptyS2) {
 	EXPECT_EQ(0, align_global(s1, s2, dflt_scores));
 }
 
-TEST(FormatBps, ToLowercase) {
+TEST(AlignGlobal, S1SameAsS2) {
+	std::string s1 = "atcgc";
+	std::string s2 = "atcgc";
+	
+	EXPECT_EQ(dflt_scores.match * s1.size(), align_global(s1, s2, dflt_scores));
+}
+
+TEST(FormatBps, UppercaseBps) {
 	std::string s = "ATC";
 	format_bps(s);
 	EXPECT_EQ(s, std::string("atc"));
 }
+
+TEST(Cost2Sub, Match) {
+	EXPECT_EQ(dflt_scores.match, cost2sub('a', 'a', dflt_scores));
+}
+
+TEST(Cost2Sub, Mismatch) {
+	EXPECT_EQ(dflt_scores.mismatch, cost2sub('a', 't', dflt_scores));
+}
+
