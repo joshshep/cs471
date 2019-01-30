@@ -36,3 +36,25 @@ TEST(Cost2Sub, Mismatch) {
 	EXPECT_EQ(dflt_scores.mismatch, cost2sub('a', 't', dflt_scores));
 }
 
+TEST(IntLen, Pos) {
+	EXPECT_EQ(1, int_len(1));
+	EXPECT_EQ(1, int_len(9));
+
+	EXPECT_EQ(2, int_len(10));
+	EXPECT_EQ(2, int_len(42));
+	EXPECT_EQ(2, int_len(99));
+
+	EXPECT_EQ(5, int_len(10000));
+	EXPECT_EQ(5, int_len(99999));
+
+	EXPECT_EQ(10, int_len(2000000000));
+}
+
+TEST(IntLen, NonPos) {
+	EXPECT_EQ(1, int_len(0));
+	EXPECT_EQ(2, int_len(-1));
+
+	EXPECT_EQ(2, int_len(-9));
+	EXPECT_EQ(11, int_len(-1073741824));
+	
+}

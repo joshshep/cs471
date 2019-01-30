@@ -149,6 +149,78 @@ void print_dp_cell(DP_CELL & a) {
 	printf("(I: %d, D: %d, S: %d)", a.I, a.D, a.S);
 }
 
+char uint_len(unsigned int i) {
+	if(i >= 10) {
+		return 1 + uint_len(i/10);
+	}
+	return 1;
+}
+
+char int_len(int i) {
+	if (i < 0) {
+		return 1 + uint_len(-i);
+	}
+	return uint_len(i);
+}
+
+void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
+	char* col_widths = new char[n_cols];
+
+	// get column widths
+	for (int i=0; i<n_cols; i++) {
+		col_widths[i] = 0;
+		for (int j=0; j<n_rows; j++) {
+			col_widths[i] = std::max(
+				std::max(col_widths[i], int_len(dp[j][i].I)), 
+				std::max(int_len(dp[j][i].S), int_len(dp[j][i].D))
+			);
+		}
+		printf("col_widths[%2d] = %d\n", i, col_widths[i]);
+	}
+
+	// print numbers on first row
+	printf("     ");
+	for (int i=0; i<n_cols; i++) {
+		printf("  %*d    ", col_widths[i], i);
+	}
+	printf("\n");
+	// print top line
+	printf("      ");
+	for (int i=0; i<n_cols; i++) {
+		for (int idash=0; idash<6+col_widths[i]; idash++) {
+			putchar('-');
+		}
+	}
+	printf("-\n");
+
+	for (int j=0; j<n_rows; j++) {
+		printf("      |");
+		for (int i=0; i<n_cols; i++) {
+			printf(" I: %*d |", col_widths[i], dp[j][i].I);
+		}
+		printf("\n");
+		printf("%5d |", j);
+		for (int i=0; i<n_cols; i++) {
+			printf(" S: %*d |", col_widths[i], dp[j][i].S);
+		}
+		printf("\n");
+		printf("      |");
+		for (int i=0; i<n_cols; i++) {
+			printf(" D: %*d |", col_widths[i], dp[j][i].D);
+		}
+		printf("\n");
+		printf("      ");
+		for (int i=0; i<n_cols; i++) {
+			for (int idash=0; idash<6+col_widths[i]; idash++) {
+				putchar('-');
+			}
+		}
+		printf("-\n");
+	}
+
+	delete[] col_widths;
+}
+
 int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
 	/*
 	            s1
@@ -222,6 +294,8 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 			*/
 		}
 	}
+
+	//print_dp_table(dp, n_cols, n_rows);
 
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
