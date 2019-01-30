@@ -1,31 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <limits.h>
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-
-#define MIN_N_ARGS 3
-#define MAX_N_ARGS 4
-#define DFLT_CONFIG_FNAME "parameters.config"
-
-enum ALIGN_SCOPE {GLOBAL, LOCAL};
-
-typedef struct dp_cell {
-	int S;
-	int D;
-	int I;
-} DP_CELL;
-
-typedef struct score_config {
-	int match;
-	int mismatch;
-	int h; // start gap penalty
-	int g; // continuing gap penalty
-} SCORE_CONFIG;
+#include "src/aligner.h"
 
 void print_help() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
