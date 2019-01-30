@@ -11,15 +11,19 @@ const SCORE_CONFIG dflt_scores = {
 TEST(AlignGlobal, EmptyS1EmptyS2) {
 	std::string s1 = "";
 	std::string s2 = "";
-	
 	EXPECT_EQ(0, align_global(s1, s2, dflt_scores));
 }
 
 TEST(AlignGlobal, S1SameAsS2) {
 	std::string s1 = "atcgc";
 	std::string s2 = "atcgc";
-	
 	EXPECT_EQ(dflt_scores.match * s1.size(), align_global(s1, s2, dflt_scores));
+}
+
+TEST(AlignGlobal, Insert) {
+	std::string s1 = "abcdefghi";
+	std::string s2 = "zabcdefgh";
+	EXPECT_EQ(3, align_global(s1, s2, dflt_scores));
 }
 
 TEST(FormatBps, UppercaseBps) {
@@ -56,5 +60,4 @@ TEST(IntLen, NonPos) {
 
 	EXPECT_EQ(2, int_len(-9));
 	EXPECT_EQ(11, int_len(-1073741824));
-	
 }
