@@ -27,6 +27,8 @@
 
 enum ALIGN_SCOPE {GLOBAL, LOCAL};
 
+enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
+
 typedef struct dp_cell {
 	int S;
 	int D;
