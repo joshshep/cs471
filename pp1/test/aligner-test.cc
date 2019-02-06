@@ -14,6 +14,12 @@ TEST(AlignGlobal, EmptyS1EmptyS2) {
 	EXPECT_EQ(0, align_global(s1, s2, dflt_params));
 }
 
+TEST(AlignGlobal, EmptyS1ShortS2) {
+	std::string s1 = "";
+	std::string s2 = "abcdefg";
+	EXPECT_EQ(dflt_params.h + s2.size()*dflt_params.g, align_global(s1, s2, dflt_params));
+}
+
 TEST(AlignGlobal, S1SameAsS2) {
 	std::string s1 = "atcgc";
 	std::string s2 = "atcgc";
