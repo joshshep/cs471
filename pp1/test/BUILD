@@ -6,4 +6,5 @@ cc_test(
 		"@gtest//:main",
 		"//src:alignerlib",
 	],
+	timeout="short",
 )
