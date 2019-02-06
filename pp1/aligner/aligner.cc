@@ -248,6 +248,101 @@ void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
 	delete[] col_widths;
 }
 
+// Alias characters in the retrace string
+#define MATCH '|'
+#define MISMATCH 'X'
+#define INSERT 'i'
+#define DELETE 'd'
+
+std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
+	int n_cols = s1.size() + 1;
+	int n_rows = s2.size() + 1;
+	int i = n_cols - 1;
+	int j = n_rows - 1;
+	std::string retraced = "";
+	while (i >= 1 && j >= 1) {
+		DP_CELL & cell = dp[j][i];
+		if (cell.S >= cell.I && cell.S >= cell.D) {
+			// substitute
+			if (s1[i-1] == s2[j-1]) {
+				retraced += MATCH;
+			} else {
+				retraced += MISMATCH;
+			}
+			i--;
+			j--;
+		} else if (cell.I >= cell.S && cell.I >= cell.D) {
+			// insert
+			retraced += INSERT;
+			i--;
+		} else {
+			// delete
+			retraced += DELETE;
+			j--;
+		}
+	}
+	// if we're not at the origin, we'll need to add gaps to our retrace string
+	for (; j > 0; j--) {
+		retraced += DELETE;
+	}
+	for (; i > 0; i--) {
+		retraced += INSERT;
+	}
+	std::reverse(retraced.begin(), retraced.end());
+
+	return retraced;
+}
+void print_retrace_str(std::string retrace_str, std::string s1, std::string s2) {
+	// print s1
+	int i_s1 = 0;
+	for (char & c : retrace_str) {
+		switch(c) {
+		case MATCH:
+		case MISMATCH:
+		case INSERT:
+			std::cout << s1[i_s1];
+			i_s1++;
+			break;
+		case DELETE:
+			std::cout << '-';
+			break;
+		}
+	}
+	std::cout << std::endl;
+
+	// print matching
+	for (char & c : retrace_str) {
+		switch(c) {
+		case MATCH:
+			std::cout << c;
+			break;
+		case MISMATCH:
+		case INSERT:
+		case DELETE:
+			std::cout << ' ';
+			break;
+		}
+	}
+	std::cout << std::endl;
+
+	// print s2
+	int i_s2 = 0;
+	for (char & c : retrace_str) {
+		switch(c) {
+		case MATCH:
+		case MISMATCH:
+		case DELETE:
+			std::cout << s2[i_s2];
+			i_s2++;
+			break;
+		case INSERT:
+			std::cout << '-';
+			break;
+		}
+	}
+	std::cout << std::endl;
+}
+
 int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
 	/*
 				s1
@@ -324,7 +419,8 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	//std::cout << "s1: " << s1 << std::endl;
 	//std::cout << "s2: " << s2 << std::endl;
 	//print_dp_table(dp, s1, s2);
-
+	std::string retrace_str = gen_retrace_str(dp, s1, s2);
+	print_retrace_str(retrace_str, s1, s2);
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
 	for (int i =0; i < n_rows; i++) {
