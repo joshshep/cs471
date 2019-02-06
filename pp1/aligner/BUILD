@@ -6,7 +6,7 @@ cc_binary(
 
 cc_library(
 	name = "alignerlib",
-	srcs = glob(["aligner.cc"]),
+	srcs = glob(["aligner.cc", "util.cc"]),
 	hdrs = glob(["aligner.h"]),
 	visibility = ["//visibility:public"],
 )
