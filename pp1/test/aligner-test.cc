@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "src/aligner.h"
+#include "aligner/aligner.h"
 
 const SCORE_CONFIG dflt_params = {
 	.match = 1,

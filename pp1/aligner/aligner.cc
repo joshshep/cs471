@@ -1,4 +1,4 @@
-#include "src/aligner.h"
+#include "aligner/aligner.h"
 
 void print_help() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;

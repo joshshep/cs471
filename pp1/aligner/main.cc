@@ -1,4 +1,4 @@
-#include "src/aligner.h"
+#include "aligner/aligner.h"
 
 int main(int argc, char *argv[]) {
 	if (argc < MIN_N_ARGS) {
