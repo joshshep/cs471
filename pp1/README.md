@@ -10,13 +10,13 @@ https://docs.bazel.build/versions/master/install.html
 
 ## Build the alignment program
 ```
-bazel build //src:aligner
+bazel build aligner
 ```
 
-## Run the tests
+## (optionally) Run the tests
 ```
-bazel test //test:aligner-test --test_output=all
-```
+bazel test test:aligner-test --test_output=all
+``` 
 
 ## Supply your own files
 From the root directory, run a command of the form 
@@ -25,5 +25,5 @@ From the root directory, run a command of the form
 ```
 For example, 
 ```
-./bazel-bin/src/aligner data/Opsin1_colorblindness_gene.fasta 0 parameters.config
+./bazel-bin/aligner/aligner data/Opsin1_colorblindness_gene.fasta 0 params.config
 ```
