@@ -5,11 +5,26 @@ void print_help() {
 	std::cout << "E.g., ~$ ./align gene.fasta 0 parameters.config" << std::endl;
 }
 
+// courtesy of this s/o post https://stackoverflow.com/a/1798170
+std::string trim(const std::string& str,
+                 const std::string& whitespace = " ")
+{
+	const auto strBegin = str.find_first_not_of(whitespace);
+	if (strBegin == std::string::npos)
+		return ""; // no content
+
+	const auto strEnd = str.find_last_not_of(whitespace);
+	const auto strRange = strEnd - strBegin + 1;
+
+	return str.substr(strBegin, strRange);
+}
+
 void format_bps(std::string & str) {
-	for(auto& c : str) {
+	for (auto& c : str) {
 		c = tolower(c);
 	}
 }
+
 
 std::vector<std::string> load_sequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
@@ -26,6 +41,7 @@ std::vector<std::string> load_sequences(const char* fasta_fname) {
 		if (line.empty()) {
 			if (iterating_through_seq) {
 				sequences.push_back(sequence);
+				sequence = "";
 				iterating_through_seq = false;
 			}
 		} else {
@@ -35,6 +51,7 @@ std::vector<std::string> load_sequences(const char* fasta_fname) {
 				std::cout << "Reading sequence: '" << line << "' ..." << std::endl;
 				iterating_through_seq = true;
 			} else {
+				line = trim(line);
 				format_bps(line);
 				sequence += line;
 			}
@@ -163,7 +180,9 @@ char int_len(int i) {
 	return uint_len(i);
 }
 
-void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
+void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
+	int n_cols = s1.size() + 1;
+	int n_rows = s2.size() + 1;
 	char* col_widths = new char[n_cols];
 
 	// get column widths
@@ -181,11 +200,15 @@ void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
 	// print numbers on first row
 	printf("     ");
 	for (int i=0; i<n_cols; i++) {
-		printf("  %*d    ", col_widths[i], i);
+		char bp = ' ';
+		if (i > 0) {
+			bp = s1[i-1];
+		}
+		printf("  %*d %c  ", col_widths[i], i, bp);
 	}
 	printf("\n");
 	// print top line
-	printf("      ");
+	printf("        ");
 	for (int i=0; i<n_cols; i++) {
 		for (int idash=0; idash<6+col_widths[i]; idash++) {
 			putchar('-');
@@ -194,22 +217,26 @@ void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
 	printf("-\n");
 
 	for (int j=0; j<n_rows; j++) {
-		printf("      |");
+		printf("        |");
 		for (int i=0; i<n_cols; i++) {
 			printf(" I: %*d |", col_widths[i], dp[j][i].I);
 		}
 		printf("\n");
-		printf("%5d |", j);
+		char bp = ' ';
+		if (j > 0) {
+			bp = s2[j-1];
+		}
+		printf("%5d %c |", j, bp);
 		for (int i=0; i<n_cols; i++) {
 			printf(" S: %*d |", col_widths[i], dp[j][i].S);
 		}
 		printf("\n");
-		printf("      |");
+		printf("        |");
 		for (int i=0; i<n_cols; i++) {
 			printf(" D: %*d |", col_widths[i], dp[j][i].D);
 		}
 		printf("\n");
-		printf("      ");
+		printf("        ");
 		for (int i=0; i<n_cols; i++) {
 			for (int idash=0; idash<6+col_widths[i]; idash++) {
 				putchar('-');
@@ -223,7 +250,7 @@ void print_dp_table(DP_CELL** dp, int n_cols, int n_rows) {
 
 int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
 	/*
-	            s1
+				s1
 	   __________________ m
 	   |
 	   |
@@ -294,8 +321,9 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 			*/
 		}
 	}
-
-	print_dp_table(dp, n_cols, n_rows);
+	std::cout << "s1: " << s1 << std::endl;
+	std::cout << "s2: " << s2 << std::endl;
+	//print_dp_table(dp, s1, s2);
 
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
