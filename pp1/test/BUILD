@@ -4,7 +4,7 @@ cc_test(
 	copts = ["-Iexternal/gtest/include"],
 	deps = [
 		"@gtest//:main",
-		"//src:alignerlib",
+		"//aligner:alignerlib",
 	],
 	timeout="short",
 )
