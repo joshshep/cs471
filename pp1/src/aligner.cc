@@ -26,7 +26,7 @@ void format_bps(std::string & str) {
 }
 
 
-std::vector<std::string> load_sequences(const char* fasta_fname) {
+std::pair<std::string, std::string> load_sequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
 	if(!fasta_stream) {
@@ -70,7 +70,7 @@ std::vector<std::string> load_sequences(const char* fasta_fname) {
 	for(auto sequence : sequences) {
 		//std::cout << "sequence: " << sequence << std::endl;
 	}
-	return sequences;
+	return std::pair<std::string, std::string>(sequences[0], sequences[1]);
 }
 
 ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
@@ -321,8 +321,8 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 			*/
 		}
 	}
-	std::cout << "s1: " << s1 << std::endl;
-	std::cout << "s2: " << s2 << std::endl;
+	//std::cout << "s1: " << s1 << std::endl;
+	//std::cout << "s2: " << s2 << std::endl;
 	//print_dp_table(dp, s1, s2);
 
 	int align_score = max3(dp[n_rows-1][n_cols-1]);

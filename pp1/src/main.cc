@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	const char * fasta_fname = argv[1];
-	std::vector<std::string> sequences = load_sequences(fasta_fname);
+	std::pair<std::string, std::string> sequences = load_sequences(fasta_fname);
 	
 	const char * alignment_str = argv[2];
 	ALIGN_SCOPE align_scope = parse_align_scope(alignment_str);
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 	SCORE_CONFIG scores = load_config(config_fname);
 
 	if (align_scope == GLOBAL) {
-		int align_score = align_global(sequences[0], sequences[1], scores);
+		int align_score = align_global(sequences.first, sequences.second, scores);
 		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
 		std::cout << "Error: local alignment has not been implemented" << std::endl;

@@ -36,7 +36,7 @@ void print_size(size_t asize);
 
 void format_bps(std::string & str);
 
-std::vector<std::string> load_sequences(const char* fasta_fname);
+std::pair<std::string, std::string> load_sequences(const char* fasta_fname);
 
 SCORE_CONFIG load_config(const char *config_fname);
 
