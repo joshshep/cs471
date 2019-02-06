@@ -222,13 +222,13 @@ void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
 			printf(" I: %*d |", col_widths[i], dp[j][i].I);
 		}
 		printf("\n");
-		char bp = ' ';
+		char j_bp = ' ';
 		if (j > 0) {
-			bp = s2[j-1];
+			j_bp = s2[j-1];
 		}
-		printf("%5d %c |", j, bp);
+		printf("%5d %c |", j, j_bp);
 		for (int i=0; i<n_cols; i++) {
-			printf(" S: %*d |", col_widths[i], dp[j][i].S);
+			printf(" S: %*d %c", col_widths[i], dp[j][i].S, j_bp);
 		}
 		printf("\n");
 		printf("        |");
@@ -238,7 +238,16 @@ void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
 		printf("\n");
 		printf("        ");
 		for (int i=0; i<n_cols; i++) {
-			for (int idash=0; idash<6+col_widths[i]; idash++) {
+			int num_dashes = 6+col_widths[i];
+			for (int idash=0; idash<num_dashes/2; idash++) {
+				putchar('-');
+			}
+			if (i > 0) {
+				putchar(s1[i-1]);
+			} else {
+				putchar('-');
+			}
+			for (int idash=num_dashes/2 + 1; idash<num_dashes; idash++) {
 				putchar('-');
 			}
 		}
@@ -254,6 +263,8 @@ void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
 #define INSERT 'i'
 #define DELETE 'd'
 
+#define DFLT_BP_PER_LINE 60
+
 std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 	int n_cols = s1.size() + 1;
 	int n_rows = s2.size() + 1;
@@ -261,8 +272,11 @@ std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 	int j = n_rows - 1;
 	std::string retraced = "";
 	while (i >= 1 && j >= 1) {
-		DP_CELL & cell = dp[j][i];
-		if (cell.S >= cell.I && cell.S >= cell.D) {
+		int up_score = max3(dp[j-1][i]);
+		int left_score = max3(dp[j][i-1]);
+		int diag_score = max3(dp[j-1][i-1]);
+
+		if (diag_score >= left_score && diag_score >= up_score) {
 			// substitute
 			if (s1[i-1] == s2[j-1]) {
 				retraced += MATCH;
@@ -271,7 +285,7 @@ std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 			}
 			i--;
 			j--;
-		} else if (cell.I >= cell.S && cell.I >= cell.D) {
+		} else if (left_score >= diag_score && left_score >= up_score) {
 			// insert
 			retraced += INSERT;
 			i--;
@@ -292,7 +306,7 @@ std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 
 	return retraced;
 }
-void print_retrace_str(std::string retrace_str, std::string s1, std::string s2) {
+void print_retrace_str(std::string retrace_str, std::string s1, std::string s2, int bp_per_line = DFLT_BP_PER_LINE) {
 	// print s1
 	int i_s1 = 0;
 	for (char & c : retrace_str) {
@@ -369,8 +383,8 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	// initialize edge values
 	dp[0][0] = {0};
 	for (int i=1; i<n_cols; i++) {
-		dp[0][i].S = INT_MIN >> 1; // TODO low-ish?
-		dp[0][i].D = INT_MIN >> 1;
+		dp[0][i].S = INT_MIN >> 2; // TODO low-ish?
+		dp[0][i].D = INT_MIN >> 2;
 		dp[0][i].I = scores.h + i * scores.g;
 		/*
 		printf("(i: %d, j: %d): ", i, 0);
@@ -379,9 +393,9 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 		*/
 	}
 	for (int j=1; j<n_rows; j++) {
-		dp[j][0].S = INT_MIN >> 1;
+		dp[j][0].S = INT_MIN >> 2;
 		dp[j][0].D = scores.h + j * scores.g;
-		dp[j][0].I = INT_MIN >> 1;
+		dp[j][0].I = INT_MIN >> 2;
 		/*
 		printf("(i: %d, j: %d): ", 0, j);
 		print_dp_cell(dp[j][0]);
