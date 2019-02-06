@@ -32,6 +32,18 @@ TEST(AlignGlobal, SingleInsert) {
 	EXPECT_EQ(3, align_global(s1, s2, dflt_params));
 }
 
+TEST(AlignGlobal, MismatchSandwich) {
+	std::string s1 = "abbbbbbbba";
+	std::string s2 = "acccccccca";
+	EXPECT_EQ(-14, align_global(s1, s2, dflt_params));
+}
+
+TEST(AlignGlobal, GapSandwich) {
+	std::string s1 = "aa";
+	std::string s2 = "abbbbbbba";
+	EXPECT_EQ(-10, align_global(s1, s2, dflt_params));
+}
+
 TEST(AlignGlobal, cs471sample) {
 	std::string s1 = "ACATGCTACACGTATCCGATACCCCGTAACCGATAACGATACACAGACCTCGTACGCTTG"
 	                 "CTACAACGTACTCTATAACCGAGAACGATTGACATGCCTCGTACACATGCTACACGTACT"
@@ -48,6 +60,8 @@ TEST(AlignGlobal, cs471sample) {
 	int alignment_score = align_global(s1, s2, params);
 	EXPECT_EQ(55, alignment_score);
 }
+
+
 
 TEST(FormatBps, UppercaseBps) {
 	std::string s = "ATC";
