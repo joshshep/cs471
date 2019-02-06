@@ -7,8 +7,7 @@ void print_help() {
 
 // courtesy of this s/o post https://stackoverflow.com/a/1798170
 std::string trim(const std::string& str,
-                 const std::string& whitespace = " ")
-{
+                 const std::string& whitespace = " ") {
 	const auto strBegin = str.find_first_not_of(whitespace);
 	if (strBegin == std::string::npos)
 		return ""; // no content
@@ -257,21 +256,15 @@ void print_dp_table(DP_CELL** dp, std::string & s1, std::string & s2) {
 	delete[] col_widths;
 }
 
-// Alias characters in the retrace string
-#define MATCH '|'
-#define MISMATCH 'X'
-#define INSERT 'i'
-#define DELETE 'd'
-
-#define DFLT_BP_PER_LINE 60
-
-std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
+std::string gen_retrace_str(DP_CELL** dp, const std::string & s1, const std::string & s2, const SCORE_CONFIG scores){
 	int n_cols = s1.size() + 1;
 	int n_rows = s2.size() + 1;
 	int i = n_cols - 1;
 	int j = n_rows - 1;
 	std::string retraced = "";
 	while (i >= 1 && j >= 1) {
+		// TODO fix this mess
+		printf("(i,j): (%2d,%2d)\n", i, j);
 		int up_score = max3(dp[j-1][i]);
 		int left_score = max3(dp[j][i-1]);
 		int diag_score = max3(dp[j-1][i-1]);
@@ -307,10 +300,10 @@ std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 	return retraced;
 }
 
-void print_retrace_line(const std::string & retrace, int i_retrace_start, 
-                        const std::string & s1, int & i_s1, 
-                        const std::string & s2, int & i_s2, 
-                        const int bp_per_line = DFLT_BP_PER_LINE) {
+void print_retrace_line(const std::string & retrace, int i_retrace_start,
+                        const std::string & s1, int & i_s1,
+                        const std::string & s2, int & i_s2,
+                        const int bp_per_line) {
 
 	int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
 
@@ -375,11 +368,11 @@ void print_retrace_str(const std::string & retrace, const std::string & s1, cons
 	int i_s1 = 0;
 	int i_s2 = 0;
 	int num_lines = 1 + retrace.size() / bp_per_line;
-	print_retrace_line(retrace, 0, s1, i_s1, s2, i_s2);
+	print_retrace_line(retrace, 0, s1, i_s1, s2, i_s2, bp_per_line);
 	for (int iline = 1; iline<num_lines; iline++) {
 		std::cout << std::endl;
 		int i_retrace_start = iline * bp_per_line;
-		print_retrace_line(retrace, i_retrace_start, s1, i_s1, s2, i_s2);
+		print_retrace_line(retrace, i_retrace_start, s1, i_s1, s2, i_s2, bp_per_line);
 	}
 }
 
@@ -409,24 +402,16 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	// initialize edge values
 	dp[0][0] = {0};
 	for (int i=1; i<n_cols; i++) {
-		dp[0][i].S = INT_MIN >> 2; // TODO low-ish?
+		// TODO we want a value that's low enough not to conflict with table 
+		//      values but high enough to hit INT_MIN and roll over to INT_MAX
+		dp[0][i].S = INT_MIN >> 2;
 		dp[0][i].D = INT_MIN >> 2;
 		dp[0][i].I = scores.h + i * scores.g;
-		/*
-		printf("(i: %d, j: %d): ", i, 0);
-		print_dp_cell(dp[0][i]);
-		std::cout << std::endl;
-		*/
 	}
 	for (int j=1; j<n_rows; j++) {
 		dp[j][0].S = INT_MIN >> 2;
 		dp[j][0].D = scores.h + j * scores.g;
 		dp[j][0].I = INT_MIN >> 2;
-		/*
-		printf("(i: %d, j: %d): ", 0, j);
-		print_dp_cell(dp[j][0]);
-		std::cout << std::endl;
-		*/
 	}
 
 	// main dp processing loop
@@ -448,18 +433,12 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 			int i_s = cell_left.S + scores.g + scores.h;
 			int i_d = cell_left.D + scores.g + scores.h;
 			dp[j][i].I = max3(i_i, i_s, i_d);
-
-			/*
-			printf("(i: %d, j: %d): ", i, j);
-			print_dp_cell(dp[j][i]);
-			std::cout << std::endl;
-			*/
 		}
 	}
 	//std::cout << "s1: " << s1 << std::endl;
 	//std::cout << "s2: " << s2 << std::endl;
-	//print_dp_table(dp, s1, s2);
-	std::string retrace_str = gen_retrace_str(dp, s1, s2);
+	print_dp_table(dp, s1, s2);
+	std::string retrace_str = gen_retrace_str(dp, s1, s2, scores);
 	print_retrace_str(retrace_str, s1, s2);
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	

@@ -14,6 +14,13 @@
 #define MIN_N_ARGS 3
 #define MAX_N_ARGS 4
 #define DFLT_CONFIG_FNAME "parameters.config"
+#define DFLT_BP_PER_LINE 60
+
+// Alias characters in the retrace string
+#define MATCH '|'
+#define MISMATCH 'X'
+#define INSERT 'i'
+#define DELETE 'd'
 
 enum ALIGN_SCOPE {GLOBAL, LOCAL};
 
@@ -39,7 +46,6 @@ void format_bps(std::string & str);
 std::pair<std::string, std::string> load_sequences(const char* fasta_fname);
 
 SCORE_CONFIG load_config(const char *config_fname);
-
 
 ALIGN_SCOPE parse_align_scope(const char *alignment_str);
 

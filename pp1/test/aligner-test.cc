@@ -26,7 +26,7 @@ TEST(AlignGlobal, S1SameAsS2) {
 	EXPECT_EQ(dflt_params.match * s1.size(), align_global(s1, s2, dflt_params));
 }
 
-TEST(AlignGlobal, Insert) {
+TEST(AlignGlobal, SingleInsert) {
 	std::string s1 = "abcdefghi";
 	std::string s2 = "zabcdefghi";
 	EXPECT_EQ(3, align_global(s1, s2, dflt_params));
