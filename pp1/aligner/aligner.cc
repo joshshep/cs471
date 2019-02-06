@@ -256,41 +256,24 @@ void print_dp_table(DP_CELL** dp, const std::string & s1, const std::string & s2
 	delete[] col_widths;
 }
 
-enum RETRACE_STATE { INSERTED, DELETED, SUBSTITUTED};
+enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
 
-enum RETRACE_STATE get_retrace_state(const DP_CELL cell, int & i, int & j) {
-	enum RETRACE_STATE retrace_state;
-
+enum RETRACE_STATE get_retrace_state(const DP_CELL cell, char c_s1, char c_s2 ) {
 	if (cell.S >= cell.D && cell.S >= cell.I) {
 		// substitute
-		retrace_state = SUBSTITUTED;
-		i--;
-		j--;
-	} else if (cell.D >= cell.S && cell.D >= cell.I) {
-		// delete
-		retrace_state = DELETED;
-		j--;
-	} else {
-		// insert
-		retrace_state = INSERTED;
-		i--;
-	}
-	return retrace_state;
-}
-
-char conv_state2char(enum RETRACE_STATE retrace_state, char c_s1, char c_s2) {
-	switch(retrace_state) {
-	case INSERTED:
-		return INSERT;
-	case DELETED:
-		return DELETE;
-	case SUBSTITUTED:
 		if (c_s1 == c_s2) {
 			return MATCH;
 		}
 		return MISMATCH;
+	} else if (cell.D >= cell.S && cell.D >= cell.I) {
+		// delete
+		return DELETE;
+		//j--;
+	} else {
+		// insert
+		return INSERT;
+		//i--;
 	}
-	return '*';
 }
 
 std::string gen_retrace_str(DP_CELL** dp, const std::string & s1, const std::string & s2, const SCORE_CONFIG scores){
@@ -301,49 +284,62 @@ std::string gen_retrace_str(DP_CELL** dp, const std::string & s1, const std::str
 	std::string retraced = "";
 	enum RETRACE_STATE retrace_state;
 
-	retrace_state = get_retrace_state(dp[j][i], i, j);
-
-	retraced += conv_state2char(retrace_state, s1[i-1], s2[j-1]);
-
-	while (i >= 1 && j >= 1) {
+	retrace_state = get_retrace_state(dp[j][i], s1[i-1], s2[j-1]);
+	
+	while (true) {
 		// TODO fix this mess
-		printf("(i,j): (%2d,%2d)\n", i, j);
-		
+		retraced += (char) retrace_state;
+
 		switch(retrace_state) {
-		case SUBSTITUTED:
-		{
-			DP_CELL & diag_cell = dp[j-1][i-1];
-			retrace_state = get_retrace_state(diag_cell, i, j);
+		case MATCH:
+		case MISMATCH:
+			i--; j--;
+			break;
+		case INSERT:
+			i--;
+			break;
+		case DELETE:
+			j--;
 			break;
 		}
-		case INSERTED:
-		{
-			DP_CELL & cell_left = dp[j][i-1];
-			int i_i = cell_left.I + scores.g;
-			int i_s = cell_left.S + scores.g + scores.h;
-			int i_d = cell_left.D + scores.g + scores.h;
-			retrace_state = get_retrace_state({.D = i_d, .I = i_i, .S = i_s}, i, j);
+
+		if (i < 1 || j < 1) {
 			break;
 		}
-		case DELETED:
+		DP_CELL & cell = dp[j][i];
+		switch(retrace_state) {
+		case MATCH:
+		case MISMATCH:
 		{
-			DP_CELL & cell_up = dp[j-1][i];
-			int d_d = cell_up.D + scores.g;
-			int d_s = cell_up.S + scores.g + scores.h;
-			int d_i = cell_up.I + scores.g + scores.h;
-			retrace_state = get_retrace_state({.D = d_d, .I = d_i, .S = d_s}, i, j);
+			retrace_state = get_retrace_state(cell, s1[i-1], s2[j-1]);
+			break;
+		}
+		case INSERT:
+		{
+			int i_i = cell.I + scores.g;
+			int i_s = cell.S + scores.g + scores.h;
+			int i_d = cell.D + scores.g + scores.h;
+			retrace_state = get_retrace_state({.D = i_d, .I = i_i, .S = i_s}, s1[i-1], s2[j-1]);
+			break;
+		}
+		case DELETE:
+		{
+			int d_d = cell.D + scores.g;
+			int d_s = cell.S + scores.g + scores.h;
+			int d_i = cell.I + scores.g + scores.h;
+			retrace_state = get_retrace_state({.D = d_d, .I = d_i, .S = d_s}, s1[i-1], s2[j-1]);
 			break;
 		}
 		}
-		retraced += conv_state2char(retrace_state, s1[i-1], s2[j-1]);
 	}
 	// if we're not at the origin, we'll need to add gaps to our retrace string
 	for (; j > 0; j--) {
-		retraced += DELETE;
+		retraced += (char) DELETE;
 	}
 	for (; i > 0; i--) {
-		retraced += INSERT;
+		retraced += (char) INSERT;
 	}
+	std::cout << "retraced: " << retraced << std::endl;
 	std::reverse(retraced.begin(), retraced.end());
 
 	return retraced;
@@ -486,7 +482,7 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	}
 	//std::cout << "s1: " << s1 << std::endl;
 	//std::cout << "s2: " << s2 << std::endl;
-	print_dp_table(dp, s1, s2);
+	//print_dp_table(dp, s1, s2);
 	std::string retrace_str = gen_retrace_str(dp, s1, s2, scores);
 	print_retrace_str(retrace_str, s1, s2);
 	int align_score = max3(dp[n_rows-1][n_cols-1]);

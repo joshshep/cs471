@@ -17,10 +17,13 @@
 #define DFLT_BP_PER_LINE 60
 
 // Alias characters in the retrace string
+/*
 #define MATCH '|'
 #define MISMATCH 'X'
 #define INSERT 'i'
 #define DELETE 'd'
+#define SUBSITUTE 's'
+*/
 
 enum ALIGN_SCOPE {GLOBAL, LOCAL};
 
