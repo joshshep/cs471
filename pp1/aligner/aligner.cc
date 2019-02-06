@@ -306,10 +306,19 @@ std::string gen_retrace_str(DP_CELL** dp, std::string s1, std::string s2){
 
 	return retraced;
 }
-void print_retrace_str(std::string retrace_str, std::string s1, std::string s2, int bp_per_line = DFLT_BP_PER_LINE) {
+
+void print_retrace_line(const std::string & retrace, int i_retrace_start, 
+                        const std::string & s1, int & i_s1, 
+                        const std::string & s2, int & i_s2, 
+                        const int bp_per_line = DFLT_BP_PER_LINE) {
+
+	int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
+
+	int index_col_width = std::max(int_len(s1.size()), int_len(s2.size()));
 	// print s1
-	int i_s1 = 0;
-	for (char & c : retrace_str) {
+	printf("%*d  ", index_col_width, i_s1+1);
+	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
+		char c = retrace[i_retrace];
 		switch(c) {
 		case MATCH:
 		case MISMATCH:
@@ -322,10 +331,13 @@ void print_retrace_str(std::string retrace_str, std::string s1, std::string s2, 
 			break;
 		}
 	}
+	printf("  %*d", index_col_width, i_s1);
 	std::cout << std::endl;
 
 	// print matching
-	for (char & c : retrace_str) {
+	printf("%*s  ", index_col_width, "");
+	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
+		char c = retrace[i_retrace];
 		switch(c) {
 		case MATCH:
 			std::cout << c;
@@ -340,8 +352,9 @@ void print_retrace_str(std::string retrace_str, std::string s1, std::string s2, 
 	std::cout << std::endl;
 
 	// print s2
-	int i_s2 = 0;
-	for (char & c : retrace_str) {
+	printf("%*d  ", index_col_width, i_s2+1);
+	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
+		char c = retrace[i_retrace];
 		switch(c) {
 		case MATCH:
 		case MISMATCH:
@@ -354,7 +367,20 @@ void print_retrace_str(std::string retrace_str, std::string s1, std::string s2, 
 			break;
 		}
 	}
+	printf("  %*d", index_col_width, i_s2);
 	std::cout << std::endl;
+}
+
+void print_retrace_str(const std::string & retrace, const std::string & s1, const std::string & s2, const int bp_per_line = DFLT_BP_PER_LINE) {
+	int i_s1 = 0;
+	int i_s2 = 0;
+	int num_lines = 1 + retrace.size() / bp_per_line;
+	print_retrace_line(retrace, 0, s1, i_s1, s2, i_s2);
+	for (int iline = 1; iline<num_lines; iline++) {
+		std::cout << std::endl;
+		int i_retrace_start = iline * bp_per_line;
+		print_retrace_line(retrace, i_retrace_start, s1, i_s1, s2, i_s2);
+	}
 }
 
 int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
