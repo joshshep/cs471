@@ -247,7 +247,7 @@ void print_retrace_str(const std::string & retrace, const std::string & s1, cons
 	}
 }
 
-int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores) {
+int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores, bool print_retrace) {
 	/*
 				s1
 	   __________________ m
@@ -309,8 +309,11 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	//std::cout << "s1: " << s1 << std::endl;
 	//std::cout << "s2: " << s2 << std::endl;
 	//print_dp_table(dp, s1, s2);
-	std::string retrace_str = gen_retrace_str(dp, s1, s2, scores);
-	print_retrace_str(retrace_str, s1, s2);
+	if (print_retrace) {
+		std::string retrace_str = gen_retrace_str(dp, s1, s2, scores);
+		print_retrace_str(retrace_str, s1, s2);
+	}
+	
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
 	for (int i = 0; i < n_rows; i++) {

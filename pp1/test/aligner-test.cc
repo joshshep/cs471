@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "aligner/aligner.h"
 
+#define PRINT_RETRACE false
 const SCORE_CONFIG dflt_params = {
 	.match = 1,
 	.mismatch = -2,
@@ -11,37 +12,37 @@ const SCORE_CONFIG dflt_params = {
 TEST(AlignGlobal, EmptyS1EmptyS2) {
 	std::string s1 = "";
 	std::string s2 = "";
-	EXPECT_EQ(0, align_global(s1, s2, dflt_params));
+	EXPECT_EQ(0, align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, EmptyS1ShortS2) {
 	std::string s1 = "";
 	std::string s2 = "abcdefg";
-	EXPECT_EQ(dflt_params.h + s2.size()*dflt_params.g, align_global(s1, s2, dflt_params));
+	EXPECT_EQ(dflt_params.h + s2.size()*dflt_params.g, align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, S1SameAsS2) {
 	std::string s1 = "atcgc";
 	std::string s2 = "atcgc";
-	EXPECT_EQ(dflt_params.match * s1.size(), align_global(s1, s2, dflt_params));
+	EXPECT_EQ(dflt_params.match * s1.size(), align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, SingleInsert) {
 	std::string s1 = "abcdefghi";
 	std::string s2 = "zabcdefghi";
-	EXPECT_EQ(3, align_global(s1, s2, dflt_params));
+	EXPECT_EQ(3, align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, MismatchSandwich) {
 	std::string s1 = "abbbbbbbba";
 	std::string s2 = "acccccccca";
-	EXPECT_EQ(-14, align_global(s1, s2, dflt_params));
+	EXPECT_EQ(-14, align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, GapSandwich) {
 	std::string s1 = "aa";
 	std::string s2 = "abbbbbbba";
-	EXPECT_EQ(-10, align_global(s1, s2, dflt_params));
+	EXPECT_EQ(-10, align_global(s1, s2, dflt_params, PRINT_RETRACE));
 }
 
 TEST(AlignGlobal, cs471sample) {
@@ -57,7 +58,7 @@ TEST(AlignGlobal, cs471sample) {
 		.h = -5,
 		.g = -2
 	};
-	int alignment_score = align_global(s1, s2, params);
+	int alignment_score = align_global(s1, s2, params, PRINT_RETRACE);
 	EXPECT_EQ(55, alignment_score);
 }
 

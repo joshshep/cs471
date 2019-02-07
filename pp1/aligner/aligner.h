@@ -62,6 +62,6 @@ int max3(DP_CELL & a);
 
 char int_len(int n);
 
-int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores);
+int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores, bool print_retrace = true);
 
 #endif // ALIGNER_H
