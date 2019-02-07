@@ -46,12 +46,12 @@ TEST(AlignGlobal, GapSandwich) {
 }
 
 TEST(AlignGlobal, cs471sample) {
-	std::string s1 = "ACATGCTACACGTATCCGATACCCCGTAACCGATAACGATACACAGACCTCGTACGCTTG"
-	                 "CTACAACGTACTCTATAACCGAGAACGATTGACATGCCTCGTACACATGCTACACGTACT"
-	                 "CCGAT";
-	std::string s2 = "ACATGCGACACTACTCCGATACCCCGTAACCGATAACGATACAGAGACCTCGTACGCTTG"
-	                 "CTAATAACCGAGAACGATTGACATTCCTCGTACAGCTACACGTACT"
-	                 "CCGAT";
+	std::string s1 = "acatgctacacgtatccgataccccgtaaccgataacgatacacagacctcgtacgcttg"
+                     "ctacaacgtactctataaccgagaacgattgacatgcctcgtacacatgctacacgtact"
+                     "ccgat";
+	std::string s2 = "acatgcgacactactccgataccccgtaaccgataacgatacagagacctcgtacgcttg"
+                     "ctaataaccgagaacgattgacattcctcgtacagctacacgtact"
+                     "ccgat";
 	const SCORE_CONFIG params = {
 		.match = 1,
 		.mismatch = -2,
