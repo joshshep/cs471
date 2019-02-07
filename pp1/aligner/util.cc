@@ -88,11 +88,11 @@ ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
 }
 
 void print_score_config(const SCORE_CONFIG & scores) {
-	std::cout << "--Scoring configuration settings--" << std::endl;
-	std::cout << "match: " << scores.match << std::endl;
-	std::cout << "mismatch: " << scores.mismatch << std::endl;
-	std::cout << "g: " << scores.g << std::endl;
-	std::cout << "h: " << scores.h << std::endl;
+	std::cout << "-- Scoring configuration settings --" << std::endl;
+	std::cout << "  match: " << scores.match << std::endl;
+	std::cout << "  mismatch: " << scores.mismatch << std::endl;
+	std::cout << "  g: " << scores.g << std::endl;
+	std::cout << "  h: " << scores.h << std::endl;
 }
 
 SCORE_CONFIG load_config(const char *config_fname) {
