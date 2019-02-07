@@ -10,10 +10,11 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <functional>
 
 #define MIN_N_ARGS 3
 #define MAX_N_ARGS 4
-#define DFLT_CONFIG_FNAME "parameters.config"
+#define DFLT_CONFIG_FNAME "params.config"
 #define DFLT_BP_PER_LINE 60
 
 // Alias characters in the retrace string

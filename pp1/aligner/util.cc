@@ -2,7 +2,7 @@
 
 void print_help() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
-	std::cout << "E.g., ~$ ./align gene.fasta 0 parameters.config" << std::endl;
+	std::cout << "E.g., ~$ ./align gene.fasta 0 params.config" << std::endl;
 }
 
 // courtesy of this s/o post https://stackoverflow.com/a/1798170

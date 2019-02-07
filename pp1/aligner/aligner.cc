@@ -1,17 +1,10 @@
 #include "aligner/aligner.h"
 
-
-
-
 int cost2sub(char c1, char c2, const SCORE_CONFIG & scores) {
 	if (c1 == c2) {
 		return scores.match;
 	}
 	return scores.mismatch;
-}
-
-void print_dp_cell(DP_CELL & a) {
-	printf("(I: %d, D: %d, S: %d)", a.I, a.D, a.S);
 }
 
 void print_dp_table(DP_CELL** dp, const std::string & s1, const std::string & s2) {
@@ -109,7 +102,7 @@ enum RETRACE_STATE get_retrace_state(const DP_CELL cell, char c_s1, char c_s2 ) 
 	}
 }
 
-std::string gen_retrace_str(DP_CELL** dp, const std::string & s1, const std::string & s2, const SCORE_CONFIG scores){
+std::string gen_retrace_str(DP_CELL** dp, const std::string & s1, const std::string & s2, const SCORE_CONFIG & scores){
 	const int n_cols = s1.size() + 1;
 	const int n_rows = s2.size() + 1;
 	int i = n_cols - 1;
@@ -187,7 +180,7 @@ void print_retrace_line(const std::string & retrace, const int i_retrace_start,
 
 	const int index_col_width = std::max(int_len(s1.size()), int_len(s2.size()));
 	// print s1
-	printf("%*d  ", index_col_width, i_s1+1);
+	printf("s1 %*d  ", index_col_width, i_s1+1);
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
@@ -206,7 +199,7 @@ void print_retrace_line(const std::string & retrace, const int i_retrace_start,
 	std::cout << std::endl;
 
 	// print matching
-	printf("%*s  ", index_col_width, "");
+	printf("   %*s  ", index_col_width, "");
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
@@ -223,7 +216,7 @@ void print_retrace_line(const std::string & retrace, const int i_retrace_start,
 	std::cout << std::endl;
 
 	// print s2
-	printf("%*d  ", index_col_width, i_s2+1);
+	printf("s2 %*d  ", index_col_width, i_s2+1);
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
@@ -320,7 +313,7 @@ int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores
 	print_retrace_str(retrace_str, s1, s2);
 	int align_score = max3(dp[n_rows-1][n_cols-1]);
 	
-	for (int i =0; i < n_rows; i++) {
+	for (int i = 0; i < n_rows; i++) {
 		delete[] dp[i];
 	}
 	delete[] dp;
