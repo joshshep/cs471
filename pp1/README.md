@@ -27,3 +27,10 @@ For example,
 ```
 ./bazel-bin/aligner/aligner data/Opsin1_colorblindness_gene.fasta 0 params.config
 ```
+
+# TODO
+
+* bit-packing bp chars
+* linear space alignment
+* linear space retrace
+* offset alignments
