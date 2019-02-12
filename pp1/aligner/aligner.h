@@ -31,6 +31,11 @@ typedef struct alignment {
 	int s2_start;
 } Alignment;
 
+typedef struct sequence {
+	std::string bps;
+	std::string name;
+} Sequence;
+
 enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
 enum AlignmentScope {GLOBAL, LOCAL};
 
@@ -55,10 +60,10 @@ protected:
 
 	// pure virtual
 	// TODO
-	//virtual int RunDP() = 0;
-	int RunDP();
-	//virtual Alignment RetraceDP() = 0;
-	Alignment RetraceDP();
+	virtual int RunDP() = 0;
+	//int RunDP();
+	virtual Alignment RetraceDP() = 0;
+	//Alignment RetraceDP();
 
 	// complementary build-up/tear-down dp methods
 	virtual void InitDP();

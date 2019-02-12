@@ -1,4 +1,4 @@
-#include "aligner/aligner.h"
+#include "aligner/global-aligner.h"
 
 int main(int argc, char *argv[]) {
 	// defaults 
@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	const int kMinNumArgs = 3;
 	const int kMaxNumArgs = 4;
 	const char * kDfltConfigFname = "params.config";
-	
+
 	if (argc < kMinNumArgs) {
 		std::cout << "Error: too few arguments" << std::endl;
 		print_help();
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	ScoreConfig scores = load_config(config_fname);
 
 	if (align_scope == GLOBAL) {
-		Aligner aligner(sequences.first, sequences.second, scores);
+		GlobalAligner aligner(sequences.first, sequences.second, scores);
 		int align_score = aligner.Align();
 		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
