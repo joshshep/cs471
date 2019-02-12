@@ -26,7 +26,7 @@ typedef struct score_config {
 } ScoreConfig;
 
 typedef struct alignment {
-	std::string retrace_str;
+	std::string retrace;
 	int s1_start;
 	int s2_start;
 } Alignment;
@@ -42,8 +42,14 @@ enum AlignmentScope {GLOBAL, LOCAL};
 class Aligner
 {
 public:
-	Aligner(const std::string & s1, const std::string & s2, const ScoreConfig & scoring) : s1_(s1), s2_(s2), scoring_(scoring)
+	Aligner(std::pair<Sequence, Sequence> seqs, const ScoreConfig & scoring) : 
+		s1_(seqs.first.bps),
+		s2_(seqs.second.bps),
+		seqs_(seqs),
+		scoring_(scoring)
 	{
+		std::cout << "s1_ = " << s1_ << std::endl;
+		std::cout << "s2_ = " << s2_ << std::endl;
 		// alloc and initialize dp table
 		InitDP();
 	}
@@ -74,14 +80,15 @@ protected:
 	// prints
 	void PrintAlignStats(Alignment alignment);
 	void PrintAlignment(Alignment alignment, const int bp_per_line = 60);
-	void PrintAlignmentLine(Alignment alignment, 
-						const int i_retrace_start, int & i_s1, int & i_s2,
-                        const int bp_per_line);
+	void PrintAlignmentLine(const std::string & retrace, 
+	                        const int i_retrace_start, int & i_s1, int & i_s2,
+	                        const int bp_per_line);
 
 	// vars
 	DP_Cell** dp_;
 	const std::string & s1_;
 	const std::string & s2_;
+	const std::pair<Sequence, Sequence> & seqs_;
 	const ScoreConfig & scoring_;
 };
 
@@ -90,7 +97,7 @@ protected:
 void print_help();
 void format_bps(std::string & str);
 std::string trim(const std::string& str, const std::string& whitespace = " ");
-std::pair<std::string, std::string> load_sequences(const char* fasta_fname);
+std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname);
 AlignmentScope parse_align_scope(const char *alignment_str);
 void print_score_config(const ScoreConfig & scores);
 ScoreConfig load_config(const char *config_fname);

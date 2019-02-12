@@ -83,7 +83,8 @@ Alignment GlobalAligner::RetraceDP(){
 	}
 	//std::cout << "retraced: " << retraced << std::endl;
 	std::reverse(retraced.begin(), retraced.end());
-    Alignment alignment = {.retrace_str = retraced, .s1_start = 0, .s2_start = 0};
+	std::cout << "retraced: " << retraced << std::endl;
+    Alignment alignment = {.retrace = retraced, .s1_start = 0, .s2_start = 0};
 	return alignment;
 }
 

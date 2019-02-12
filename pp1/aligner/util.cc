@@ -24,7 +24,7 @@ void format_bps(std::string & str) {
 	}
 }
 
-std::pair<std::string, std::string> load_sequences(const char* fasta_fname) {
+std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
 	if(!fasta_stream) {
@@ -32,31 +32,37 @@ std::pair<std::string, std::string> load_sequences(const char* fasta_fname) {
 		exit(1);
 	}
 
-	std::string line, sequence;
-	std::vector<std::string> sequences;
+	std::string line, seq_bps, seq_name;
+	std::vector<Sequence> sequences;
 	bool iterating_through_seq = false;
 	while (std::getline(fasta_stream, line)) {
 		if (line.empty()) {
 			if (iterating_through_seq) {
-				sequences.push_back(sequence);
-				sequence = "";
+				// end of sequence
+				sequences.push_back({.bps = seq_bps, .name = seq_name});
+				seq_bps = "";
+				seq_name = "";
 				iterating_through_seq = false;
 			}
 		} else {
 			// non empty
 			if (line[0] == '>') {
 				// found header
-				std::cout << "Reading sequence: '" << line << "' ..." << std::endl;
+				// beginning of sequence
+				line = trim(line);
+				seq_name = line;
+				std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
 				iterating_through_seq = true;
 			} else {
+				//iterating through sequence
 				line = trim(line);
 				format_bps(line);
-				sequence += line;
+				seq_bps += line;
 			}
 		}
 	}
 	if (iterating_through_seq) {
-		sequences.push_back(sequence);
+		sequences.push_back({.bps = seq_bps, .name = seq_name});
 	}
 
 	if (sequences.size() != 2) {
@@ -65,10 +71,11 @@ std::pair<std::string, std::string> load_sequences(const char* fasta_fname) {
 		exit(1);
 	}
 
-	for(auto sequence : sequences) {
-		//std::cout << "sequence: " << sequence << std::endl;
+	for(auto seq : sequences) {
+		std::cout << "sequence bps: " << seq.bps << std::endl;
+		std::cout << "sequence name: " << seq.name << std::endl;
 	}
-	return std::pair<std::string, std::string>(sequences[0], sequences[1]);
+	return std::pair<Sequence, Sequence>(sequences[0], sequences[1]);
 }
 
 AlignmentScope parse_align_scope(const char *alignment_str) {

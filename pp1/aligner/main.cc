@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	const char * fasta_fname = argv[1];
-	std::pair<std::string, std::string> sequences = load_sequences(fasta_fname);
+	auto sequences = load_sequences(fasta_fname);
 	
 	const char * alignment_str = argv[2];
 	AlignmentScope align_scope = parse_align_scope(alignment_str);
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	ScoreConfig scores = load_config(config_fname);
 
 	if (align_scope == GLOBAL) {
-		GlobalAligner aligner(sequences.first, sequences.second, scores);
+		GlobalAligner aligner(sequences, scores);
 		int align_score = aligner.Align();
 		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {

@@ -6,6 +6,7 @@ int Aligner::Align(bool print_alignment)
     if (print_alignment)
     {
         Alignment alignment = RetraceDP();
+        std::cout << "alignment.retrace = " << alignment.retrace << std::endl;
         PrintAlignment(alignment);
         PrintAlignStats(alignment);
     }
@@ -62,10 +63,9 @@ void Aligner::PrintAlignStats(Alignment alignment)
     std::cout << "Some stats" << std::endl;
 }
 
-void Aligner::PrintAlignmentLine(Alignment alignment, 
+void Aligner::PrintAlignmentLine(const std::string & retrace, 
 						const int i_retrace_start, int & i_s1, int & i_s2,
                         const int bp_per_line) {
-    const std::string & retrace = alignment.retrace_str;
 	const int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
 
     // get maximum width of an index integer
@@ -128,20 +128,16 @@ void Aligner::PrintAlignmentLine(Alignment alignment,
 }
 
 void Aligner::PrintAlignment(Alignment alignment, const int bp_per_line) {
-	int i_s1 = 0;
-	int i_s2 = 0;
-    //const std::string & retrace = alignment.retrace_str;
-	int num_lines = 1 + alignment.retrace_str.size() / bp_per_line;
-	PrintAlignmentLine(alignment, 0, i_s1, i_s2, bp_per_line);
+	int i_s1 = alignment.s1_start;
+	int i_s2 = alignment.s2_start;
+	int num_lines = 1 + alignment.retrace.size() / bp_per_line;
+	PrintAlignmentLine(alignment.retrace, 0, i_s1, i_s2, bp_per_line);
 	for (int iline = 1; iline<num_lines; iline++) {
 		std::cout << std::endl;
 		int i_retrace_start = iline * bp_per_line;
-    	PrintAlignmentLine(alignment, i_retrace_start, i_s1, i_s2, bp_per_line);
+    	PrintAlignmentLine(alignment.retrace, i_retrace_start, i_s1, i_s2, bp_per_line);
 	}
 }
-
-
-
 
 int Aligner::Cost2Sub(char c1, char c2) {
 	if (c1 == c2) {
