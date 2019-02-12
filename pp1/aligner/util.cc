@@ -7,7 +7,7 @@ void print_help() {
 
 // courtesy of this s/o post https://stackoverflow.com/a/1798170
 std::string trim(const std::string& str,
-                 const std::string& whitespace = " ") {
+                 const std::string& whitespace) {
 	const auto strBegin = str.find_first_not_of(whitespace);
 	if (strBegin == std::string::npos)
 		return ""; // no content
@@ -71,8 +71,8 @@ std::pair<std::string, std::string> load_sequences(const char* fasta_fname) {
 	return std::pair<std::string, std::string>(sequences[0], sequences[1]);
 }
 
-ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
-	enum ALIGN_SCOPE align_scope;
+AlignmentScope parse_align_scope(const char *alignment_str) {
+	enum AlignmentScope align_scope;
 	switch(alignment_str[0]) {
 	case '0':
 		align_scope = GLOBAL;
@@ -87,7 +87,7 @@ ALIGN_SCOPE parse_align_scope(const char *alignment_str) {
 	return align_scope;
 }
 
-void print_score_config(const SCORE_CONFIG & scores) {
+void print_score_config(const ScoreConfig & scores) {
 	std::cout << "-- Scoring configuration settings --" << std::endl;
 	std::cout << "  match: " << scores.match << std::endl;
 	std::cout << "  mismatch: " << scores.mismatch << std::endl;
@@ -95,7 +95,7 @@ void print_score_config(const SCORE_CONFIG & scores) {
 	std::cout << "  h: " << scores.h << std::endl;
 }
 
-SCORE_CONFIG load_config(const char *config_fname) {
+ScoreConfig load_config(const char *config_fname) {
 	std::cout << "Loading configuration settings from file '" << config_fname << "' ..." << std::endl;
 	std::ifstream config_stream(config_fname);
 	if(!config_stream) {
@@ -104,7 +104,7 @@ SCORE_CONFIG load_config(const char *config_fname) {
 	}
 
 	std::string line;
-	SCORE_CONFIG scores;
+	ScoreConfig scores;
 	int provided = 0;
 	while (std::getline(config_stream, line)) {
 		// TODO use hashmap
@@ -164,6 +164,6 @@ int max3(int &i0, int &i1, int &i2) {
 	return std::max(i0, std::max(i1, i2));
 }
 
-int max3(DP_CELL & a) {
+int max3(DP_Cell & a) {
 	return max3(a.D, a.I, a.S);
 }

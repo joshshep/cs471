@@ -1,67 +1,97 @@
-#ifndef ALIGNER_H
-#define ALIGNER_H
+// TODO: rename SCORE_CONFIG and DP_CELL
+// TODO: virtual var (for alignment type string)?
+#ifndef ALIGNER_H_
+#define ALIGNER_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <limits.h>
-
-#include <iostream>
-#include <fstream>
 #include <string>
+#include <climits>
+#include <iostream>     // std::cout
+#include <algorithm>    // std::max
+#include <fstream>  // reading from files
+#include <utility> // pair
 #include <vector>
-#include <functional>
 
-#define MIN_N_ARGS 3
-#define MAX_N_ARGS 4
-#define DFLT_CONFIG_FNAME "params.config"
-#define DFLT_BP_PER_LINE 60
-
-// Alias characters in the retrace string
-/*
-#define MATCH '|'
-#define MISMATCH 'X'
-#define INSERT 'i'
-#define DELETE 'd'
-#define SUBSITUTE 's'
-*/
-
-enum ALIGN_SCOPE {GLOBAL, LOCAL};
-
-enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
 
 typedef struct dp_cell {
 	int S;
 	int D;
 	int I;
-} DP_CELL;
+} DP_Cell;
 
 typedef struct score_config {
 	int match;
 	int mismatch;
 	int h; // start gap penalty
 	int g; // continuing gap penalty
-} SCORE_CONFIG;
+} ScoreConfig;
 
+typedef struct alignment {
+	std::string retrace_str;
+	int s1_start;
+	int s2_start;
+} Alignment;
+
+enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
+enum AlignmentScope {GLOBAL, LOCAL};
+
+class Aligner
+{
+public:
+	Aligner(const std::string & s1, const std::string & s2, const ScoreConfig & scoring) : s1_(s1), s2_(s2), scoring_(scoring)
+	{
+		// alloc and initialize dp table
+		InitDP();
+	}
+
+	~Aligner()
+	{
+		// delete dp table
+		DelDP();
+	}
+
+	int Align(bool print_alignment=true);
+
+protected:
+
+	// pure virtual
+	// TODO
+	//virtual int RunDP() = 0;
+	int RunDP();
+	//virtual Alignment RetraceDP() = 0;
+	Alignment RetraceDP();
+
+	// complementary build-up/tear-down dp methods
+	virtual void InitDP();
+	void DelDP();
+
+	int Cost2Sub(char c1, char c2);
+
+	// prints
+	void PrintAlignStats(Alignment alignment);
+	void PrintAlignment(Alignment alignment, const int bp_per_line = 60);
+	void PrintAlignmentLine(Alignment alignment, 
+						const int i_retrace_start, int & i_s1, int & i_s2,
+                        const int bp_per_line);
+
+	// vars
+	DP_Cell** dp_;
+	const std::string & s1_;
+	const std::string & s2_;
+	const ScoreConfig & scoring_;
+};
+
+
+// TODO: organize/rename to match google style guide
 void print_help();
-void print_score_config(const SCORE_CONFIG & scores);
-void print_size(size_t asize);
-
 void format_bps(std::string & str);
-
+std::string trim(const std::string& str, const std::string& whitespace = " ");
 std::pair<std::string, std::string> load_sequences(const char* fasta_fname);
-
-SCORE_CONFIG load_config(const char *config_fname);
-
-ALIGN_SCOPE parse_align_scope(const char *alignment_str);
-
-int cost2sub(char c1, char c2, const SCORE_CONFIG & scores);
-
-int max3(int &i0, int &i1, int &i2);
-int max3(DP_CELL & a);
-
+AlignmentScope parse_align_scope(const char *alignment_str);
+void print_score_config(const ScoreConfig & scores);
+ScoreConfig load_config(const char *config_fname);
+void print_size(size_t asize);
 char int_len(int n);
+int max3(int &i0, int &i1, int &i2);
+int max3(DP_Cell & a);
 
-int align_global(std::string & s1, std::string & s2, const SCORE_CONFIG & scores, bool print_retrace = true);
-
-#endif // ALIGNER_H
+#endif
