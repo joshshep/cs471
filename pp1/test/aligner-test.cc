@@ -12,8 +12,9 @@ const ScoreConfig dflt_params = {
 	.g = -1
 };
 
-//testing::internal::CaptureStdout();
-
+/////////////////////////////////////
+// GlobalAlign tests
+/////////////////////////////////////
 TEST(GlobalAlign, EmptyS1EmptyS2) {
 	Sequence s1 = {"empty str 1", ""};
 	Sequence s2 = {"empty str 2", ""};
@@ -73,8 +74,9 @@ TEST(GlobalAlign, cs471sample) {
 
 
 
-
-
+/////////////////////////////////////
+// LocalAlign tests
+/////////////////////////////////////
 TEST(LocalAlign, EmptyS1EmptyS2) {
 	Sequence s1 = {"empty str 1", ""};
 	Sequence s2 = {"empty str 2", ""};
@@ -132,61 +134,39 @@ TEST(LocalAlign, cs471sample) {
 	EXPECT_EQ(55, align_score);
 }
 
-/*
-
-TEST(AlignGlobal, EmptyS1ShortS2) {
-	std::string s1 = "";
-	std::string s2 = "abcdefg";
-	EXPECT_EQ(dflt_params.h + s2.size()*dflt_params.g, align_global(s1, s2, dflt_params, PRINT_RETRACE));
+TEST(LocalAlign, Case0) {
+	Sequence s1 = {"s1", "aaaaaaaaaaaaaaaaaabcbcbcbcbcbcaaaabcbcbcbcbcbcbcaaaaaaaaaaaaaaaa"};
+	Sequence s2 = {"s2", "ddddbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbceeeeee"};
+	LocalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
+	int align_score = aligner.Align(PRINT_ALIGNMENT);
+	EXPECT_EQ(18, align_score);
 }
-
-
-
 
 
 TEST(FormatBps, UppercaseBps) {
 	std::string s = "ATC";
-	format_bps(s);
+	Format_bps(s);
 	EXPECT_EQ(s, std::string("atc"));
 }
 
-TEST(Cost2Sub, Match) {
-	EXPECT_EQ(dflt_params.match, cost2sub('a', 'a', dflt_params));
-}
-
-TEST(Cost2Sub, Mismatch) {
-	EXPECT_EQ(dflt_params.mismatch, cost2sub('a', 't', dflt_params));
-}
-
 TEST(IntLen, Pos) {
-	EXPECT_EQ(1, int_len(1));
-	EXPECT_EQ(1, int_len(9));
+	EXPECT_EQ(1, intLen(1));
+	EXPECT_EQ(1, intLen(9));
 
-	EXPECT_EQ(2, int_len(10));
-	EXPECT_EQ(2, int_len(42));
-	EXPECT_EQ(2, int_len(99));
+	EXPECT_EQ(2, intLen(10));
+	EXPECT_EQ(2, intLen(42));
+	EXPECT_EQ(2, intLen(99));
 
-	EXPECT_EQ(5, int_len(10000));
-	EXPECT_EQ(5, int_len(99999));
+	EXPECT_EQ(5, intLen(10000));
+	EXPECT_EQ(5, intLen(99999));
 
-	EXPECT_EQ(10, int_len(2000000000));
+	EXPECT_EQ(10, intLen(2000000000));
 }
 
 TEST(IntLen, NonPos) {
-	EXPECT_EQ(1, int_len(0));
-	EXPECT_EQ(2, int_len(-1));
+	EXPECT_EQ(1, intLen(0));
+	EXPECT_EQ(2, intLen(-1));
 
-	EXPECT_EQ(2, int_len(-9));
-	EXPECT_EQ(11, int_len(-1073741824));
+	EXPECT_EQ(2, intLen(-9));
+	EXPECT_EQ(11, intLen(-1073741824));
 }
-
-*/
-
-/*
-// we can't open a file for some reasons
-TEST(LoadSequences, cs471smallFile) {
-	const char * fasta_fname = "../data/cs471_sample.fasta";
-	std::vector<std::string> sequences = load_sequences(fasta_fname);
-	EXPECT_EQ(2, sequences.size());
-}
-*/

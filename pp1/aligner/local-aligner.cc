@@ -49,14 +49,14 @@ Alignment LocalAligner::RetraceDP() {
 
 		// dp boundary check
 		if (i < 1 || j < 1) {
-			std::cout << "retrace DP loop: reached edge of dp table" << std::endl;
+			//std::cout << "retrace DP loop: reached edge of dp table" << std::endl;
 			break;
 		}
 		DP_Cell & cell = dp_[j][i];
 
 		// continue retracing until we arrive at the origin cell (where max==0)
 		if (max3(cell) <= 0) {
-			std::cout << "retrace DP loop: found zero value" << std::endl;
+			//std::cout << "retrace DP loop: found zero value" << std::endl;
 			break;
 		}
 
