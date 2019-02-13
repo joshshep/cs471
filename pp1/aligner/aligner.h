@@ -48,7 +48,7 @@ public:
 		seqs_(seqs),
 		scoring_(scoring) {
 		// alloc and initialize dp table
-		InitDP();
+		AllocDP();
 	}
 
 	~Aligner() {
@@ -70,11 +70,10 @@ protected:
 	virtual Alignment RetraceDP() = 0;
 
 	// complementary build-up/tear-down dp methods
-	// (virtual) allocates and initializes the dp table with edge values
-	virtual void InitDP();
-
-	// deletes the dp table
-	void DelDP();
+	//  allocates the dp table
+	void AllocDP();
+	// deletes the dp table 
+	void DelDP(); 
 
 	// returns the cost to substitute c1 for c2 in the alignment
 	int Cost2Sub(char c1, char c2);

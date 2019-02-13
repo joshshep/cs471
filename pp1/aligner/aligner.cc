@@ -9,7 +9,7 @@ int Aligner::Align(bool print_alignment) {
 		PrintAlignStats(alignment);
 		std::cout << std::endl;
 		std::cout << "Alignment score: " << align_score << std::endl;
-		//PrintDP_Table(dp_, s1_, s2_);
+		// PrintDP_Table(dp_, s1_, s2_);
 	}
 	return align_score;
 }
@@ -19,8 +19,7 @@ int Aligner::Align(bool print_alignment) {
 // protected methods
 /////////////////////////////
 
-// virtual
-void Aligner::InitDP() {
+void Aligner::AllocDP() {
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 	//std::cout << "Allocating dp table of size = " ;
@@ -31,21 +30,6 @@ void Aligner::InitDP() {
 	dp_ = new DP_Cell*[n_rows];
 	for (int j=0; j < n_rows; j++) {
 		dp_[j] = new DP_Cell[n_cols];
-	}
-
-	// initialize edge values
-	dp_[0][0] = {0, 0, 0};
-	for (int i=1; i<n_cols; i++) {
-		// TODO we want a value that's low enough not to conflict with table 
-		//      values but high enough to avoid underflowing INT_MIN
-		dp_[0][i].S = INT_MIN >> 2;
-		dp_[0][i].D = INT_MIN >> 2;
-		dp_[0][i].I = scoring_.h + i * scoring_.g;
-	}
-	for (int j=1; j<n_rows; j++) {
-		dp_[j][0].S = INT_MIN >> 2;
-		dp_[j][0].D = scoring_.h + j * scoring_.g;
-		dp_[j][0].I = INT_MIN >> 2;
 	}
 }
 

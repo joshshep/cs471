@@ -1,5 +1,27 @@
 #include "aligner/global-aligner.h"
 
+void GlobalAligner::InitDP() {
+	const int n_cols = s1_.size() + 1;
+	const int n_rows = s2_.size() + 1;
+
+	// initialize edge values
+	dp_[0][0] = {0, 0, 0};
+	for (int i=1; i<n_cols; i++) {
+		// TODO we want a value that's low enough not to conflict with table 
+		//      values but high enough to avoid underflowing INT_MIN
+		//      we currently make the (simplifying) assumption that the table 
+		//      size and ScoreConfig will not reach this low value
+		dp_[0][i].S = INT_MIN >> 2;
+		dp_[0][i].D = INT_MIN >> 2;
+		dp_[0][i].I = scoring_.h + i * scoring_.g;
+	}
+	for (int j=1; j<n_rows; j++) {
+		dp_[j][0].S = INT_MIN >> 2;
+		dp_[j][0].D = scoring_.h + j * scoring_.g;
+		dp_[j][0].I = INT_MIN >> 2;
+	}
+}
+
 Alignment GlobalAligner::RetraceDP() {
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
@@ -85,6 +107,11 @@ int GlobalAligner::RunDP() {
 	   |
 	   n
 	*/
+
+
+	// initialize the edge values in the dp table
+	InitDP();
+
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 

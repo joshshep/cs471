@@ -1,5 +1,19 @@
 #include "aligner/local-aligner.h"
 
+void LocalAligner::InitDP() {
+	const int n_cols = s1_.size() + 1;
+	const int n_rows = s2_.size() + 1;
+
+	// initialize edge values
+	dp_[0][0] = {0, 0, 0};
+	for (int i=1; i<n_cols; i++) {
+		dp_[0][i] = {0, 0, 0};
+	}
+	for (int j=1; j<n_rows; j++) {
+		dp_[j][0] = {0, 0, 0};
+	}
+}
+
 void LocalAligner::MaxCellInDP(int &i_max, int &j_max) {
 	// TODO should we make n_cols a const member val?
 	const int n_cols = s1_.size() + 1;
@@ -102,6 +116,9 @@ int LocalAligner::RunDP() {
 	   |
 	   n
 	*/
+	// initialize the edge values in the dp table
+	InitDP();
+
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 
@@ -115,18 +132,18 @@ int LocalAligner::RunDP() {
 			// delete
 			DP_Cell & cell_up = dp_[j-1][i];
 			int d_d = cell_up.D + scoring_.g;
-			int d_s = cell_up.S + scoring_.g + scoring_.h;
 			int d_i = cell_up.I + scoring_.g + scoring_.h;
-			dp_[j][i].D = max3(d_d, d_s, d_i);
+			int d_s = cell_up.S + scoring_.g + scoring_.h;
+			dp_[j][i].D = max3(d_d, d_i, d_s);
 			dp_[j][i].D = std::max(0, dp_[j][i].D);
 
 
 			// insert
 			DP_Cell & cell_left = dp_[j][i-1];
+			int i_d = cell_left.D + scoring_.g + scoring_.h;
 			int i_i = cell_left.I + scoring_.g;
 			int i_s = cell_left.S + scoring_.g + scoring_.h;
-			int i_d = cell_left.D + scoring_.g + scoring_.h;
-			dp_[j][i].I = max3(i_i, i_s, i_d);
+			dp_[j][i].I = max3(i_d, i_i, i_s);
 			dp_[j][i].I = std::max(0, dp_[j][i].I);
 
 			// the alignment score is the max value in the dp table
