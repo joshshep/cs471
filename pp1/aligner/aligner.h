@@ -42,9 +42,9 @@ enum AlignmentScope {GLOBAL, LOCAL};
 class Aligner
 {
 public:
-	Aligner(const std::pair<Sequence, Sequence> & seqs, const ScoreConfig & scoring) : 
-		s1_(seqs.first.bps),
-		s2_(seqs.second.bps),
+	Aligner(const std::string & s1, const std::string & s2, const std::pair<Sequence, Sequence> & seqs, const ScoreConfig & scoring) : 
+		s1_(s1),
+		s2_(s2),
 		seqs_(seqs),
 		scoring_(scoring)
 	{
