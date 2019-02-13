@@ -120,8 +120,7 @@ int LocalAligner::RunDP() {
 	for (int j=1; j<n_rows; j++) {
 		for (int i=1; i<n_cols; i++){
 			// substitute
-			dp_[j][i].S = max3(dp_[j-1][i-1]) + Cost2Sub(s1_[i-1], s2_[j-1]);
-			dp_[j][i].S = std::max(0, dp_[j][i].S);
+			dp_[j][i].S = std::max(0, max3(dp_[j-1][i-1])) + Cost2Sub(s1_[i-1], s2_[j-1]);
 
 			// delete
 			DP_Cell & cell_up = dp_[j-1][i];
