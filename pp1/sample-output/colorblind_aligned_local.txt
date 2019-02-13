@@ -8,7 +8,6 @@ Loading configuration settings from file 'parameters.config' ...
   mismatch: -2
   g: -2
   h: -5
-retrace DP loop: found zero value
 s1    16  gaggaagagttttatctgttcaaaaatatctcttcagtggggccgtgggatgggcctcag    75
           ||||| || ||||| |||||  | ||||||||||| |||||||| |||||||||||||||
 s2   108  gaggatgacttttacctgtttcagaatatctcttcggtggggccctgggatgggcctcag   167
