@@ -82,9 +82,11 @@ AlignmentScope parse_align_scope(const char *alignment_str) {
 	enum AlignmentScope align_scope;
 	switch(alignment_str[0]) {
 	case '0':
+		std::cout << "Running global alignment..." << std::endl;
 		align_scope = GLOBAL;
 		break;
 	case '1':
+		std::cout << "Running local alignment..." << std::endl;
 		align_scope = LOCAL;
 		break;
 	default:

@@ -11,6 +11,8 @@ class LocalAligner : public Aligner
     int RunDP();
 
     Alignment RetraceDP();
+
+    void MaxCellInDP(int &i_max, int &j_max);
 };
 
 #endif

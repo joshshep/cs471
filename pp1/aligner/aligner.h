@@ -63,11 +63,8 @@ public:
 protected:
 
 	// pure virtual
-	// TODO
 	virtual int RunDP() = 0;
-	//int RunDP();
 	virtual Alignment RetraceDP() = 0;
-	//Alignment RetraceDP();
 
 	// complementary build-up/tear-down dp methods
 	virtual void InitDP();
