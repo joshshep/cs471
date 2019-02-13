@@ -122,7 +122,7 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 	const int index_col_width = std::max(intLen(s1_.size()), intLen(s2_.size()));
 
 	// print s1
-	printf("s1 %*d  ", index_col_width, i_s1+1);
+	printf("s1  %*d  ", index_col_width, i_s1+1);
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
@@ -141,7 +141,7 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 	std::cout << std::endl;
 
 	// print matching
-	printf("   %*s  ", index_col_width, "");
+	printf("    %*s  ", index_col_width, "");
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
@@ -158,7 +158,7 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 	std::cout << std::endl;
 
 	// print s2
-	printf("s2 %*d  ", index_col_width, i_s2+1);
+	printf("s2  %*d  ", index_col_width, i_s2+1);
 	for (int i_retrace = i_retrace_start; i_retrace < i_retrace_end; i_retrace++) {
 		char c = retrace[i_retrace];
 		switch(c) {
