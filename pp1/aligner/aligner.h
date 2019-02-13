@@ -11,9 +11,9 @@
 
 
 typedef struct dp_cell {
-	int S;
 	int D;
 	int I;
+	int S;
 } DP_Cell;
 
 typedef struct score_config {
@@ -132,10 +132,10 @@ void PrintSize(size_t asize);
 char intLen(int n);
 
 // returns the maximum of the 3 input values
-inline int max3(const int i0, const int i1, const int i2);
+int max3(const int i0, const int i1, const int i2);
 
 // returns the maximum of the values in the dp cell
-inline int max3(const DP_Cell & a);
+int max3(const DP_Cell & a);
 
 // prints the dp table using ridiculously tedious and complicated ascii art
 void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2);

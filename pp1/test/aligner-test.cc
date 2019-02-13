@@ -14,16 +14,16 @@ const ScoreConfig dflt_params = {
 //testing::internal::CaptureStdout();
 
 TEST(GlobalAlign, EmptyS1EmptyS2) {
-	Sequence s1 = {.name = "empty str 1", .bps = ""};
-	Sequence s2 = {.name = "empty str 2", .bps = ""};
+	Sequence s1 = {"empty str 1", ""};
+	Sequence s2 = {"empty str 2", ""};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(0, align_score);
 }
 
 TEST(GlobalAlign, S1SameAsS2) {
-	Sequence s1 = {.name = "s1", .bps = "atcgc"};
-	Sequence s2 = {.name = "s2", .bps = "atcgc"};
+	Sequence s1 = {"s1", "atcgc"};
+	Sequence s2 = {"s2", "atcgc"};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	int expected_score = dflt_params.match * s1.bps.size();
@@ -31,24 +31,24 @@ TEST(GlobalAlign, S1SameAsS2) {
 }
 
 TEST(GlobalAlign, SingleInsert) {
-	Sequence s1 = {.name = "s1", .bps = "abcdefghi"};
-	Sequence s2 = {.name = "z + s1", .bps = "zabcdefghi"};
+	Sequence s1 = {"s1", "abcdefghi"};
+	Sequence s2 = {"z + s1", "zabcdefghi"};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(3, align_score);
 }
 
 TEST(GlobalAlign, MismatchSandwich) {
-	Sequence s1 = {.name = "s1", .bps = "abbbbbbbba"};
-	Sequence s2 = {.name = "s2", .bps = "acccccccca"};
+	Sequence s1 = {"s1", "abbbbbbbba"};
+	Sequence s2 = {"s2", "acccccccca"};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(-14, align_score);
 }
 
 TEST(GlobalAlign, GapSandwich) {
-	Sequence s1 = {.name = "s1", .bps = "aa"};
-	Sequence s2 = {.name = "s2", .bps = "abbbbbbba"};
+	Sequence s1 = {"s1", "aa"};
+	Sequence s2 = {"s2", "abbbbbbba"};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(-10, align_score);
@@ -63,8 +63,8 @@ TEST(GlobalAlign, cs471sample) {
 		.h = -5,
 		.g = -2
 	};
-	Sequence s1 = {.name = "s1", .bps = s1_bps};
-	Sequence s2 = {.name = "s2", .bps = s2_bps};
+	Sequence s1 = {"s1", s1_bps};
+	Sequence s2 = {"s2", s2_bps};
 	GlobalAligner aligner(s1_bps, s2_bps, std::pair<Sequence, Sequence>(s1, s2), params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(55, align_score);
@@ -75,16 +75,16 @@ TEST(GlobalAlign, cs471sample) {
 
 
 TEST(LocalAlign, EmptyS1EmptyS2) {
-	Sequence s1 = {.name = "empty str 1", .bps = ""};
-	Sequence s2 = {.name = "empty str 2", .bps = ""};
+	Sequence s1 = {"empty str 1", ""};
+	Sequence s2 = {"empty str 2", ""};
 	GlobalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(0, align_score);
 }
 
 TEST(LocalAlign, S1SameAsS2) {
-	Sequence s1 = {.name = "s1", .bps = "atcgc"};
-	Sequence s2 = {.name = "s2", .bps = "atcgc"};
+	Sequence s1 = {"s1", "atcgc"};
+	Sequence s2 = {"s2", "atcgc"};
 	LocalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	int expected_score = dflt_params.match * s1.bps.size();
@@ -92,24 +92,24 @@ TEST(LocalAlign, S1SameAsS2) {
 }
 
 TEST(LocalAlign, SingleInsert) {
-	Sequence s1 = {.name = "s1", .bps = "abcdefghi"};
-	Sequence s2 = {.name = "z + s1", .bps = "zabcdefghi"};
+	Sequence s1 = {"s1", "abcdefghi"};
+	Sequence s2 = {"z + s1", "zabcdefghi"};
 	LocalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(9 * dflt_params.match, align_score);
 }
 
 TEST(LocalAlign, MismatchSandwich) {
-	Sequence s1 = {.name = "s1", .bps = "abbbbbbbba"};
-	Sequence s2 = {.name = "s2", .bps = "acccccccca"};
+	Sequence s1 = {"s1", "abbbbbbbba"};
+	Sequence s2 = {"s2", "acccccccca"};
 	LocalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(dflt_params.match, align_score);
 }
 
 TEST(LocalAlign, GapSandwich) {
-	Sequence s1 = {.name = "s1", .bps = "aa"};
-	Sequence s2 = {.name = "s2", .bps = "abbbbbbba"};
+	Sequence s1 = {"s1", "aa"};
+	Sequence s2 = {"s2", "abbbbbbba"};
 	LocalAligner aligner(s1.bps, s2.bps, std::pair<Sequence, Sequence>(s1, s2), dflt_params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(dflt_params.match, align_score);
@@ -124,8 +124,8 @@ TEST(LocalAlign, cs471sample) {
 		.h = -5,
 		.g = -2
 	};
-	Sequence s1 = {.name = "s1", .bps = s1_bps};
-	Sequence s2 = {.name = "s2", .bps = s2_bps};
+	Sequence s1 = {"s1", s1_bps};
+	Sequence s2 = {"s2", s2_bps};
 	LocalAligner aligner(s1_bps, s2_bps, std::pair<Sequence, Sequence>(s1, s2), params);
 	int align_score = aligner.Align(PRINT_ALIGNMENT);
 	EXPECT_EQ(55, align_score);

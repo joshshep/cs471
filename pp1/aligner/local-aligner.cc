@@ -71,7 +71,7 @@ Alignment LocalAligner::RetraceDP() {
 			int i_i = cell.I + scoring_.g;
 			int i_s = cell.S + scoring_.g + scoring_.h;
 			int i_d = cell.D + scoring_.g + scoring_.h;
-			retrace_state = GetRetraceState({.D = i_d, .I = i_i, .S = i_s}, s1_[i-1], s2_[j-1]);
+			retrace_state = GetRetraceState({i_d, i_i, i_s}, s1_[i-1], s2_[j-1]);
 			break;
 		}
 		case DELETE:
@@ -79,22 +79,13 @@ Alignment LocalAligner::RetraceDP() {
 			int d_d = cell.D + scoring_.g;
 			int d_s = cell.S + scoring_.g + scoring_.h;
 			int d_i = cell.I + scoring_.g + scoring_.h;
-			retrace_state = GetRetraceState({.D = d_d, .I = d_i, .S = d_s}, s1_[i-1], s2_[j-1]);
+			retrace_state = GetRetraceState({d_d, d_i, d_s}, s1_[i-1], s2_[j-1]);
 			break;
 		}
 		}
 	}
-	/*
-	for (; j > 0; j--) {
-		retraced += (char) DELETE;
-	}
-	for (; i > 0; i--) {
-		retraced += (char) INSERT;
-	}
-	*/
-	//std::cout << "retraced: " << retraced << std::endl;
 	std::reverse(retraced.begin(), retraced.end());
-    Alignment alignment = {.retrace = retraced, .s1_start = i, .s2_start = j};
+    Alignment alignment = {retraced, i, j};
 	return alignment;
 }
 
