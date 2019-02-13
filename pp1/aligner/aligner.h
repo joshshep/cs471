@@ -42,9 +42,10 @@ enum AlignmentScope {GLOBAL, LOCAL};
 class Aligner
 {
 public:
-	Aligner(const std::string & s1, const std::string &  s2, const ScoreConfig & scoring) : 
-		s1_(s1),
-		s2_(s2),
+	Aligner(const std::pair<Sequence, Sequence> & seqs, const ScoreConfig & scoring) : 
+		s1_(seqs.first.bps),
+		s2_(seqs.second.bps),
+		seqs_(seqs),
 		scoring_(scoring)
 	{
 		// alloc and initialize dp table
@@ -85,7 +86,7 @@ protected:
 	DP_Cell** dp_;
 	const std::string & s1_;
 	const std::string & s2_;
-	//const std::pair<Sequence, Sequence> & seqs_;
+	const std::pair<Sequence, Sequence> & seqs_;
 	const ScoreConfig & scoring_;
 };
 
