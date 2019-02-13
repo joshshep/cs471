@@ -10,10 +10,12 @@ Alignment GlobalAligner::RetraceDP() {
 
 	retrace_state = GetRetraceState(dp_[j][i], s1_[i-1], s2_[j-1]);
 	
+	// determine the Alignment by retracing from (i,j) to (0,0)
 	while (true) {
-		// TODO fix this mess
+		// append to our retrace step onto our retrace string
 		retraced += (char) retrace_state;
 
+		// move based on our retrace step
 		switch(retrace_state) {
 		case MATCH:
 		case MISMATCH:
@@ -27,10 +29,13 @@ Alignment GlobalAligner::RetraceDP() {
 			break;
 		}
 
+		// dp boundary check
 		if (i < 1 || j < 1) {
 			break;
 		}
 		DP_Cell & cell = dp_[j][i];
+
+		// determine the retrace state (the next retrace step)
 		switch(retrace_state) {
 		case MATCH:
 		case MISMATCH:
@@ -82,9 +87,6 @@ int GlobalAligner::RunDP() {
 	*/
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
-	//std::cout << "Allocating dp table of size = " ;
-	//print_size(n_cols * n_rows * sizeof(DP_CELL));
-	//std::cout << " ..." << std::endl;
 
 	// main dp processing loop
 	for (int j=1; j<n_rows; j++) {

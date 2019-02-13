@@ -1,7 +1,3 @@
-# Basepair alignment
-
-TODO
-
 # Getting Started
 
 ## Install Bazel
@@ -25,7 +21,7 @@ From the root directory, run a command of the form
 ```
 For example, 
 ```
-./bazel-bin/aligner/aligner data/Opsin1_colorblindness_gene.fasta 0 params.config
+./bazel-bin/aligner/aligner data/cs471_sample.fasta 0
 ```
 
 # TODO
@@ -33,4 +29,3 @@ For example,
 * bit-packing bp chars
 * linear space alignment
 * linear space retrace
-* offset alignments

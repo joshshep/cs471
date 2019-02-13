@@ -5,13 +5,10 @@ void LocalAligner::MaxCellInDP(int &i_max, int &j_max) {
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 	int max_val = 0;
-	for (int j=0; j<n_rows; j++)
-	{
-		for (int i=0; i<n_cols; i++)
-		{
+	for (int j=0; j<n_rows; j++) {
+		for (int i=0; i<n_cols; i++) {
 			int cand_max = max3(dp_[j][i]);
-			if (cand_max > max_val)
-			{
+			if (cand_max > max_val) {
 				i_max = i;
 				j_max = j;
 				max_val = cand_max;
@@ -27,15 +24,16 @@ Alignment LocalAligner::RetraceDP() {
 	RetraceState retrace_state;
 
 	// get ending point for retrace
-	MaxCellInDP(i, j);
-	std::cout << "Max cell in dp (i,j): (" << i << "," << j << ")" << std::endl;
+	MaxCellInDP(i, j); // modifies i and j inplace
 
 	retrace_state = GetRetraceState(dp_[j][i], s1_[i-1], s2_[j-1]);
 	
+	// determine the Alignment by retracing from (i,j) to where the cell max==0
 	while (true) {
-		// TODO fix this mess
+		// append to our retrace step onto our retrace string
 		retraced += (char) retrace_state;
 
+		// move based on our retrace step
 		switch(retrace_state) {
 		case MATCH:
 		case MISMATCH:
@@ -49,16 +47,20 @@ Alignment LocalAligner::RetraceDP() {
 			break;
 		}
 
+		// dp boundary check
 		if (i < 1 || j < 1) {
 			std::cout << "retrace DP loop: reached edge of dp table" << std::endl;
 			break;
 		}
 		DP_Cell & cell = dp_[j][i];
 
+		// continue retracing until we arrive at the origin cell (where max==0)
 		if (max3(cell) <= 0) {
 			std::cout << "retrace DP loop: found zero value" << std::endl;
 			break;
 		}
+
+		// determine the retrace state (the next retrace step)
 		switch(retrace_state) {
 		case MATCH:
 		case MISMATCH:
@@ -102,14 +104,11 @@ int LocalAligner::RunDP() {
 	*/
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
-	//std::cout << "Allocating dp table of size = " ;
-	//print_size(n_cols * n_rows * sizeof(DP_CELL));
-	//std::cout << " ..." << std::endl;
 
 	int align_score = 0;
 	// main dp processing loop
 	for (int j=1; j<n_rows; j++) {
-		for (int i=1; i<n_cols; i++){
+		for (int i=1; i<n_cols; i++) {
 			// substitute
 			dp_[j][i].S = std::max(0, max3(dp_[j-1][i-1])) + Cost2Sub(s1_[i-1], s2_[j-1]);
 
