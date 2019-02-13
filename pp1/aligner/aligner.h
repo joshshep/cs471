@@ -101,5 +101,6 @@ void print_size(size_t asize);
 char int_len(int n);
 int max3(int &i0, int &i1, int &i2);
 int max3(DP_Cell & a);
+void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2);
 
 #endif

@@ -176,3 +176,80 @@ int max3(int &i0, int &i1, int &i2) {
 int max3(DP_Cell & a) {
 	return max3(a.D, a.I, a.S);
 }
+
+void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2) {
+	int n_cols = s1.size() + 1;
+	int n_rows = s2.size() + 1;
+	char* col_widths = new char[n_cols];
+
+	// get column widths
+	for (int i=0; i<n_cols; i++) {
+		col_widths[i] = 0;
+		for (int j=0; j<n_rows; j++) {
+			col_widths[i] = std::max(
+				std::max(col_widths[i], int_len(dp[j][i].I)), 
+				std::max(int_len(dp[j][i].S), int_len(dp[j][i].D))
+			);
+		}
+		//printf("col_widths[%2d] = %d\n", i, col_widths[i]);
+	}
+
+	// print numbers on first row
+	printf("     ");
+	for (int i=0; i<n_cols; i++) {
+		char bp = ' ';
+		if (i > 0) {
+			bp = s1[i-1];
+		}
+		printf("  %*d %c  ", col_widths[i], i, bp);
+	}
+	printf("\n");
+	// print top line
+	printf("        ");
+	for (int i=0; i<n_cols; i++) {
+		for (int idash=0; idash<6+col_widths[i]; idash++) {
+			putchar('-');
+		}
+	}
+	printf("-\n");
+
+	for (int j=0; j<n_rows; j++) {
+		printf("        |");
+		for (int i=0; i<n_cols; i++) {
+			printf(" I: %*d |", col_widths[i], dp[j][i].I);
+		}
+		printf("\n");
+		char j_bp = ' ';
+		if (j > 0) {
+			j_bp = s2[j-1];
+		}
+		printf("%5d %c |", j, j_bp);
+		for (int i=0; i<n_cols; i++) {
+			printf(" S: %*d %c", col_widths[i], dp[j][i].S, j_bp);
+		}
+		printf("\n");
+		printf("        |");
+		for (int i=0; i<n_cols; i++) {
+			printf(" D: %*d |", col_widths[i], dp[j][i].D);
+		}
+		printf("\n");
+		printf("        ");
+		for (int i=0; i<n_cols; i++) {
+			int num_dashes = 6+col_widths[i];
+			for (int idash=0; idash<num_dashes/2; idash++) {
+				putchar('-');
+			}
+			if (i > 0) {
+				putchar(s1[i-1]);
+			} else {
+				putchar('-');
+			}
+			for (int idash=num_dashes/2 + 1; idash<num_dashes; idash++) {
+				putchar('-');
+			}
+		}
+		printf("-\n");
+	}
+
+	delete[] col_widths;
+}

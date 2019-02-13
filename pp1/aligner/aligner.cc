@@ -8,6 +8,7 @@ int Aligner::Align(bool print_alignment)
 		Alignment alignment = RetraceDP();
 		PrintAlignment(alignment);
 		PrintAlignStats(alignment);
+		//PrintDP_Table(dp_, s1_, s2_);
 	}
 	return align_score;
 }
