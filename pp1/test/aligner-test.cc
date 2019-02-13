@@ -3,6 +3,7 @@
 #include "aligner/global-aligner.h"
 
 
+// TODO don't use macros
 #define PRINT_ALIGNMENT false
 const ScoreConfig dflt_params = {
 	.match = 1,

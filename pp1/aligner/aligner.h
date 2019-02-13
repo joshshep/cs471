@@ -2,10 +2,10 @@
 #define ALIGNER_H_
 
 #include <string>
-#include <climits>
+#include <climits> // INT_MIN
 #include <iostream>     // std::cout
 #include <algorithm>    // std::max
-#include <fstream>  // reading from files
+#include <fstream> 
 #include <utility> // pair
 #include <vector>
 
@@ -30,8 +30,8 @@ typedef struct alignment {
 } Alignment;
 
 typedef struct sequence {
-	std::string bps;
 	std::string name;
+	std::string bps;
 } Sequence;
 
 enum RetraceState { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
@@ -59,6 +59,9 @@ public:
 		DelDP();
 	}
 
+	// perform the alignment of the two sequences
+	// optionally prints information about the alignment (this is mainly used for tests)
+	// returms the alignment score (returned from the pure virtual RunDP())
 	int Align(bool print_alignment=true);
 
 protected:
@@ -92,7 +95,6 @@ protected:
 	                        const int bp_per_line);
 
 	// vars
-	
 	DP_Cell** dp_; // the internal dp table we use to calculate the alignment
 	const std::string & s1_; // string representing base pair sequence 1
 	const std::string & s2_; // string representing base pair sequence 2
@@ -102,31 +104,43 @@ protected:
 
 
 ////// Utility free functions
-// TODO: organize/rename to match google style guide
+// TODO: organize to match google style guide
 
+////////////////////////////////
+// printing 
+////////////////////////////////
 // prints the help to run this executable 
 void PrintHelp();
 
+// prints the scoring configuration values for {match, mismatch, gap start, gap extend}
+void PrintScoreConfig(const ScoreConfig & scores);
+
+// pretty-prints the size value as quantity of {B, KiB, MiB, GiB}
+void PrintSize(size_t asize);
+
+
+///////////////////////////////////////
+// loading from files
+///////////////////////////////////////
+// loads exactly 2 sequences from the provided file name
+std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname);
+
+// loads the scoring configuration from the provided filename
+ScoreConfig LoadConfig(const char *config_fname);
+
+
+
+///////////////////////////////////////////
+// misc free helpers (TODO)
+///////////////////////////////////////////
 // formats the input string (representing base pairs) to lowercase
 void Format_bps(std::string & str);
 
 // trims the provided whitespace characters from the provided string
 std::string Trim(const std::string& str, const std::string& whitespace = " ");
 
-// loads exactly 2 sequences from the provided file name
-std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname);
-
 // returns the alignment scope (local or global) given a command line argument string
 AlignmentScope ParseAlignScope(const char *alignment_str);
-
-// prints the scoring configuration values for {match, mismatch, gap start, gap extend}
-void PrintScoreConfig(const ScoreConfig & scores);
-
-// loads the scoring configuration from the provided filename
-ScoreConfig LoadConfig(const char *config_fname);
-
-// pretty-prints the size value as quantity of {B, KiB, MiB, GiB}
-void PrintSize(size_t asize);
 
 // determines the length of the input integer
 char intLen(int n);

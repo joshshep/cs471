@@ -33,7 +33,7 @@ void Aligner::InitDP() {
 	}
 
 	// initialize edge values
-	dp_[0][0] = {0};
+	dp_[0][0] = {0, 0, 0};
 	for (int i=1; i<n_cols; i++) {
 		// TODO we want a value that's low enough not to conflict with table 
 		//      values but high enough to avoid underflowing INT_MIN
@@ -107,11 +107,17 @@ void Aligner::PrintAlignStats(Alignment alignment) {
 
 	std::cout << std::endl;
 
-	int perc_identities = int(0.5 + 100.0 *  num_matches / alignment.retrace.size());
-	int perc_gaps = int(0.5 + 100.0 *  num_gaps / alignment.retrace.size());
-	// TODO convert printf to std::cout
-	printf("Identities: %d/%lu (%d%%)\n", num_matches, alignment.retrace.size(), perc_identities);
-	printf("Gaps:       %d/%lu (%d%%)\n", num_gaps, alignment.retrace.size(), perc_gaps);
+	if (alignment.retrace.size() == 0) {
+		printf("Identities: %d/%lu (N/A)\n", num_matches, alignment.retrace.size());
+		printf("Gaps:       %d/%lu (N/A)\n", num_gaps, alignment.retrace.size());
+	} else {
+		int perc_identities = int(0.5 + 100.0 *  num_matches / alignment.retrace.size());
+		int perc_gaps = int(0.5 + 100.0 *  num_gaps / alignment.retrace.size());
+		// TODO convert printf to std::cout
+		printf("Identities: %d/%lu (%d%%)\n", num_matches, alignment.retrace.size(), perc_identities);
+		printf("Gaps:       %d/%lu (%d%%)\n", num_gaps, alignment.retrace.size(), perc_gaps);
+	}
+	
 	std::cout << std::endl;
 
 	// print name

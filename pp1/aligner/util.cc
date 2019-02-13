@@ -39,7 +39,7 @@ std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname) {
 		if (line.empty()) {
 			if (iterating_through_seq) {
 				// end of sequence
-				sequences.push_back({.bps = seq_bps, .name = seq_name});
+				sequences.push_back({seq_name, seq_bps});
 				seq_bps = "";
 				seq_name = "";
 				iterating_through_seq = false;
@@ -62,7 +62,7 @@ std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname) {
 		}
 	}
 	if (iterating_through_seq) {
-		sequences.push_back({.bps = seq_bps, .name = seq_name});
+		sequences.push_back({seq_name, seq_bps});
 	}
 
 	if (sequences.size() != 2) {
