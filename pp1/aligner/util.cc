@@ -191,7 +191,6 @@ void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2)
 				std::max(intLen(dp[j][i].S), intLen(dp[j][i].D))
 			);
 		}
-		//printf("col_widths[%2d] = %d\n", i, col_widths[i]);
 	}
 
 	// print numbers on first row

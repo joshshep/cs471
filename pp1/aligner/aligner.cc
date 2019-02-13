@@ -1,13 +1,14 @@
 #include "aligner/aligner.h"
 
-int Aligner::Align(bool print_alignment)
-{
+int Aligner::Align(bool print_alignment) {
 	int align_score = RunDP();
-	if (print_alignment)
-	{
+	if (print_alignment) {
 		Alignment alignment = RetraceDP();
 		PrintAlignment(alignment);
+		std::cout << std::endl;
 		PrintAlignStats(alignment);
+		std::cout << std::endl;
+		std::cout << "Alignment score: " << align_score << std::endl;
 		//PrintDP_Table(dp_, s1_, s2_);
 	}
 	return align_score;
@@ -18,8 +19,7 @@ int Aligner::Align(bool print_alignment)
 // protected methods
 /////////////////////////////
 
-void Aligner::InitDP()
-{
+void Aligner::InitDP() {
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 	//std::cout << "Allocating dp table of size = " ;
@@ -48,8 +48,7 @@ void Aligner::InitDP()
 	}
 }
 
-void Aligner::DelDP()
-{
+void Aligner::DelDP() {
 	const int n_rows = s2_.size() + 1;
 
 	for (int i = 0; i < n_rows; i++) {
@@ -76,9 +75,42 @@ RetraceState Aligner::GetRetraceState(const DP_Cell cell, char c_s1, char c_s2 )
 	}
 }
 
-void Aligner::PrintAlignStats(Alignment alignment)
-{
-    std::cout << "Some stats" << std::endl;
+void Aligner::PrintAlignStats(Alignment alignment) {
+	int num_matches = 0;
+	int num_mismatches = 0;
+	int num_gaps = 0;
+	int num_gap_openings = 0;
+	char prev_c = 0;
+	for (auto c : alignment.retrace) {
+		switch (c) {
+		case MATCH:
+			num_matches++;
+			break;
+		case MISMATCH:
+			num_mismatches++;
+			break;
+		case INSERT:
+		case DELETE:
+			num_gaps++;
+			if (c != prev_c) {
+				num_gap_openings++;
+			}
+			break;
+		}
+		prev_c = c;
+	}
+	std::cout << "Occurrences:" << std::endl;
+	std::cout << "  matches:      " << num_matches << std::endl;
+	std::cout << "  mismatches:   " << num_mismatches << std::endl;
+	std::cout << "  gaps:         " << num_gaps << std::endl;
+	std::cout << "  gap openings: " << num_gap_openings << std::endl;
+
+	std::cout << std::endl;
+
+	int perc_identities = int(0.5 + 100.0 *  num_matches / alignment.retrace.size());
+	int perc_gaps = int(0.5 + 100.0 *  num_gaps / alignment.retrace.size());
+	printf("Identities: %d/%lu (%d%%)\n", num_matches, alignment.retrace.size(), perc_identities);
+	printf("Gaps:       %d/%lu (%d%%)\n", num_gaps, alignment.retrace.size(), perc_gaps);
 }
 
 void Aligner::PrintAlignmentLine(const std::string & retrace, 

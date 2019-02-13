@@ -10,35 +10,33 @@ int main(int argc, char *argv[]) {
 
 	if (argc < kMinNumArgs) {
 		std::cout << "Error: too few arguments" << std::endl;
-		print_help();
+		PrintHelp();
 		exit(1);
 	} else if (argc > kMaxNumArgs) {
 		std::cout << "Error: too many arguments" << std::endl;
-		print_help();
+		PrintHelp();
 		exit(1);
 	}
 
 	const char * fasta_fname = argv[1];
-	auto sequences = load_sequences(fasta_fname);
+	auto sequences = LoadSequences(fasta_fname);
 	
 	const char * alignment_str = argv[2];
-	AlignmentScope align_scope = parse_align_scope(alignment_str);
+	AlignmentScope align_scope = ParseAlignScope(alignment_str);
 
 	const char * config_fname = kDfltConfigFname;
 	if (argc == kMinNumArgs + 1) {
 		// config specified
 		config_fname = argv[kMinNumArgs];
 	}
-	ScoreConfig scores = load_config(config_fname);
+	ScoreConfig scores = LoadConfig(config_fname);
 
 	if (align_scope == GLOBAL) {
 		GlobalAligner aligner(sequences.first.bps, sequences.second.bps, sequences, scores);
-		int align_score = aligner.Align();
-		std::cout << "Alignment score: " << align_score << std::endl;
+		aligner.Align();
 	} else {
 		LocalAligner aligner(sequences.first.bps, sequences.second.bps, sequences, scores);
-		int align_score = aligner.Align();
-		std::cout << "Alignment score: " << align_score << std::endl;
+		aligner.Align();
 	}
 	return 0;
 }
