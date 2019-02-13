@@ -3,8 +3,7 @@
 
 #include "aligner/aligner.h"
 
-class GlobalAligner : public Aligner
-{
+class GlobalAligner : public Aligner {
 	// use base class's constructor
 	using Aligner::Aligner;
 	

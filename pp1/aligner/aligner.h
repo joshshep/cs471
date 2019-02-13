@@ -39,22 +39,19 @@ enum AlignmentScope {GLOBAL, LOCAL};
 
 
 // abstract class to determine the alignment between 2 base pair (BP) sequences 
-class Aligner
-{
+class Aligner {
 public:
 	// TODO: resolve redundancy in {s1, s2} and seqs without messing with non-POD issues in initialization lists
 	Aligner(const std::string & s1, const std::string & s2, const std::pair<Sequence, Sequence> & seqs, const ScoreConfig & scoring) : 
 		s1_(s1),
 		s2_(s2),
 		seqs_(seqs),
-		scoring_(scoring)
-	{
+		scoring_(scoring) {
 		// alloc and initialize dp table
 		InitDP();
 	}
 
-	~Aligner()
-	{
+	~Aligner() {
 		// delete dp table
 		DelDP();
 	}

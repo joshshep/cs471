@@ -3,8 +3,7 @@
 
 #include "aligner/aligner.h"
 
-class LocalAligner : public Aligner
-{
+class LocalAligner : public Aligner {
 	// use base class's constructor
 	using Aligner::Aligner;
 
