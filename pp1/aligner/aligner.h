@@ -84,9 +84,11 @@ protected:
 	void PrintAlignStats(Alignment alignment);
 
 	// prints the entire alignment 60 base pairs (or bp_per_line) per line
+	// calls PrintAlignmentLine() every 60 base pairs in the alignment string
 	void PrintAlignment(Alignment alignment, const int bp_per_line = 60);
 
 	// prints a line of the alignment starting at i_retrace_start in the retrace string
+	// helper function to PrintAlignment()
 	void PrintAlignmentLine(const std::string & retrace, 
 	                        const int i_retrace_start, int & i_s1, int & i_s2,
 	                        const int bp_per_line);
