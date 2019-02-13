@@ -1,0 +1,50 @@
+Opening fasta file 'data/Opsin1_colorblindness_gene.fasta' ...
+Reading sequence: '>NC_000007.14:c128775790-128772489 Homo sapiens chromosome 7, GRCh38.p7 Primary Assembly' ...
+Reading sequence: '>NC_000072.6:c29380513-29376671 Mus musculus strain C57BL/6J chromosome 6, GRCm38.p4 C57BL/6J' ...
+Running local alignment...
+Loading configuration settings from file 'parameters.config' ...
+-- Scoring configuration settings --
+  match: 1
+  mismatch: -2
+  g: -2
+  h: -5
+retrace DP loop: found zero value
+s1    16  gaggaagagttttatctgttcaaaaatatctcttcagtggggccgtgggatgggcctcag    75
+          ||||| || ||||| |||||  | ||||||||||| |||||||| |||||||||||||||
+s2   108  gaggatgacttttacctgtttcagaatatctcttcggtggggccctgggatgggcctcag   167
+
+s1    76  taccacattgcccctgtctgggccttctacctccaggcagctttcatgggcactgtcttc   135
+          |||||| |||| |||||||||||||||  |||||||||||| ||||||||   |||||||
+s2   168  taccaccttgctcctgtctgggccttccgcctccaggcagccttcatgggatttgtcttc   227
+
+s1   136  cttatagggttcccactcaatgccatggtgctggtggccacactgcgctacaaaaagttg   195
+           || | |||  ||||||||||||||| |||||||||||||||||||  ||||||||||||
+s2   228  tttgtggggaccccactcaatgccatagtgctggtggccacactgcattacaaaaagttg   287
+
+s1   196  cggcagcccctcaactacattctggtcaacgtgtccttcggaggcttcctcctctgcatc   255
+          || |||||||||||||| ||||||||||| || ||| |||| ||||||||| ||||||||
+s2   288  cgacagcccctcaactatattctggtcaatgtatccctcgggggcttcctcttctgcatc   347
+
+s1   256  ttctctgtcttccctgtcttcgtcgccagctgtaacggatacttcgtcttcggtcgccat   315
+          |||||||||||| | |||||| ||||||||||| ||||||||||| |||| |||||||||
+s2   348  ttctctgtcttcacagtcttcatcgccagctgtcacggatacttcctctttggtcgccat   407
+
+s1   316  gtttgtgctttggagggcttcctgggcactgtagcaggtactgcagg   362
+          ||||||||| |||||| |||| ||||| ||||||||||||||| |||
+s2   408  gtttgtgctctggaggccttcttgggctctgtagcaggtactgaagg   454
+
+Occurrences:
+  matches:      305
+  mismatches:   42
+  gaps:         0
+  gap openings: 0
+
+Identities: 305/347 (88%)
+Gaps:       0/347 (0%)
+
+s1 name (full):  >NC_000007.14:c128775790-128772489 Homo sapiens chromosome 7, GRCh38.p7 Primary Assembly
+s1 name (short): NC_000007.14:c128775790-128772489 
+s2 name (full):  >NC_000072.6:c29380513-29376671 Mus musculus strain C57BL/6J chromosome 6, GRCm38.p4 C57BL/6J
+s2 name (short): NC_000072.6:c29380513-29376671 
+
+Alignment score: 221

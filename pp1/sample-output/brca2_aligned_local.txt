@@ -1,0 +1,702 @@
+Opening fasta file 'data/Human-Mouse-BRCA2-cds.fasta' ...
+Reading sequence: '>(gi|37675288:1224-1411, 2166-2271, 4821-5069, 10820-10928, 11846-11895, 11987-12027, 12244-12358, 15190-15239, 16668-16779, 18021-19136, 22014-26945, 30307-30402, 32576-32645, 40623-41050, 42190-42371, 43504-43691, 48285-48455, 48941-49295, 56170-56325, 56724-56868, 62438-62559, 65085-65283, 65518-65681, 65775-65913, 80490-80734, 82699-82845, 83963-85469) Homo sapiens breast cancer 2, early onset (BRCA2) gene, complete cds' ...
+Reading sequence: '>(gi|17973424:1-254, gi|17973425:1-105, gi|17973426:1-228, gi|17973427:1-109, gi|17973428:1-50, gi|17973429:1-41, gi|17973430:1-112, gi|17973431:1-50, gi|17973432:1-112, gi|17973433:1-1107, gi|17973434:1-4809, gi|17973435:1-96, gi|17973436:1-70, gi|17973437:1-347, gi|17973438:1-182, gi|17973439:1-188, gi|17973440:1-171, gi|17973441:1-355, gi|17973442:1-156, gi|17973443:1-145, gi|17973444:1-122, gi|17973445:1-193, gi|17973446:1-164, gi|17973447:1-138, gi|17973448:1-243, gi|17973449:1-162, gi|17973450:1-637) Mus musculus breast cancer 2 (Brca2) gene, complete cds' ...
+Running local alignment...
+Loading configuration settings from file 'parameters.config' ...
+-- Scoring configuration settings --
+  match: 1
+  mismatch: -2
+  g: -2
+  h: -5
+retrace DP loop: found zero value
+s1    195  ttaccaagcattggaggaatatcgtaggtaaaaatgcctattggatccaaagagaggcca    254
+           ||||| ||||| |||| ||||  ||| |  ||||||||  ||| || ||||  ||| |||
+s2    261  ttaccgagcatcggagaaatactgta-gagaaaatgcccgttgaatacaaaaggagacca    319
+
+s1    255  acattttttgaaatttttaagacacgctgcaacaaagcagatttaggaccaataagtctt    314
+           || ||||  |||||||||||| |  | |||| || ||||||||||||||| ||||| || 
+s2    320  actttttgggaaatttttaaggcgagatgcagcacagcagatttaggaccgataagcctc    379
+
+s1    315  aattggtttgaagaactttcttcagaagctccaccctataattctgaacctgcagaagaa    374
+           ||||||||||| || ||||| |||||||| || || || |||||||||||| | || |||
+s2    380  aattggtttgaggagctttcctcagaagcccccccatacaattctgaacctccggaggaa    439
+
+s1    375  tctgaacataaaaacaacaattacgaaccaaacctatttaaaactccacaaaggaaacca    434
+           |||||  ||||   | ||  ||| |||||| | || |||||||| ||||| ||||| || 
+s2    440  tctgagtataagccccacggttatgaaccacagctgtttaaaacaccacagaggaatccc    499
+
+s1    435  tcttataatcagctggcttcaactccaataatattcaaagagcaagggctgactctgccg    494
+            | ||  ||||| | ||||||||||||||||| |||||||| | | | |  ||||| || 
+s2    500  ccctaccatcagtttgcttcaactccaataatgttcaaagaacgaagtcaaactctacca    559
+
+s1    495  ctgtaccaatctcctgtaaaagaattagataaattcaaattagacttaggaaggaatgtt    554
+           ||| |||| || ||| | | ||||||||                    ||||||  ||||
+s2    560  ctggaccagtcgcctttcagagaattag--------------------ggaagg-ttgtt    598
+
+s1    555  cccaatagtagacataaaagtcttcgcacagtgaaaactaaaatggatcaagcagatgat    614
+            | | ||||| |||||||| ||   ||| |  ||| || ||| |||| |  |  |  |||
+s2    599  gcaagtagtaaacataaaactcacagcaaaaagaagaccaaagtggaccctgtggtagat    658
+
+s1    615  gtttcctgtccacttctaaattcttgtcttagtgaaagtcctgttgttctacaatgtaca    674
+           ||| |  |||| | ||| || |||||||| |||||||| ||| ||  ||| |  || |||
+s2    659  gttgctagtccgcctctgaaatcttgtctcagtgaaagccctcttactctgcggtgcaca    718
+
+s1    675  catgtaacaccacaaagagataagtcagtggtatgtgggagtttgtttcatacaccaaag    734
+           || | |  || |||| |||| ||| ||||||||| ||| ||||| ||| |||||||||| 
+s2    719  caggcagtactacaacgagaaaagccagtggtatctggaagtttattttatacaccaaa-    777
+
+s1    735  tttgtgaagggtcgtcagacaccaaaacatatttctgaaagtctaggagctgaggtggat    794
+               | ||||   ||||||||||||||| ||||||||| ||||| |||| ||| ||||||
+s2    778  --actcaaggagggtcagacaccaaaacctatttctgagagtctgggagttgaagtggat    835
+
+s1    795  cctgatatgtcttggtcaagttctttagctacaccacccacccttagttctactgtgctc    854
+           ||||||||||||||| |||| || |||||||||||||| ||||||||||| |||||||||
+s2    836  cctgatatgtcttggacaagctcattagctacaccaccaacccttagttccactgtgctc    895
+
+s1    855  atagtcagaaatgaagaagcatctgaaactgtatttcctcatgatactactgctaatgtg    914
+           |||| | || |||||||||||       |||||   |||  |||  || | |||| | ||
+s2    896  atagcccgagatgaagaagcacgcagctctgtaacgcctgctgactctcccgctactttg    955
+
+s1    915  aaaagctatttttccaatcatgatgaaagtctgaagaaaaatgatagatttatcgcttct    974
+           ||||||| |||||| || ||  |||||||||   | ||||||||||||| | |  | || 
+s2    956  aaaagctgtttttctaaccacaatgaaagtccacaaaaaaatgatagatctgttccctca   1015
+
+s1    975  gtgacagacagtgaaaacacaaatcaaagagaagctgcaagtcatggatttggaaaaaca   1034
+           ||||  ||||||||||||| ||| ||   |||||||   ||||| || || || ||||  
+s2   1016  gtgattgacagtgaaaacaaaaaccagcaagaagcttttagtcagggtttggggaaaatg   1075
+
+s1   1035  tcagggaattcattt---aaagtaaatagctgcaaagaccacattggaaagtcaatgcca   1091
+           | |||  |||||| |   |||  |||||||| |||||||  | || ||||| |||| |||
+s2   1076  ttaggagattcatctggcaaaagaaatagcttcaaagactgccttagaaagccaatacca   1135
+
+s1   1092  aatgtcctagaagatgaagtatatgaaacagttgtagatacctctgaagaagatagtttt   1151
+           ||| | ||||||||||        || |||| ||| ||||| || |||||||||||||| 
+s2   1136  aatattctagaagatg------gggagacagctgttgatacttccgaagaagatagtttc   1189
+
+s1   1152  tcattatgtttttctaaatgtagaacaaaaaatctacaaaaagtaagaactagcaagact   1211
+           |||||||||||| ||||  ||||||| | ||||||||| ||| | ||||   ||||||| 
+s2   1190  tcattatgttttcctaagcgtagaaccagaaatctacagaaaatgagaatgggcaagaca   1249
+
+s1   1212  aggaaaaaaattttccatgaagcaaacgctgatgaat---gtgaaaaatctaaaaaccaa   1268
+           |||||||||||||||  |||| |||   |||||||||   | ||| || ||| ||  |||
+s2   1250  aggaaaaaaattttcagtgaaacaagaactgatgaattaagcgaagaagctagaagacaa   1309
+
+s1   1269  gtgaaagaaaaatactcatttgtatctgaagtggaaccaaatgatactgatccattagat   1328
+               | || ||| |||||||||||| |||| |||||| ||  || | |||||| ||||||
+s2   1310  actgatgataaaaactcatttgtatttgaaatggaactaagagagagtgatcctttagat   1369
+
+s1   1329  tcaaatgtagcaaatcagaagccctttgagagtggaagtgacaaaatctccaaggaagtt   1388
+            ||  |||| |||  |||||||||||| | ||    | |||  |||||| ||| |||| |
+s2   1370  ccaggtgtaacaagccagaagcccttttacagccagaatgaggaaatctgcaatgaagct   1429
+
+s1   1389  gtaccgtctttggcctgtgaatggtctcaactaaccctttcaggtctaaatggagcccag   1448
+           |||| || ||  |   ||  |||||||||   || |||||| |||||||||| | |||||
+s2   1430  gtacagtgttcagatagtagatggtctcagtcaaacctttctggtctaaatgaaacccag   1489
+
+s1   1449  atggagaaaatacccctattgcatatttcttcatgtgaccaaaatatttcagaaaaagac   1508
+           |  |  |||||| || ||   |||||||||||   |  ||||||||||||||   |||||
+s2   1490  acaggaaaaataaccttacctcatatttcttctcatagccaaaatatttcag---aagac   1546
+
+s1   1509  ctattagacacagagaacaaaagaaagaaagattttcttacttcagagaattctttgcca   1568
+            |  |||| |    ||| |||  |   |  |  | | |||||||||| || ||||| || 
+s2   1547  ttcatagata---tgaagaaagaaggtactggctctattacttcagaaaaatctttacct   1603
+
+s1   1569  cgtatttctagcctaccaaaatcagagaagccattaaatgaggaaacagtggtaaataag   1628
+           | ||||||||| || ||| || | || |||   || | |||||| || |||||| |||||
+s2   1604  catatttctagtcttccagaaccggaaaagatgttcagtgaggagactgtggtagataag   1663
+
+s1   1629  agagatgaagagcagcatcttgaatctcatacagactgcattcttgcagtaaagcaggca   1688
+             | ||||||  |||||| ||||||| | |  ||||| ||   ||||||  |||||    
+s2   1664  gaacatgaaggacagcattttgaatcacttgaagactcca---ttgcagggaagcaaatg   1720
+
+s1   1689  atatctggaacttctccagtggcttcttcatttcagggtatcaaaaagtctatattcaga   1748
+            | ||| ||||   || ||  || | |   | || | ||||||  |||||||||||||  
+s2   1721  gtgtctagaacaagtcaagcagcctgtctttctccgagtatcaggaagtctatattcaag   1780
+
+s1   1749  ataagagaatcacctaaagagactttcaatgcaagtttttcaggtcatatgactgatcca   1808
+           || |||||  ||| | | ||||||||   | |   ||| |||| |  ||||||  |  ||
+s2   1781  atgagagagccacttgacgagactttgggtactgttttctcagatagtatgaccaactca   1840
+
+s1   1809  aactttaaaaaagaaactgaagcctctgaaagtggactggaaatacatactgtttgctca   1868
+           | ||||| | |||||  ||||||||||| | ||||| ||| ||||| |||||  ||||||
+s2   1841  acctttacagaagaacatgaagcctctgcatgtggattgggaatacttactgcatgctca   1900
+
+s1   1869  cagaaggaggactccttatgtccaaatttaattgataatggaagctggccagccaccacc   1928
+           ||||  ||||| ||  ||||||| | || | |||| | ||||||||||||| ||||   |
+s2   1901  cagagagaggattctatatgtcctagttcagttgacactggaagctggccaaccactctc   1960
+
+s1   1929  acacagaattctgtagctttgaagaatgcaggtttaatatccactttgaaaaagaaaaca   1988
+           ||  | | |||||   || |||| ||||||||||| ||||||||| | ||||| |||| |
+s2   1961  actgacacttctgccactgtgaaaaatgcaggtttgatatccactctaaaaaataaaaaa   2020
+
+s1   1989  aataagtttatttatgctatacatgatgaaacatcttataaaggaaaaaaaataccgaaa   2048
+           |  |||||||||||  || ||  ||||||  |||||  | ||||||||||| ||| || |
+s2   2021  agaaagtttatttactctgtaagtgatgatgcatctcttcaaggaaaaaaactacagaca   2080
+
+s1   2049  gaccaaaaatcagaactaattaactgttcagcccagtttgaagcaaatgcttttgaagca   2108
+            ||  | | | ||| || | |||   |||||||||| ||||||||| ||||||||||| |
+s2   2081  cacagacagttagagcttactaatctttcagcccagcttgaagcaagtgcttttgaagta   2140
+
+s1   2109  ccacttacatttgcaaatgctgattcaggtttattgcattcttctgtgaaaagaagctgt   2168
+           ||| | || ||| ||||||   |||||||| ||    |||||||||  |||| | |||||
+s2   2141  ccattgacctttacaaatgtaaattcaggtataccagattcttctgacaaaaaacgctgt   2200
+
+s1   2169  tcacagaatgattctgaagaaccaactttgtccttaactagctcttttgggacaattctg   2228
+           | || ||||||| ||||||| |||      ||||| || | |||||||||||     |||
+s2   2201  ttaccgaatgatcctgaagagcca------tccttgaccaactcttttggga-----ctg   2249
+
+s1   2229  aggaaatgttctagaaatgaaacatgttctaataatacagtaatctctcaggatcttgat   2288
+                   | | || || ||||   ||| || | || || | || |||||||||||| ||
+s2   2250  -------ctaccagtaaagaaattagttatattcatgcattgatatctcaggatcttaat   2302
+
+s1   2289  tataaagaagcaaaatgtaataaggaaaaactacagttatttattaccccagaagctgat   2348
+            | |||||||||| |   | | | ||||||| ||||  || ||   ||| ||||||||| 
+s2   2303  gacaaagaagcaatagtcattgaagaaaaaccacagccatatacagcccgagaagctgac   2362
+
+s1   2349  tctctgtcatgcctgcaggaaggacagtgtgaaaatgatccaaaaagcaaaaaagtttca   2408
+           | ||||| |||| |||  ||| ||   ||||||||||| | ||||||   ||||||||| 
+s2   2363  tttctgttatgcttgccagaaagaacatgtgaaaatgaccaaaaaagtccaaaagtttcc   2422
+
+s1   2409  gatataaaagaagaggtcttggctgcagcatgtcacccagtacaacattcaaaagtggaa   2468
+            ||  ||||||| | ||||| | | |||||||||  ||         ||||  |||| ||
+s2   2423  aatggaaaagaaaaagtcttagtttcagcatgtcttcc---------ttcagcagtgcaa   2473
+
+s1   2469  tacagtgatactgactttcaatcccagaaaagtcttttatatgatcatgaaaatgccagc   2528
+             |||    | |  |||| |||| ||| |||  | | |   ||| ||  |     | || 
+s2   2474  ctcagcagcattagctttgaatcacaggaaaaccctcttggtgaccacaacggaacaagt   2533
+
+s1   2529  actcttattttaactcctacttccaaggatgttctgtcaaacctagtcatgatttctaga   2588
+           |||||||  |||||||| |  || |||     |||||||||   || |||| ||||||||
+s2   2534  actcttaaattaactcccagctcaaagctacctctgtcaaaggcagacatggtttctaga   2593
+
+s1   2589  ggcaaagaatcatacaaaatgtcagacaagctcaaaggtaacaattatgaatctgatgtt   2648
+           |  | | |||  |  |||||| |||| || ||  || || | | || | ||  | || ||
+s2   2594  g--agaaaat-gtgtaaaatgccagagaaactgcaatgtgagagttgtaaagttaatatt   2650
+
+s1   2649  gaattaaccaaaaatattcccatggaaaagaatcaagatgtatgtgctttaaatgaaaat   2708
+           ||| |||  ||||| ||   | ||||    |||   ||  |||||   |||| |||||||
+s2   2651  gaactaagtaaaaacat---cttggaggtaaat---gaaatatgtatcttaagtgaaaat   2704
+
+s1   2709  tataaaaacgttgagctgttgccacctgaaaaatacatgagagtagcatcaccttcaaga   2768
+           | |||||    || |||  |||||||||   || | || | || ||   |  ||||||  
+s2   2705  tctaaaactcctgggcttctgccacctggtgaaaatataatagaagtggcctcttcaatg   2764
+
+s1   2769  aaggtacaattcaaccaaaacacaaatctaagagtaatccaaaaaaatcaagaagaaact   2828
+           |||  ||| ||||| |||||  ||||   || ||| || || ||  | ||| |||   | 
+s2   2765  aagtcacagttcaatcaaaatgcaaa---aatagtcatacagaaggaccaaaaaggctca   2821
+
+s1   2829  acttcaatttcaaaaataactgtcaatccagactctgaagaacttttctcagacaatgag   2888
+            |||  |||||| || || | ||||||    ||||||||||||||||| |||||| || |
+s2   2822  ccttttatttcagaagtagcagtcaatatgaactctgaagaacttttcccagacagtggg   2881
+
+s1   2889  aataattttgtcttccaagtagctaatgaaaggaataatcttgctttaggaaatactaag   2948
+           ||||||||||  || |||||| ||||| || | ||||| | || |||||||| | |   |
+s2   2882  aataattttgcttttcaagtaactaataaatgcaataagcctgatttaggaagttcagtg   2941
+
+s1   2949  gaacttcatgaaacagacttgacttgtgtaaacgaacccattttcaagaactctaccatg   3008
+           ||||| || |||  |||| | |       | | |  || | | ||||||||||| |||||
+s2   2942  gaactccaggaagaagacctcagccacacacaagggcctagtctcaagaactctcccatg   3001
+
+s1   3009  gttttatatggagacacaggtgataaacaagcaacccaagtgtcaattaaaaa------a   3062
+           |   || ||| |||   || ||||   || ||| |||||||||  |||| |||      |
+s2   3002  gcagtagatgaagatgtagatgatgcgcatgcagcccaagtgttgattacaaaggactca   3061
+
+s1   3063  gatt---------tggtttatgttcttgcagaggagaacaaaaatagtgtaaagcagcat   3113
+           ||||         ||||  ||| |  | ||||| ||| || ||||| | || ||||||| 
+s2   3062  gattcattagctgtggtccatgattatacagagaagagcagaaataatatagagcagcac   3121
+
+s1   3114  ataaaaatgactctaggtcaagatttaaaatcggacatctccttgaatatagataaaata   3173
+              |||   ||   ||   ||||||| || ||  |   ||||||||||    || |||| 
+s2   3122  cagaaaggaaccgaagacaaagatttcaagtcaaattcctccttgaat----atgaaat-   3176
+
+s1   3174  ccagaaaaaaataatgattacatgaacaaatgggcaggactcttaggtccaatttcaaat   3233
+            ||||    || | |||||      |||||||| |||   |||| | |||| | |  || 
+s2   3177  -cagatgggaacagtgattgttcagacaaatggtcagagttcttggatccagtcttgaac   3235
+
+s1   3234  cacagttttggaggtagcttcagaacagcttcaaataaggaaatcaagctctctgaacat   3293
+           || | ||||||||||||||||||||||||||| ||||| ||||| || || || || |||
+s2   3236  cataattttggaggtagcttcagaacagcttccaataaagaaataaaactttcagagcat   3295
+
+s1   3294  aacattaagaagagcaaaatgttcttcaaagatattgaagaacaatatcctactagttta   3353
+           ||  | ||||| || ||||||||||||||||||||||||||||| ||||||||||| |||
+s2   3296  aatgtcaagaaaagtaaaatgttcttcaaagatattgaagaacagtatcctactaggtta   3355
+
+s1   3354  gcttgtgttgaaattgtaaataccttggcattagataatcaaaagaaactgagcaagcct   3413
+           |||||| |||| ||||| |||||| |  ||||||  || || |||||||| ||  | |||
+s2   3356  gcttgtattgacattgttaatacccttccattagcaaaccagaagaaactaagtgaacct   3415
+
+s1   3414  c---------------agtcaattaatactgtatctgcacatttacagagtagtgtagtt   3458
+           |               | ||| ||| |||||||||| |||| |  || | |     |  |
+s2   3416  catatatttgatttgaaatcagttactactgtatctacacagtctcacaatcaatcatct   3475
+
+s1   3459  gtttctgattgtaaaaatagtcatataacccctcagatgttattttccaagcaggatttt   3518
+           |||||| |   | || ||| | | | | | ||||||||||||| ||| ||||| ||||||
+s2   3476  gtttctca---tgaagatactgacacagcacctcagatgttatcttcaaagcaagatttt   3532
+
+s1   3519  aattcaaaccataatttaacacctagccaaaaggcagaaattacagaactttctactata   3578
+            ||||||   ||||||||||  | |||||||| ||||||||||||||||| |||||||| 
+s2   3533  cattcaa---ataatttaacgaccagccaaaaagcagaaattacagaactgtctactatt   3589
+
+s1   3579  ttagaagaatcaggaagtcagtttgaatttactcagtttagaaaaccaagctacatattg   3638
+           || |||||||||||||||||||||||||| || ||||| ||||| |||||| |||||   
+s2   3590  ttggaagaatcaggaagtcagtttgaattcacacagttcagaaagccaagccacatagca   3649
+
+s1   3639  cagaagagtacatttgaagtgcctgaaaaccagatgactatcttaaagaccacttctgag   3698
+           |||||   ||||| ||||||||||| ||||||||||  | | ||||  ||| ||||| ||
+s2   3650  cagaa---tacatctgaagtgcctggaaaccagatggttgttttaagtaccgcttctaag   3706
+
+s1   3699  gaatgcagagatgctgatcttcatgtcataatgaatgccccatcgattggtcaggtagac   3758
+           || || | |||| ||||||||||  ||  | || ||   || ||  | ||||||  ||| 
+s2   3707  gagtggaaagatactgatcttcacctcccagtggat---ccctctgtaggtcagacagat   3763
+
+s1   3759  agcagcaagcaatttgaaggtacagttgaaattaaacggaagtttgctggcctgttgaaa   3818
+             ||||||||||||||||||| | | || | ||||||  |  ||| ||  ||||||  ||
+s2   3764  cacagcaagcaatttgaaggttcggctggagttaaacaaagctttcctcacctgttagaa   3823
+
+s1   3819  aatgactgtaacaaaagtgcttctggttatttaacagatgaaaatgaagtggggtttagg   3878
+            |    |||||||||| | | ||| ||| |||| || ||  ||||||| ||| |||| | 
+s2   3824  gacacttgtaacaaaaatacatcttgttttttaccaaatataaatgaaatggagtttgga   3883
+
+s1   3879  ggcttttattctgctcatggcacaaaactgaatgtttctactgaagctctgcaaaaagct   3938
+           || |||| |||||||| |||||||||||| | ||| |||| ||| ||||||  |||||||
+s2   3884  ggattttgttctgctcttggcacaaaacttagtgtgtctaatgaggctctgagaaaagct   3943
+
+s1   3939  gtgaaactgtttagtgatattgagaatattagtgaggaaacttctgcagaggtacatcca   3998
+            |||||||||| ||||| ||||| ||   |||||||||  |||||||| | |||   |||
+s2   3944  atgaaactgttcagtgacattgaaaa---tagtgaggagccttctgcaaaagtaggacca   4000
+
+s1   3999  ataagtttatcttcaagtaaatgtcatgattctgttgtttcaatgtttaagatagaaaat   4058
+           | | | || |||||||||  |   ||||||||||||| |||| ||||||||||| | || 
+s2   4001  agaggattctcttcaagtgcacaccatgattctgttgcttcagtgtttaagataaagaaa   4060
+
+s1   4059  cataa---tgataaaactgtaagtgaaaaaaataataaatgccaactgatattacaaaat   4115
+           || ||   ||| |||| | |   |||||||  || ||| |||||| | | ||||||||||
+s2   4061  caaaacactgaaaaaagttttgatgaaaaatctagtaagtgccaagtaacattacaaaat   4120
+
+s1   4116  aatattgaaatgactactggcacttttgttgaagaaattactgaaaattacaagagaaat   4175
+           |||||||||||||||||  | | ||||||||    || | ||||||| ||||  |  |||
+s2   4121  aatattgaaatgactacctgtatttttgttggcagaaatcctgaaaaatacataaagaat   4180
+
+s1   4176  actgaaaatgaagataacaaatatactgctgccagtagaaattctcataacttagaattt   4235
+           ||  || ||||||||| | |   ||   ||   || |  ||||   | |||      | |
+s2   4181  acaaaacatgaagatagctatactagctctcaaagaaataatttagaaaac------tct   4234
+
+s1   4236  gatggcagtgattcaagtaaaaatgatactgtttgtattcataaagatgaaacggacttg   4295
+           ||||| |||   ||||||| || ||   | |||| ||||||||||| ||| |  || |  
+s2   4235  gatggtagtatgtcaagtacaagtggcccagtttatattcataaaggtgacagtgatt--   4292
+
+s1   4296  ctatttactgatcagcacaacatatgtcttaaattatctggccagtttatgaaggaggga   4355
+            ||  | | |||||   ||  |  |||| | | | || |  ||| | |  ||  |||| |
+s2   4293  -tacctgccgatcaaggcagtaagtgtcctgagtcatgtacccaatatgcgagagaggaa   4351
+
+s1   4356  aacactcagattaaagaagatttgtcagatttaacttttttggaagttgcgaaagctcaa   4415
+           ||||| || ||||| ||| || | ||||||||||| | ||||||| ||  ||||||| | 
+s2   4352  aacacacaaattaaggaaaatatatcagatttaacatgtttggaaattatgaaagctgag   4411
+
+s1   4416  gaagcatgtcatggtaatacttcaaataaagaacagttaactgctactaaaacggagcaa   4475
+           ||| ||||| |||  ||  ||||| ||||| |||| ||| || |   ||| | ||| |||
+s2   4412  gaaacatgt-atg--aaatcttcagataaaaaacaattaccttcagataagatggaacaa   4468
+
+s1   4476  aatataaaagattttgagacttctgatacattttttcagactgcaagtgggaaaaatatt   4535
+           ||||||||||| ||         | ||| ||  |||||||||||||||||||||||||  
+s2   4469  aatataaaagagtt---------taatatatcctttcagactgcaagtgggaaaaatacc   4519
+
+s1   4536  agtgtcgccaaagagtcatttaataaaattgtaaatttctttgatcagaaaccagaagaa   4595
+           || ||| ||||||||||||| ||||||| ||| ||| | ||| ||| | || |||| |||
+s2   4520  agagtctccaaagagtcattaaataaaagtgtgaatatttttaatcgggaaacagatgaa   4579
+
+s1   4596  ttgcataactt------ttccttaaattctgaattacattctgacataagaaagaacaaa   4649
+           |||  |  | |      ||| || |||||| || | |    || |||||  ||| |||||
+s2   4580  ttgactgtcatttcagattctttgaattctaaaattctccatggcataaataaggacaaa   4639
+
+s1   4650  atggacattctaagttatgaggaaacagacatagttaaacacaaaatactgaaagaaagt   4709
+           ||| | | |  | || |  || || ||  ||   |||||   ||  || |  ||||   |
+s2   4640  atgcatacttcatgtcacaagaaagcaatcagtattaaa---aaggtatttgaagaccat   4696
+
+s1   4710  gtcccagttggtactggaaatcaactagtgaccttccagggacaacccgaacgtga---t   4766
+            ||||| |||  ||||  | |||| ||   | ||  |||   || || |||  |||    
+s2   4697  ttcccaattgtaactgtcagtcaatta-ccagct--cagcagcatcctgaatatgaaata   4753
+
+s1   4767  gaaaagatcaaagaacctactctgttgggttttcatacagctagcgggaaaaaagttaaa   4826
+           ||||  | ||||||||||||||||||| |||||||||||||||| ||||||||||| |||
+s2   4754  gaaagtaccaaagaacctactctgttgagttttcatacagctagtgggaaaaaagtcaaa   4813
+
+s1   4827  attgcaaaggaatctttggacaaagtgaaaaacctttttgatgaaaaagagcaaggtact   4886
+           |||    ||||||||||||||||||||||||||||||||||||| | |   |||  |  |
+s2   4814  attatgcaggaatctttggacaaagtgaaaaacctttttgatgagaca---caatatgtt   4870
+
+s1   4887  agtgaaatcaccagttttagccatcaatgggcaaagaccctaaagtacagagaggcctgt   4946
+           ||  |||   ||||||||||   |||| |  ||||  |||| ||| ||||  |       
+s2   4871  aggaaaactgccagttttag---tcaaggatcaaaacccctgaaggacagtaa------a   4921
+
+s1   4947  aaagaccttgaattagcatgtgagaccattgagatcacagctgccccaaagtgtaaagaa   5006
+           ||||| |||  |||||||| |||||  |||||  |   | ||||| |||| ||| |||||
+s2   4922  aaagaacttacattagcatatgagaaaattgaagt---aactgcctcaaaatgtgaagaa   4978
+
+s1   5007  atgcagaattctctcaataatgataaaaaccttgtttctattgagactgtggtgccacct   5066
+           ||||||                     ||| |||| ||||  |||||||   ||| ||||
+s2   4979  atgcag---------------------aactttgtctctaaggagactgaaatgctacct   5017
+
+s1   5067  aagctcttaagtgataatttatgtagacaaactgaaaatctcaaaacatcaaaaagtatc   5126
+            |||    || | || || | | ||| ||||||||||||||||||||||||||  ||| |
+s2   5018  cagc---aaaattatcatatgtataggcaaactgaaaatctcaaaacatcaaatggtacc   5074
+
+s1   5127  tttttgaaagttaaagtacatgaaaatgtagaaaaagaaacagcaaaaagtcctgcaact   5186
+           | ||        |||||||| |||||  |||||||  |   || ||| | ||||  || |
+s2   5075  tctt------ccaaagtacaagaaaacatagaaaataatgtagaaaagaatcctagaatt   5128
+
+s1   5187  tgttacacaaatcagtccccttattcagtcattgaaaattcagccttagctttttacaca   5246
+           || |  |    ||||||| ||||  |||||| |||| |||| || || || | ||| || 
+s2   5129  tgctgtatttgtcagtcctcttacccagtcactgaagattctgctttggcatattatacg   5188
+
+s1   5247  agttgtagtagaaaaacttctgtgagtcagacttcattacttgaagcaaaaaaatggctt   5306
+                 ||||| ||||||| ||| ||  || ||||  ||    |||  | ||||||||||
+s2   5189  gaggacagtaggaaaacttgtgtcagagagtcttctctatccaaaggcagaaaatggctt   5248
+
+s1   5307  agaga--aggaatatttgatggtcaaccagaaagaat----aaat---------------   5345
+           |||||  |||   ||  | | |  ||| ||||| | |    ||||               
+s2   5249  agagaacagggtgataagcttg-gaacaagaaatactatcaaaattgagtgtgtaaagga   5307
+
+s1   5346  ----actgcagattatgtaggaaattatttgtatgaaaataattcaaacagtactatagc   5401
+               || | ||||| || |||||||   |  |||||| ||| ||    || ||  | | |
+s2   5308  acacacagaagattttgcaggaaatgcctcatatgaacatagtttggtcattatcagaac   5367
+
+s1   5402  tgaaaatgacaaaaatcatctctccgaaaaacaag---atacttatttaagtaacagtag   5458
+           ||||| ||| | ||||||| |||| ||||| ||||     ||     | ||| ||  || 
+s2   5368  tgaaattgatacaaatcatgtctctgaaaaccaagtgtcaaccctccttagtgaccctaa   5427
+
+s1   5459  catgtctaacagctat---tcc------------taccattctgatgaggtatataatga   5503
+             ||| | | ||||||   |||            |  |||| ||||||  |  |||||||
+s2   5428  tgtgtgtcatagctatctatcccagtctagtttttgtcattgtgatgacatgcataatga   5487
+
+s1   5504  ttcaggatatctctcaaaaaataaacttgattctggtattgagccagtattgaagaatgt   5563
+           |||||||||| ||| |||||||||| |||||||||   ||  |||||   ||||||||| 
+s2   5488  ttcaggatatttcttaaaaaataaaattgattctgacgttccgccagacatgaagaatgc   5547
+
+s1   5564  tgaagatcaaaaaaacactagtttttccaaagtaatatccaatgtaaaagatgcaaatgc   5623
+           |||||        || || | ||   ||| ||   ||||   |  ||||||   ||||  
+s2   5548  tgaag------gcaataccatttcccccagag---tatctgctacaaaagaaagaaatct   5598
+
+s1   5624  atacccacaaactgtaaatgaagatatttgcgttgaggaacttgtgactagctcttcacc   5683
+           | ||||||||||| |||||||| |   ||| ||| || |||| | |||||   |||||||
+s2   5599  acacccacaaactataaatgaata---ttgtgttcagaaactggagactaatacttcacc   5655
+
+s1   5684  ctgcaaaaataaaaatgcagccattaaattgtccatatctaatagtaataattttgaggt   5743
+                 ||||||| ||| ||||||| |    ||  |     ||   |  |||| | ||||
+s2   5656  acatgcaaataaagatgtagccattgacccatctctgctggattcaaggaattgtaaggt   5715
+
+s1   5744  agggccacctgcatttaggatagccagtggtaaaatcgtttgtgtttcacatgaaacaat   5803
+           |||  |||  |  ||||  | |||                  |  |||||| |||||   
+s2   5716  aggctcactcgtgtttattacagc------------------tcattcacaagaaac---   5754
+
+s1   5804  taaaaaagtgaaagacatatttacagacagtttcagtaaagtaattaaggaaaacaacga   5863
+           | ||| |   ||||| ||| | ||||| |  |    |||| || || || ||||||   |
+s2   5755  tgaaagaacaaaagagatagtcacagataactgttataaaatagttgagcaaaacagaca   5814
+
+s1   5864  gaataaatcaaaaatttgccaaacgaaaattatggcaggttgttacgaggcattggatga   5923
+           || |||| || | | ||||||            | || | ||| |  | | |||||||||
+s2   5815  gagtaaaccagacacttgcca------------gacaagctgtcataaagtattggatga   5862
+
+s1   5924  ttcagaggatattcttcataactctctagataatgatg-aatgt-agcacgcattcacat   5981
+           |||| |||||    || |||| || |||| |  | | |  ||||  |||   | |||| |
+s2   5863  ttcaaaggat----tttataagtc-ctagctcttcaggtgatgtctgcataaactcacgt   5917
+
+s1   5982  aaggtttttgctgacattcagagtgaagaaattttacaacataaccaaaatatgtctgga   6041
+           |||| |  |  |     ||| | |||| ||||||||||||||||||||| ||||||||||
+s2   5918  aaggatagtttttgtcctcataatgaacaaattttacaacataaccaaagtatgtctgga   5977
+
+s1   6042  ttggagaaagtttctaaaatatcaccttgtgatgttagtttggaaacttcagatatatgt   6101
+            || ||||||   ||  || | ||||      |||| ||||||||||||  |||| | ||
+s2   5978  ctgaagaaag---ctgcaacaccacc------tgttggtttggaaacttgggatacaagt   6028
+
+s1   6102  aaatgtagtatagggaagcttcataagtcagtctcatctgcaaatacttgtgggattttt   6161
+           ||||    |||| |  | | ||   || ||| |    || ||   |||| ||||||||||
+s2   6029  aaat---ctataagagaacctccccaggcagcccatccttcacgcacttatgggattttt   6085
+
+s1   6162  agcacagcaagtggaaaatctgtccaggtatcagatgcttcattacaaaacgcaagacaa   6221
+           |||||||||||||||||| || | || |||||||||||||||||| |||| ||||| |||
+s2   6086  agcacagcaagtggaaaagctatacaagtatcagatgcttcattagaaaaggcaaggcaa   6145
+
+s1   6222  gtgttttctgaaatagaagatagtaccaagcaagtcttttccaaagtattgtttaaaagt   6281
+           ||||||||||| || || | |  | | || ||  | | |||||  || |   |  || ||
+s2   6146  gtgttttctgagatggatggtgatgctaaacagttatcttccatggtgtcactggaaggt   6205
+
+s1   6282  aacgaacattcagaccagctcacaagagaagaaaatactgctatacgtactccagaacat   6341
+           || ||| |  || | ||       | |  ||||||  |||   | | ||   |  |   |
+s2   6206  aatgaaaaaccacatcactctgtgaaaagagaaaactctgtggtgcatagcacccagggt   6265
+
+s1   6342  ttaatatc---ccaaaaaggcttttcatataatgtggtaaattcatctgctttctctgga   6398
+            || | ||   || ||||  | |  ||   |||   || ||||||||||  |||||||||
+s2   6266  gtattgtcactcccaaaacccctcccaggcaat---gtcaattcatctgtattctctgga   6322
+
+s1   6399  tttagtacagcaagtggaaagcaagtttccattttagaaagttccttacacaaagttaag   6458
+           ||||| || ||| ||||||| |  ||  |  ||| ||||||| |||||||||||||||| 
+s2   6323  tttagcactgcaggtggaaaactggtcacagtttcagaaagtgccttacacaaagttaaa   6382
+
+s1   6459  ggagtgttagaggaatttgatttaatcagaactgagcatagtcttcactattcacctacg   6518
+           ||| |||||||||| |||||||| ||||||||||| |||| ||| ||  |||||||||  
+s2   6383  ggaatgttagaggagtttgatttgatcagaactgaacatactctccagcattcacctata   6442
+
+s1   6519  tctagacaaaatgtatcaaaaatacttcctc------gtgttgataagagaaacccagag   6572
+            ||    || | |||||||||||||||||||      ||| ||| |  |||| |||||| 
+s2   6443  cct---gaagacgtatcaaaaatacttcctcaaccttgtgctgaaatcagaaccccagaa   6499
+
+s1   6573  cactgtgtaaactcagaaatggaaaaaacctgcagtaaagaatttaaattatcaaataac   6632
+            ||  |||||||||| || || | ||||||| || | |  |||  |  ||| ||| ||| 
+s2   6500  taccctgtaaactcaaaattgcagaaaacctacaatgataaatccagcttaccaagtaat   6559
+
+s1   6633  ttaaatgttgaaggtggttcttcagaaaataatcactctattaaagtttctccatatctc   6692
+           |   ||   ||| |||||||||| |  |||| ||| |||||| |||||||||   | |||
+s2   6560  t---ataaagaaagtggttcttcgggcaatactcaatctattgaagtttctctccaactc   6616
+
+s1   6693  tctcaatttcaacaagacaaaca---acagttggtattaggaaccaaagtctcacttgtt   6749
+           |||||  |  |   | || || |   |||||||||||||||||| ||||| || | |  |
+s2   6617  tctcagatggagagaaaccaagacacacagttggtattaggaacaaaagtatcccatagt   6676
+
+s1   6750  gagaacattcatgttttgggaaaagaacaggcttcacctaaaaacgtaaaaatggaaatt   6809
+              ||   | || ||||||||||||||||  ||| |||  ||||| ||||| |  ||| |
+s2   6677  ---aaggctaatcttttgggaaaagaacaaactttaccccaaaacataaaagtaaaaact   6733
+
+s1   6810  ggtaaaactgaaactttttctgatgttcctgtgaaaacaaatatagaagtttgttctact   6869
+           | | |||   |||| ||||||||||||||||||||||||||| ||| ||  |       |
+s2   6734  gatgaaatgaaaacattttctgatgttcctgtgaaaacaaatgtaggagagt------at   6787
+
+s1   6870  tactccaaagattcagaaaactactttgaaacagaagcagtagaaattgctaaagctttt   6929
+           ||||||||||| ||||| ||||| ||||||||||||||||| || | ||| |||||||||
+s2   6788  tactccaaagagtcagagaactattttgaaacagaagcagtggagagtgccaaagctttt   6847
+
+s1   6930  atggaagatgatgaactgacagattctaaactgccaagtcatgccacacattctcttttt   6989
+           |||||||||||||| |||||||||||| ||| |   | |||||||| |   || || |||
+s2   6848  atggaagatgatgagctgacagattctgaacag---actcatgccaaatgctcactgttt   6904
+
+s1   6990  acatgtcccgaaaatgaggaaatggttttgtcaaattcaagaattggaaaaagaagagga   7049
+           ||||| ||| |||||||      |  |||||  ||||| |||| | | |||||| |||||
+s2   6905  acatgcccccaaaatga------gactttgtttaattcgagaactaggaaaagaggagga   6958
+
+s1   7050  gagccccttatcttagtgggagaaccctcaatcaaaagaaacttattaaatgaatttgac   7109
+           | | |  ||  |  ||| ||| ||||| |||||||||||| |||||||||||||||||||
+s2   6959  gtgactgttgacgcagttggacaacccccaatcaaaagaagcttattaaatgaatttgac   7018
+
+s1   7110  aggataatagaaaatcaagaaaaatccttaaaggcttcaaaaagcactccagatggcaca   7169
+           ||||||||||||| | ||| |||||||||||   ||||||||||||||||||||||||||
+s2   7019  aggataatagaaagtaaaggaaaatccttaacaccttcaaaaagcactccagatggcaca   7078
+
+s1   7170  ataaaagatcgaagattgtttatgcatcatgtttctttagagccgattacctgtgtaccc   7229
+            |||||||  |||| ||||| |  || ||  | |||||||||||| ||||||||| ||||
+s2   7079  gtaaaagacagaagcttgttcacacaccacatgtctttagagccggttacctgtggaccc   7138
+
+s1   7230  tttcgcacaactaaggaacgtcaagagatacagaatccaaattttaccgcacctggtcaa   7289
+           ||  || ||| ||| ||| | ||||     |||   ||| || ||||| |||||| ||||
+s2   7139  ttctgctcaagtaaagaaaggcaaggagcccagcgcccacatcttacctcacctgctcaa   7198
+
+s1   7290  gaatttctgtctaaatctcatttgtatgaacatctgactttggaaaaatcttcaagcaat   7349
+           ||  |||||||||||   |||   |    |||     |||||||||| ||| |||||| |
+s2   7199  gagcttctgtctaaagggcatccctggagacactcagctttggaaaagtctccaagcagt   7258
+
+s1   7350  ttagcagtttcaggacatccattttatcaagtttctgctacaagaaatgaaaaaatgaga   7409
+                |||||||      ||   | |  | |||||||| |||||||  ||||  |  |||
+s2   7259  cctatagtttcaatcttaccggctcacgacgtttctgccacaagaaccgaaaggaccaga   7318
+
+s1   7410  cacttgattactacaggcagaccaaccaaagtctttgttccaccttttaaaactaaatca   7469
+           ||         | |||||| | | ||||||||||| || || ||||| || |  ||||||
+s2   7319  ca---------ttcaggcaaatccaccaaagtcttcgtcccgcctttcaagatgaaatca   7369
+
+s1   7470  cattttcacagagttgaacagtgtgttag---gaatattaacttggaggaaaacagacaa   7526
+           || |||||| ||| |||||| |    |||   |||  |||| ||||||| ||| |  |||
+s2   7370  cagtttcacggagatgaacatttcaatagcaagaacgttaatttggagggaaagaaccaa   7429
+
+s1   7527  aagcaaaacattgatggacatggctctgatgatagtaaaaataagattaatgacaatgag   7586
+           |||   | ||  ||||||            || ||  || |   |   || ||||   | 
+s2   7430  aag---agcacagatgga------------gacagggaagacggg---aacgacagccat   7471
+
+s1   7587  attcatcagtttaacaaaaacaactccaatcaagcagcagctgtaactttcacaaagtgt   7646
+            ||| ||||||||||||                                           
+s2   7472  gttcgtcagtttaacaa-------------------------------------------   7488
+
+s1   7647  gaagaagaacctttagatttaattacaagtcttcagaatgccagagatatacaggatatg   7706
+                         |||||||||  |||| ||||||| |||||||||  |||||||||||
+s2   7489  --------------agatttaatgtcaagccttcagagtgccagagacctacaggatatg   7534
+
+s1   7707  cgaattaagaagaaacaaaggcaacgcgtctttccacagccaggcagtctgtatcttgca   7766
+           |||||||| || ||| |||||| ||   ||  ||  ||||||||||||||||||||| ||
+s2   7535  cgaattaaaaacaaagaaaggcgacatctccgtctgcagccaggcagtctgtatcttaca   7594
+
+s1   7767  aaaacatccactctgcctcgaatctctctgaaagcagcagtaggaggccaagttccctct   7826
+           ||  ||||||| ||||| || ||||| ||| | || |||||||||| |   | ||| |||
+s2   7595  aagtcatccaccctgccccggatctccctgcaggctgcagtaggagacagggctccttct   7654
+
+s1   7827  gcgtgttctcataaacagctgtatacgtatggcgtttctaaacattgcataaaaattaac   7886
+           || ||||||| ||| ||||| ||||  || |||||||||||| | ||||||||  |||| 
+s2   7655  gcatgttctcctaagcagctctatatatacggcgtttctaaagagtgcataaacgttaat   7714
+
+s1   7887  agcaaaaatgcagagtcttttcagtttcacactgaagattattttggtaaggaaagttta   7946
+           ||||||||||| |||| |||||||||| | | | | ||| |||||||||| |||  | | 
+s2   7715  agcaaaaatgctgagtattttcagtttgatattcaggatcattttggtaaagaagatctg   7774
+
+s1   7947  tggactggaaaaggaatacagttggctgatggtggatggctcataccctccaatgatgga   8006
+           ||  |||| |||||  | |||||||| |||||||||||||| || |||||||||||||| 
+s2   7775  tgtgctggcaaaggctttcagttggcagatggtggatggctgatcccctccaatgatggc   7834
+
+s1   8007  aaggctggaaaagaagaattttatagggctctgtgtgacactccaggtgtggatccaaag   8066
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+s2   7835  aaggctggaaaagaagaattttatagggctctgtgtgacactccaggtgtggatccaaag   7894
+
+s1   8067  cttatttctagaatttgggtttataatcactatagatggatcatatggaaactggcagct   8126
+           ||||||||||| || ||||||  ||| || || || |||||  |||||||||||||||||
+s2   7895  cttatttctagcatctgggttgctaaccattacaggtggattgtatggaaactggcagct   7954
+
+s1   8127  atggaatgtgcctttcctaaggaatttgctaatagatgcctaagcccagaaagggtgctt   8186
+           ||||||| ||| ||||||||||||||||||||||||||||||| ||||||||| ||||| 
+s2   7955  atggaatttgcttttcctaaggaatttgctaatagatgcctaaacccagaaagagtgctg   8014
+
+s1   8187  cttcaactaaaatacagatatgatacggaaattgatagaagcagaagatcggctataaaa   8246
+           |||||||| ||||||||||| |||  ||||||||| |  ||||| ||||||||| |||| 
+s2   8015  cttcaactgaaatacagatacgatgtggaaattgacaacagcaggagatcggctctaaag   8074
+
+s1   8247  aagataatggaaagggatgacacagctgcaaaaacacttgttctctgtgtttctgacata   8306
+           |||||| |||| ||||||||||||||||||||||| |||||||||||| |||||||||| 
+s2   8075  aagatactggagagggatgacacagctgcaaaaacccttgttctctgtatttctgacatc   8134
+
+s1   8307  atttcattgagcgcaaatatatctgaaacttctagcaataaaactagtagtgcagatacc   8366
+           ||||||   ||| ||||  | |||||||||||  ||  |||||||||| |||  ||| ||
+s2   8135  atttcaccaagcacaaaggtgtctgaaacttcaggcggtaaaactagtggtgaggatgcc   8194
+
+s1   8367  caaaaagtggccattattgaacttacagatgggtggtatgctgttaaggcccagttagat   8426
+            | ||||||| ||  || ||||| |||||||||||||| ||||| | ||||||| |||| 
+s2   8195  aacaaagtggacacgatcgaactcacagatgggtggtacgctgtcagggcccagctagac   8254
+
+s1   8427  cctcccctcttagctgtcttaaagaatggcagactgacagttggtcagaagattattctt   8486
+           ||||| ||| | ||| |  |||||| ||||| |||||| || ||||||||||| |||  |
+s2   8255  cctccactcatggctcttgtaaagagtggcaaactgactgtgggtcagaagatcattact   8314
+
+s1   8487  catggagcagaactggtgggctctcctgatgcctgtacacctcttgaagccccagaatct   8546
+           || |||||||| |||||||||||||||||||||||| ||||||| ||||||||||| || 
+s2   8315  cagggagcagagctggtgggctctcctgatgcctgtgcacctctggaagccccagactcc   8374
+
+s1   8547  cttatgttaaagatttctgctaacagtactcggcctgctcgctggtataccaaacttgga   8606
+           || | | ||||||||||||| ||||| ||  |||||||||||||| | | ||  || || 
+s2   8375  ctaaggctaaagatttctgcaaacagcacaaggcctgctcgctggcacagcaggctgggg   8434
+
+s1   8607  ttctttcctgaccctagaccttttcctctgcccttatcatcgcttttcagtgatggagga   8666
+           ||||||| |||||| || || || ||||||||||| || || || |||||||| ||||||
+s2   8435  ttctttcgtgaccccaggcccttccctctgcccttgtcctcactgttcagtgacggagga   8494
+
+s1   8667  aatgttggttgtgttgatgtaattattcaaagagcataccctatacagtggatggagaag   8726
+           |||||||| ||||| ||| | ||| |||| ||||  |||||| |||||||| ||||||||
+s2   8495  aatgttggctgtgtggatatcattgttcagagagtgtaccctttacagtgggtggagaag   8554
+
+s1   8727  acatcatctggattatacatatttcgcaatgaaagagaggaagaaaaggaagcagcaaaa   8786
+           |||   |||||||| ||||||||||| | ||| ||||| || || |||||||||   | |
+s2   8555  acagtgtctggattgtacatatttcgtagtgagagagaagaggagaaggaagcactgaga   8614
+
+s1   8787  tatgtggaggcccaacaaaagagactagaagccttattcactaaaattcaggaggaattt   8846
+           | ||  |||||||| || |||| |||||| ||||| ||||| ||| | ||    || |||
+s2   8615  tttgcagaggcccagcagaagaaactagaggccttgttcaccaaagtccacacagagttt   8674
+
+s1   8847  gaagaacatgaagaaaacacaacaaaaccatatttaccatcacgtgcactaacaagacag   8906
+            |||| || |||||| |||||||| | |  | | | |  || ||  |||| ||| | |||
+s2   8675  aaagaccacgaagaagacacaacacagcggtgtgtgctgtcccgcacactcacacggcag   8734
+
+s1   8907  caagttcgtgctttgcaagatggtgcagagctttatgaagcagtgaagaatgcagcagac   8966
+           ||||| | |||| |||| ||||| |||||||| |||| ||||||| || ||||| |||||
+s2   8735  caagtccatgctctgcaggatggagcagagctctatgcagcagtgcagtatgcatcagac   8794
+
+s1   8967  ccagcttaccttgagggttatttcagtgaagagcagttaagagccttgaataatcacagg   9026
+           |||| | ||||||||| || |||||| ||||||||| ||||||||||||| ||  |||| 
+s2   8795  ccagatcaccttgaggcttgtttcagcgaagagcagctaagagccttgaacaactacaga   8854
+
+s1   9027  caaatgttgaatgataagaaacaagctcagatccagttggaaattaggaaggccatggaa   9086
+           |||||| ||||||||||||||||||| | ||||||||  ||| |  |||||||| |||||
+s2   8855  caaatgctgaatgataagaaacaagcgcggatccagtcagaattccggaaggccctggaa   8914
+
+s1   9087  tctgctgaacaaaaggaacaaggtttatcaagggatgtcacaaccgtgtggaagttgcgt   9146
+           || |||||  || |||   | ||||||||||||||||| ||||| ||||||||| |||| 
+s2   8915  tccgctgagaaagagg---agggtttatcaagggatgttacaactgtgtggaagctgcgg   8971
+
+s1   9147  attgtaagctattcaaaaaaagaaaaagattcagttatactgagtatttggcgtccatca   9206
+            ||  ||||||    ||||| ||||||   |||| | |  ||||||| ||||||||||||
+s2   8972  gttacaagctacaagaaaaaggaaaaa---tcagctctgttgagtatctggcgtccatca   9028
+
+s1   9207  tcagatttatattctctgttaacagaaggaaagagatacagaatttatcatcttgcaact   9266
+           ||||| ||||  || ||||||||||||||||||||||||||||| ||||||||||||   
+s2   9029  tcagacttatcctccctgttaacagaaggaaagagatacagaatctatcatcttgcagtg   9088
+
+s1   9267  tcaaaatctaaaagtaaatctgaaagagctaacatacagttagcagcgacaaaaaaaact   9326
+           |||||||| || ||||||| |||| |  | | ||| |||||| |||| ||||||| ||||
+s2   9089  tcaaaatcgaagagtaaatttgaacggcccagcatccagttaacagccacaaaaagaact   9148
+
+s1   9327  cagtatcaacaactaccggtttcagatgaaattttatttcagatttaccagccacgggag   9386
+           ||||||||||| || ||||||||   ||| | |||| | ||| ||||||||||  |||||
+s2   9149  cagtatcaacagctgccggtttccagtgagactttactccaggtttaccagcccagggag   9208
+
+s1   9387  ccccttcacttcagcaaatttttagatccagactttcagccatcttgttctgaggtggac   9446
+            ||||||||||||||| | | | ||| |||| |||||||||  |||||||||| ||||| 
+s2   9209  tcccttcacttcagcagactgtcagacccagcctttcagcctccttgttctgaagtggat   9268
+
+s1   9447  ctaataggatttgtcgtttctgttgtgaaaaaaacaggacttgcccctttcgtctatttg   9506
+            |  ||||| |||| ||||||||||| |||   | ||| ||||| ||||| |||||  ||
+s2   9269  gtcgtaggagttgtagtttctgttgtaaaaccgataggtcttgctcctttggtctacctg   9328
+
+s1   9507  tcagacgaatgttacaatttactggcaataaagttttggatagaccttaatgaggacatt   9566
+           |||||||| ||    |||||| | |   | || ||  |||||||||||||||| |||   
+s2   9329  tcagacgagtgccttaatttattagtggtgaaattcgggatagaccttaatgaagac---   9385
+
+s1   9567  attaagcctcatatgttaattgctgcaagcaacctccagtggcgaccagaatccaaatca   9626
+           || ||||| | | || ||||||| ||||||||||||||||| |  |||||||||| ||||
+s2   9386  ataaagccacgtgtgctaattgccgcaagcaacctccagtgccagccagaatccacatca   9445
+
+s1   9627  ggccttcttactttatttgctggagatttttctgtgttttctgctagtccaaaagagggc   9686
+           ||  | |  || ||||||||| |  |||||||  | |||||||| |||||||| |||| |
+s2   9446  ggagtgccgaccttatttgcttgccatttttccatattttctgccagtccaaaggaggcc   9505
+
+s1   9687  cactttcaagagacattcaacaaaatgaaaaatactgttgagaatattgacatactttgc   9746
+            ||||||| |||| | |||||||  ||||  || || |||||||||| || | | ||| |
+s2   9506  tactttcaggagaaagtcaacaacttgaagcatgctattgagaatatcgatacattttac   9565
+
+s1   9747  aatgaagcagaaaacaagcttatgcatatactgcatgcaaatgatcccaagtggtccacc   9806
+           || || |||||||| |||||||| ||  | ||  | | | |   ||||||||||||||| 
+s2   9566  aaggaggcagaaaagaagcttatacacgtgcttgagggagacagtcccaagtggtccaca   9625
+
+s1   9807  ccaactaaagactgtacttcagggccgtacactgc----------------tcaaatcat   9850
+           || |  ||||||   ||   || |||  |  | ||                ||| ||| |
+s2   9626  ccgaacaaagaccccacccgagagccccatgcagcctccacttgctgtgcttcagatc-t   9684
+
+s1   9851  tcctggtacaggaaacaagcttctgatgtcttctcctaattgtgagatatattatcaaag   9910
+            | |||| |||||    || | |||| |  ||| |||| | || ||  |  |||||||||
+s2   9685  ccttggttcaggaggtcagttcctgaggatttcacctactggtcagcaaagttatcaaag   9744
+
+s1   9911  tcctttatcactttgtatggccaaaaggaagtctgtttccacacctgtctcagcccagat   9970
+           |||||||||||  || |     ||| |||||||| |  ||    ||  ||||||||||||
+s2   9745  tcctttatcacactgcacactgaaagggaagtctatgcccctggctcactcagcccagat   9804
+
+s1   9971  gacttcaaagtcttgtaaaggggagaaagagattgatgaccaaaagaactgcaaaaagag  10030
+           | |  |||||||||| |  || ||||| ||||||||||||| ||| | |||   ||| ||
+s2   9805  ggcagcaaagtcttggagtggagagaacgagattgatgacccaaaaacctgtcgaaaaag   9864
+
+s1  10031  aagagccttggatttcttgagtagactgcctttacctccacctgttagtcccatttgtac  10090
+           |||||||||||||||| | ||| | ||||| |||||  | || || |||||||| |||||
+s2   9865  aagagccttggatttcctaagtcggctgcccttaccgtccccggtcagtcccatctgtac   9924
+
+s1  10091  atttgtttctccggctgcacagaaggcatttcagccaccaaggagttgtggcaccaaata  10150
+            ||||| ||||| |||||||||||||| |||||||| ||| |||| |||||||| |||||
+s2   9925  ctttgtctctccagctgcacagaaggcttttcagccgccacggagctgtggcacgaaata   9984
+
+s1  10151  cgaaacacccataaagaaa  10169
+           || |||||| || || |||
+s2   9985  cgcaacacctattaaaaaa  10003
+
+Occurrences:
+  matches:      7249
+  mismatches:   2370
+  gaps:         480
+  gap openings: 88
+
+Identities: 7249/10099 (72%)
+Gaps:       480/10099 (5%)
+
+s1 name (full):  >(gi|37675288:1224-1411, 2166-2271, 4821-5069, 10820-10928, 11846-11895, 11987-12027, 12244-12358, 15190-15239, 16668-16779, 18021-19136, 22014-26945, 30307-30402, 32576-32645, 40623-41050, 42190-42371, 43504-43691, 48285-48455, 48941-49295, 56170-56325, 56724-56868, 62438-62559, 65085-65283, 65518-65681, 65775-65913, 80490-80734, 82699-82845, 83963-85469) Homo sapiens breast cancer 2, early onset (BRCA2) gene, complete cds
+s1 name (short): (gi|37675288:1224-1411, 
+s2 name (full):  >(gi|17973424:1-254, gi|17973425:1-105, gi|17973426:1-228, gi|17973427:1-109, gi|17973428:1-50, gi|17973429:1-41, gi|17973430:1-112, gi|17973431:1-50, gi|17973432:1-112, gi|17973433:1-1107, gi|17973434:1-4809, gi|17973435:1-96, gi|17973436:1-70, gi|17973437:1-347, gi|17973438:1-182, gi|17973439:1-188, gi|17973440:1-171, gi|17973441:1-355, gi|17973442:1-156, gi|17973443:1-145, gi|17973444:1-122, gi|17973445:1-193, gi|17973446:1-164, gi|17973447:1-138, gi|17973448:1-243, gi|17973449:1-162, gi|17973450:1-637) Mus musculus breast cancer 2 (Brca2) gene, complete cds
+s2 name (short): (gi|17973424:1-254, 
+
+Alignment score: 1109

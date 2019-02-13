@@ -1,0 +1,297 @@
+Opening fasta file 'data/Opsin1_colorblindness_gene.fasta' ...
+Reading sequence: '>NC_000007.14:c128775790-128772489 Homo sapiens chromosome 7, GRCh38.p7 Primary Assembly' ...
+Reading sequence: '>NC_000072.6:c29380513-29376671 Mus musculus strain C57BL/6J chromosome 6, GRCm38.p4 C57BL/6J' ...
+Running global alignment...
+Loading configuration settings from file 'parameters.config' ...
+-- Scoring configuration settings --
+  match: 1
+  mismatch: -2
+  g: -2
+  h: -5
+s1     1  atg-----------------------------------------agaa------------     7
+           ||                                         ||||            
+s2     1  ctgtatctttaaaggagggtgctgtagggaagggtgatagcagaagaatcgtctataaga    60
+
+s1     8  ------------------------------------aaatgtc---ggaggaagagtttt    28
+                                              | |||||    ||||| || ||||
+s2    61  gggaccggaggtggtagtgagggcatcccaagcgggagatgtcaggagaggatgactttt   120
+
+s1    29  atctgttcaaaaatatctcttcagtggggccgtgggatgggcctcagtaccacattgccc    88
+          | |||||  | ||||||||||| |||||||| ||||||||||||||||||||| |||| |
+s2   121  acctgtttcagaatatctcttcggtggggccctgggatgggcctcagtaccaccttgctc   180
+
+s1    89  ctgtctgggccttctacctccaggcagctttcatgggcactgtcttccttatagggttcc   148
+          ||||||||||||||  |||||||||||| ||||||||   ||||||| || | |||  ||
+s2   181  ctgtctgggccttccgcctccaggcagccttcatgggatttgtcttctttgtggggaccc   240
+
+s1   149  cactcaatgccatggtgctggtggccacactgcgctacaaaaagttgcggcagcccctca   208
+          ||||||||||||| |||||||||||||||||||  |||||||||||||| ||||||||||
+s2   241  cactcaatgccatagtgctggtggccacactgcattacaaaaagttgcgacagcccctca   300
+
+s1   209  actacattctggtcaacgtgtccttcggaggcttcctcctctgcatcttctctgtcttcc   268
+          |||| ||||||||||| || ||| |||| ||||||||| |||||||||||||||||||| 
+s2   301  actatattctggtcaatgtatccctcgggggcttcctcttctgcatcttctctgtcttca   360
+
+s1   269  ctgtcttcgtcgccagctgtaacggatacttcgtcttcggtcgccatgtttgtgctttgg   328
+          | |||||| ||||||||||| ||||||||||| |||| |||||||||||||||||| |||
+s2   361  cagtcttcatcgccagctgtcacggatacttcctctttggtcgccatgtttgtgctctgg   420
+
+s1   329  agggcttcctgggcactgtagcaggtactgcaggggaaaaaggggttaggggaaggcaaa   388
+          ||| |||| ||||| ||||||||||||||                      |||||||| 
+s2   421  aggccttcttgggctctgtagcaggtact----------------------gaaggcaa-   457
+
+s1   389  ggttgctactccactggagggggttcctaaagaggagtctgggggaaatgagtctggtgc   448
+                       ||||         ||| ||||                     || ||
+s2   458  ------------cctgg--------gctagagag--------------------aggggc   477
+
+s1   449  tttttaaaatactggggtacaaagcaacccagactagaagtttggctaaaataggatgtt   508
+            || |  || |||        ||||        | ||  | |    | ||| || ||| 
+s2   478  ccttaattatcctg--------agca------gttggacctct---aacaatgggctgtg   520
+
+s1   509  tgagtcttcactccaaatgtcagtccagccctgtctctctgtgcttgctccacccgatct   568
+          ||||  ||      |||   || ||||       |||||||  ||||||| |    | ||
+s2   521  tgagcatt------aaactccattcca------actctctggacttgctcaattacacct   568
+
+s1   569  gtttgccactctgccagccaggctgggtggggctctgtctagcccattatcctcacattt   628
+           | | |||||       |||||||    |||  |||||||| |||||| |  ||||||||
+s2   569  atattccact-------ccaggct--cagggagtctgtctaccccattcttttcacattt   619
+
+s1   629  caccacaggtctggttacaggatggtcactggccttcctggcctttgagcgctacattgt   688
+            |  ||||||| || |||||||||||| |||| |||||||| ||||| |||||| ||||
+s2   620  -gctgcaggtctagtgacaggatggtcattggctttcctggcttttgaacgctacgttgt   678
+
+s1   689  catctgtaagcccttcggcaacttccgcttcagctccaagcatgcactgacggtggtcct   748
+          ||||||||| |||||||||| | ||||||||| ||||||||||||||||| |||||||||
+s2   679  catctgtaaacccttcggcagcatccgcttcaactccaagcatgcactgatggtggtcct   738
+
+s1   749  ggctacctggaccattggtattggcgtctccatcccacccttctttggctggagccggtg   808
+          |||||| ||||  |||||||| || || |||||||||||||| |||||||||||| ||||
+s2   739  ggctacttggattattggtatcggggtgtccatcccacccttttttggctggagcaggtg   798
+
+s1   809  agagtgcagggcagtggtgctgagttaactaggagctcaggttgatgtgggtggaaagag   868
+          ||||   ||||||||                   ||||    |||||||||    | |||
+s2   799  agaggatagggcagt-------------------gctc----tgatgtggg----acgag   831
+
+s1   869  agcttgggtataactatttagtctttgacctctacttttaaagagttgcaatatgaggcg   928
+          || |||||||||||  |||| ||||||||  ||   ||   |||||      | ||||  
+s2   832  agattgggtataaccttttattctttgac--ctgagttggtagagt-----aaggaggaa   884
+
+s1   929  aaagggcagtgggagacaagtgctaacgtttactctgcagttggaattgctgtagcttct   988
+          |  |||| |  |||||||      || | |||||||||  ||| || | ||||||     
+s2   885  agggggccgctggagaca----tcaatggttactctgccattgtaactactgtag-----   935
+
+s1   989  cccagtcaggacagaaaacccccctgcttgaagccttagggcattccgtgggttctaagt  1048
+                                          | |||  |||||||      ||| || |
+s2   936  -------------------------------tgtcttctggcattc------ttccaact   958
+
+s1  1049  ggagaacacaatccaggcatctcagctcccactgcactcttgtggagagtccagtgagca  1108
+          ||||||  ||||||| | | || |||        || ||||      ||| |   ||   
+s2   959  ggagaagccaatcca-gaagctaagc-------ccattctt----ccagttctcggaatg  1006
+
+s1  1109  agtgtttggtcctttgcaggttcatccctgagggcctgcagtgttcctgtggccctgact  1168
+          | ||||||||||||| ||||||||||||||||||||||||||| ||||||||||| ||||
+s2  1007  aatgtttggtccttttcaggttcatccctgagggcctgcagtgctcctgtggcccagact  1066
+
+s1  1169  ggtacaccgtgggcaccaaataccgcagcgagtcctatacgtggttcctcttcatcttct  1228
+          ||||||| ||||||||||| || || ||||||| ||| || |||||||||||||||||||
+s2  1067  ggtacactgtgggcaccaagtatcgaagcgagtactacacctggttcctcttcatcttct  1126
+
+s1  1229  gcttcattgtgcctctctccctcatctgcttctcctacactcagctgctgagggccctga  1288
+          | |||||  | ||||| ||||||||||||||||||||| | ||| |||||||| | || |
+s2  1127  gtttcatcattcctctttccctcatctgcttctcctactcccagttgctgaggactctca  1186
+
+s1  1289  aagctgtgagtggcatttgata-gtcagggaagaaggggttcggggctccacatgagaag  1347
+           ||||||||||||  ||||| | |    || || ||    || ||   || || ||||  
+s2  1187  gagctgtgagtgggttttgagaggggcaggtaggagtaactcaggaggccccaggagaga  1246
+
+s1  1348  gaagagtgctctgaaacataagatgcctggaaatgtccatagccagagagg-gta-----  1401
+           |  |    |||    ||  | | | || | ||| ||| | | |||| ||| |||     
+s2  1247  cagtatatatcttcctcaggatacgtctag-aatatccgtggtcagataggagtattggg  1305
+
+s1  1402  ----------tctaaaagcag---caa-----aggaag----------taggaggaggga  1433
+                    |  ||| || |   |||      || ||          ||| ||| | ||
+s2  1306  gaagggggagtgaaaacgctgttacaacttattggtagagcacttacctagcaggtgtga  1365
+
+s1  1434  g--aatgatggagatc-------caa-aggaactaggc-cagga----------gatggg  1472
+          |  | ||      |||       ||| ||| | | |||  ||||          || |||
+s2  1366  ggtactgggttccatcttctgcacaagaggtagtgggcgaaggaccagagagaggagggg  1425
+
+s1  1473  acagaaaagag------gcaa---tcaga---gtggatgccc---------cctccccca  1511
+          |||   | | |       | |   |||||   | ||| ||||         |||||| ||
+s2  1426  acaaggatgggatcttttctagtgtcagagctgaggacgcccttcatgatgcctccctca  1485
+
+s1  1512  tcccacag--aaaagcatcca-gagaccgggcgcagtggctcacgcctataatccca---  1565
+              | ||  |||  || ||| ||||  | | ||  || | |  |     ||| |||   
+s2  1486  agggaaagccaaactcagccaggagagagagggctttgacccttgtgctcaattccaggt  1545
+
+s1  1566  -gcactttgggag---------gc--cgaagcagacggat-cacctgaggtca---ata-  1608
+           |||  |  | ||         ||  |||  || | || |  ||  ||||| |   ||| 
+s2  1546  ggcagctcagcagcaagagtctgctacgacacaaaaggctgaacgggaggtgagtcatat  1605
+
+s1  1609  -------------------------------------gttcc--agaccagcctggcc--  1627
+                                               || ||  |  |   |||||||  
+s2  1606  ggtggtggtgatggtgggatccttctgtctctgctacgtgccctatgctgccctggccat  1665
+
+s1  1628  -tacatgg-caaaatgctaaa----atgcgaaaatta--gctgggca-------------  1666
+           ||||||| ||| |  |  ||      ||   | |||  ||| | ||             
+s2  1666  gtacatggtcaacaatcggaaccacgggctggacttacggcttgtcaccatccccgcctt  1725
+
+s1  1667  -------tggtggt-gtgtgcttgtaaccc---cagctac----tcagg---aggctgag  1708
+                   | | |  ||||  |  |||||   || ||||    ||| |   | || |  
+s2  1726  cttttccaagagctcctgtgtctacaaccccatcatctactgcttcatgaataagcaggt  1785
+
+s1  1709  acaaaagaatcacttga-acccgggaggtggaggttcagt-gagcc--------------  1752
+          | |   |  |  ||  |  |||  |||||   ||| || | || ||              
+s2  1786  aaagcggtctatctacattcccacgaggttctggtccattagaccctggttcttccgcta  1845
+
+s1  1753  -----------gagact--gcaccactgcaactccagcctgggc---------aacagag  1790
+                     | ||||  |||||   ||  |||||  | ||||         |  | ||
+s2  1846  ttgatgtctttgtgactcagcaccctggc--ctccacacagggcttatagatgaggaaag  1903
+
+s1  1791  cgagact------------------cggtctcaaaaagaaaattaa---aaattaaaaat  1829
+          | ||| |                   | |||    | | | || ||   | | ||    |
+s2  1904  ccagagtagtccaagcaggccaggatgctcttggtaggcacatgaacccagagtatggtt  1963
+
+s1  1830  --taaaaaaaaaaaaaaaaagca-tccaga----gggccag------------gaaaaag  1870
+            ||||| |    || ||  | |  | |||    | |||||            |||| ||
+s2  1964  cctaaaatactggaacaaggggaggctagaccttgagccagaaaaatcaaattgaaagag  2023
+
+s1  1871  agagatgtgatg---ctttccgtgctccaccccaggttgca---gctcagcagcagga--  1922
+           | ||   ||||     | ||     | ||  ||  | |||   ||  ||  | || |  
+s2  2024  tgggaaaggatgggaaatgcccccacctacttcatttagcaatggcagagatggagcaaa  2083
+
+s1  1923  --------------gtcagctacgacccagaaggctg----aacgggaggtgagccgcat  1964
+                         || || |  | ||  |   |||    |     |  | | ||  | 
+s2  2084  gggcctttcacatgctcggcaaatatccgcatcactgagttatatatacatcatccctac  2143
+
+s1  1965  ggtggttgtgatggtagga---tccttc----------tgtgtct-gctacgtgccct--  2008
+            |   |||  |||| | |     | ||           |||||| |||   | |  |  
+s2  2144  tctttctgtcttggtggaaaataacatcaacagtaacaggtgtctagcttttttcttttt  2203
+
+s1  2009  -----acgcggccttcgcca-------tgt----------acatggtcaacaacc-----  2041
+               |   || ||  |  |       |||          | ||||  | ||  |     
+s2  2204  taaagatagggtctgagtaacactagctgtcctggaactcatatggaaaccaggctgtcc  2263
+
+s1  2042  --gtaaccatgggctggacttacggcttgtcaccattccttcattc-------ttctcca  2092
+            | |  || | | ||| | | |  | | || | | | ||  | ||        | | | 
+s2  2264  ttgaactcaagaggtggtcctgcctcctatcccgagtgctggagtcaaaagatgtgtacc  2323
+
+s1  2093  ag------agtgcttgcatctacaatcccatcatctactgctt---------------ca  2131
+          ||      ||| |   | ||| ||| ||  | ||| | | |||               ||
+s2  2324  agcacataagtccagccttctgcaaacctttaatccagtccttttaaagtttagcctgca  2383
+
+s1  2132  tgaataagcaggtaaagct---ctttattcacattcc----tatggtccagaagacc--c  2182
+           ||  ||| || ||||| |    ||||   |   | |    || ||   | ||   |  |
+s2  2384  ggagcaaggagttaaaggtggagtttaggtagtcttcagggtaaggataataaacacttc  2443
+
+s1  2183  tggttcttttctcaccattgactttt---aactcagagca------ccctg---gactct  2230
+          |  |||   |  |    |||  || |    |    | |||      || ||   |||   
+s2  2444  tctttccagttccgggcttgcattctggagatggtgtgcaggaagcccatggcagacgaa  2503
+
+s1  2231  acccaggtttctag----tagacgagggaagccacaaaacccccgagtag----gttggg  2282
+           |  | || ||| |     |||  |  ||||   | |    | |   |||    ||||| 
+s2  2504  tctgacgtgtctggctctcagaaaacagaagtttctactgtctcttctagcaaagttggc  2563
+
+s1  2283  aagcctttggtaagcacagggaggaaggca-cggttatcaagacg---------agaaaa  2332
+             |  |  |    | |||   |   |  | | |  | ||  |||         || |  
+s2  2564  cctcactgaggcccctcagctggcctgctagcagcaaacacaacgccacatttaagtatc  2623
+
+s1  2333  tagaaccccggaggaa--agaacttgagtcaggaaaatgaagttgctccaaagaac-agg  2389
+          || | | ||    |||    |||      ||||  || || |  |       | ||   |
+s2  2624  tacatctccactagaatcctaaccattaacaggggaaagatggggagtggtggcactctg  2683
+
+s1  2390  atgaatga-aagcattttattgaaaaact---cgtgcagcaaaccaccatggcacacgtt  2445
+           ||| | |    ||||||  ||  |  ||   | || ||||   |  |||||  ||  ||
+s2  2684  gtgagtcaccttcattttcctgttactctctgcctgtagcagggccacatggaccatttt  2743
+
+s1  2446  tac---ctatgtaacaaacctgcacatcctgcacatgtatcctggaacttaa--ataaaa  2500
+           ||   |   ||  | ||   ||||   |  | |  |    |||  |   ||        
+s2  2744  aacagtcacagtttctaagtggcactctcacctctggagaactgtgagagaagggctgcg  2803
+
+s1  2501  ttaaaaaaataaaaataaaaactcagattcctctcaattttcagtccttgcatttaataa  2560
+          ||       ||    ||| |  ||   ||   |||  ||||   |  || |   |     
+s2  2804  tttctggtgtatgggtaacacttccttttttgctctttttttttttttttctcctccctg  2863
+
+s1  2561  tt-----tctta-at--catttcccttccaacttttagcct-gcacgagcatgtgtgaag  2611
+           |     ||| | ||   || |||  |   |   | ||| | ||| | |   |||  |||
+s2  2864  ctggggatctgagatgatatatccagtattagaataagcttggcatggggcagtgccaag  2923
+
+s1  2612  cacagaaatcatac------cacatgca-aaaatctctaaaatatcttat----catct-  2659
+           | ||  | || ||      ||| ||||   ||||    |  |  |||||    | ||| 
+s2  2924  aaaaggcagcagacaccgggcacctgcagtgaatcgaagagcttccttatgtggcctctc  2983
+
+s1  2660  gaaggtactgggggatttcctatccc-------atctgaa-------atccgagctaata  2705
+            || | |||  |  |   ||||  |       ||| |||       | |  |  ||   
+s2  2984  ccagttgctgcagtctgggctatggctgccaggatcagaatggcctcacctcatttatct  3043
+
+s1  2706  aacaccaa-----------------accct--aagtggcaaaaaccctactttca-----  2741
+           ||||  |                  ||||  |  |||| |||    | | || |     
+s2  3044  gacacagagttattctaggtgttctccccttcatttggctaaatgtatccatttaaagct  3103
+
+s1  2742  ----gatggt----attgtttcctcaatcccagaggtagactcaaaactaatttg-aaac  2792
+              | || |     ||  |  || |||| |   | |   |||||||  |||||| |   
+s2  3104  atgcgttgattaaagttagtgtcttaatctc-ttgatgtcctcaaaatgaatttgcatgt  3162
+
+s1  2793  ctccctgg-----atagaaga----gaattggca--------gtcctttcca-gctggga  2834
+           ||  |||     ||| |  |     || ||  |         | ||||  |  ||    
+s2  3163  ttcagtggcatttataaatcaagcccaagtgctaaaaacatcttactttataccctcctt  3222
+
+s1  2835  gcacctgctagtaatgg---aggggcctctgctgac-----agtgctt------ttat--  2878
+           ||||||||  |  |||   ||| ||| ||    ||     ||||| |      ||||  
+s2  3223  acacctgctgctcctggaaaaggagcccctcgaaacgaagaagtgcgtgttgagttatac  3282
+
+s1  2879  -gaagcag-gatggtttgtgaatttaccaacagtgaggtctcagacttgaccagtttagg  2936
+            ||| || | ||| |  |||  | |   || |  ||||   | |   |      | || 
+s2  3283  gcaaggagtgctgggtactgatatcaggcactg-aaggtaggaaagccgtagctgtgaga  3341
+
+s1  2937  atta--ccgtagacccaggagtagttctagact---------gga-atctagatagtttt  2984
+          |  |  | | |  | ||||| |||     ||||         ||| |  | ||     | 
+s2  3342  aggagccagaaatctcaggaatagcaaaggactaagtgtgagggagaaatggaagtgata  3401
+
+s1  2985  caggatggggaagatagat-----tcaaaaccacctaaggg---cattctgggtacaaag  3036
+           | |||     ||||  ||     ||  |   |||| ||||    |  ||||     |  
+s2  3402  aaagatcacagagatgtatatttatcttagtaacctgagggttaaaggctggaatacagt  3461
+
+s1  3037  cattgtgcaag----gctttggt-gatacagagaataagg-----------tct---ttt  3077
+           ||| |  |||     | ||| | | || |  || |  ||           |||    ||
+s2  3462  aattcttaaagaggcccattgataggtaaatggagttgggaaaattccttttctgacatt  3521
+
+s1  3078  ttcccatacttcctca------------tctgccaaggttatctccaattgtacctttct  3125
+          ||  |||| | ||  |            ||| ||  |||| | ||   ||     ||| |
+s2  3522  ttatcatagtaccctaaacccatgtctttcttccttggttctttctttttactgatttat  3581
+
+s1  3126  ctccagttc-caagcttgcatc--------atgaagatg-gtgtgtgggaaggccatgac  3175
+           ||  || |   ||| | |  |         |||  ||| | |||| || |  || ||||
+s2  3582  ttcatgtgcatcagcgttctgccagtgtgtgtgactatgtgagtgttgg-atcccctgac  3640
+
+s1  3176  agatgaat--ccgacacatg--------------------------------cagctcc-  3200
+          |   || |  | ||||  ||                                ||| ||| 
+s2  3641  actggagttacagacagttgtaagctgctatgtgggtgctggaaattgaacccaggtcct  3700
+
+s1  3201  ------cagaaaacagaagtttctactg--------tctcgtctacc-caagttggcccc  3245
+                 || ||||||   | |  | ||        |||| ||  || |   ||||   |
+s2  3701  gaggaagagcaaacagtgctcttaaatgctgagccatctcttcagcctcttcttggtttc  3760
+
+s1  3246  aactga-ggacccaatattggcctgtttgcaacagctagaattaaattttacttttaa--  3302
+              ||  ||  |  | |  ||    |||    | || ||||  |||   | ||  ||  
+s2  3761  ttgagacagagtctctctatgcagccttggctgacctggaatataatcacatttccaaga  3820
+
+s1  3303  -----------------------  3302
+                                 
+s2  3821  gaataaaagacacataagccctt  3843
+
+Occurrences:
+  matches:      2053
+  mismatches:   1049
+  gaps:         941
+  gap openings: 149
+
+Identities: 2053/4043 (51%)
+Gaps:       941/4043 (23%)
+
+s1 name (full):  >NC_000007.14:c128775790-128772489 Homo sapiens chromosome 7, GRCh38.p7 Primary Assembly
+s1 name (short): NC_000007.14:c128775790-128772489 
+s2 name (full):  >NC_000072.6:c29380513-29376671 Mus musculus strain C57BL/6J chromosome 6, GRCm38.p4 C57BL/6J
+s2 name (short): NC_000072.6:c29380513-29376671 
+
+Alignment score: -2672
