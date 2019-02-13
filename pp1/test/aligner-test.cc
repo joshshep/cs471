@@ -142,7 +142,9 @@ TEST(LocalAlign, Case0) {
 	EXPECT_EQ(18, align_score);
 }
 
-
+//////////////////////////////////////////////
+// Misc. tests
+//////////////////////////////////////////////
 TEST(FormatBps, UppercaseBps) {
 	std::string s = "ATC";
 	Format_bps(s);
