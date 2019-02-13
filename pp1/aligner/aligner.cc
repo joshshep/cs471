@@ -147,12 +147,12 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 void Aligner::PrintAlignment(Alignment alignment, const int bp_per_line) {
 	int i_s1 = alignment.s1_start;
 	int i_s2 = alignment.s2_start;
-	int num_lines = 1 + alignment.retrace.size() / bp_per_line;
+	int num_lines = 1 + (alignment.retrace.size() - 1) / bp_per_line;
 	PrintAlignmentLine(alignment.retrace, 0, i_s1, i_s2, bp_per_line);
 	for (int iline = 1; iline<num_lines; iline++) {
 		std::cout << std::endl;
 		int i_retrace_start = iline * bp_per_line;
-    	PrintAlignmentLine(alignment.retrace, i_retrace_start, i_s1, i_s2, bp_per_line);
+		PrintAlignmentLine(alignment.retrace, i_retrace_start, i_s1, i_s2, bp_per_line);
 	}
 }
 
