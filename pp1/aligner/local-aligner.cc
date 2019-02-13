@@ -1,6 +1,6 @@
-#include "aligner/global-aligner.h"
+#include "aligner/local-aligner.h"
 
-Alignment GlobalAligner::RetraceDP(){
+Alignment LocalAligner::RetraceDP(){
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 	int i = n_cols - 1;
@@ -69,7 +69,7 @@ Alignment GlobalAligner::RetraceDP(){
 	return alignment;
 }
 
-int GlobalAligner::RunDP() {
+int LocalAligner::RunDP() {
 	/*
 	           s1
 	   __________________ m

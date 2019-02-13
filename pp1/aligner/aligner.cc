@@ -57,6 +57,24 @@ void Aligner::DelDP()
 	delete[] dp_;
 }
 
+enum RETRACE_STATE Aligner::GetRetraceState(const DP_Cell cell, char c_s1, char c_s2 ) {
+	if (cell.S >= cell.D && cell.S >= cell.I) {
+		// substitute
+		if (c_s1 == c_s2) {
+			return MATCH;
+		}
+		return MISMATCH;
+	} else if (cell.D >= cell.S && cell.D >= cell.I) {
+		// delete
+		return DELETE;
+		//j--;
+	} else {
+		// insert
+		return INSERT;
+		//i--;
+	}
+}
+
 void Aligner::PrintAlignStats(Alignment alignment)
 {
     std::cout << "Some stats" << std::endl;

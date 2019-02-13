@@ -1,4 +1,5 @@
 #include "aligner/global-aligner.h"
+#include "aligner/local-aligner.h"
 
 int main(int argc, char *argv[]) {
 	// defaults 
@@ -35,8 +36,9 @@ int main(int argc, char *argv[]) {
 		int align_score = aligner.Align();
 		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
-		std::cout << "Error: local alignment has not been implemented" << std::endl;
-		exit(1);
+		LocalAligner aligner(sequences, scores);
+		int align_score = aligner.Align();
+		std::cout << "Alignment score: " << align_score << std::endl;
 	}
 	return 0;
 }

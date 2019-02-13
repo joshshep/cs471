@@ -1,9 +1,9 @@
-#ifndef GLOBAL_ALIGNER_H_
-#define GLOBAL_ALIGNER_H_
+#ifndef LOCAL_ALIGNER_H_
+#define LOCAL_ALIGNER_H_
 
 #include "aligner/aligner.h"
 
-class GlobalAligner : public Aligner
+class LocalAligner : public Aligner
 {
     // use base class's constructor
     using Aligner::Aligner;

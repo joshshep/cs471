@@ -74,6 +74,7 @@ protected:
 	void DelDP();
 
 	int Cost2Sub(char c1, char c2);
+	enum RETRACE_STATE GetRetraceState(const DP_Cell cell, char c_s1, char c_s2 );
 
 	// prints
 	void PrintAlignStats(Alignment alignment);
