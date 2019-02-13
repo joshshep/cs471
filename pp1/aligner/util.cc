@@ -27,7 +27,7 @@ void format_bps(std::string & str) {
 std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
-	if(!fasta_stream) {
+	if (!fasta_stream) {
 		std::cout << "Failed to open input file '" << fasta_fname << "'." << std::endl;
 		exit(1);
 	}
@@ -80,7 +80,7 @@ std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname) {
 
 AlignmentScope parse_align_scope(const char *alignment_str) {
 	enum AlignmentScope align_scope;
-	switch(alignment_str[0]) {
+	switch (alignment_str[0]) {
 	case '0':
 		std::cout << "Running global alignment..." << std::endl;
 		align_scope = GLOBAL;
@@ -107,7 +107,7 @@ void print_score_config(const ScoreConfig & scores) {
 ScoreConfig load_config(const char *config_fname) {
 	std::cout << "Loading configuration settings from file '" << config_fname << "' ..." << std::endl;
 	std::ifstream config_stream(config_fname);
-	if(!config_stream) {
+	if (!config_stream) {
 		std::cout << "Failed to open config file '" << config_fname << "'." << std::endl;
 		exit(1);
 	}
@@ -155,7 +155,7 @@ void print_size(size_t asize) {
 }
 
 char uint_len(unsigned int i) {
-	if(i >= 10) {
+	if (i >= 10) {
 		return 1 + uint_len(i/10);
 	}
 	return 1;

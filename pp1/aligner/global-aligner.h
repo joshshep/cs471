@@ -5,12 +5,12 @@
 
 class GlobalAligner : public Aligner
 {
-    // use base class's constructor
-    using Aligner::Aligner;
+	// use base class's constructor
+	using Aligner::Aligner;
 
-    int RunDP();
+	int RunDP();
 
-    Alignment RetraceDP();
+	Alignment RetraceDP();
 };
 
 #endif

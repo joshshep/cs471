@@ -2,14 +2,14 @@
 
 int Aligner::Align(bool print_alignment)
 {
-    int align_score = RunDP();
-    if (print_alignment)
-    {
-        Alignment alignment = RetraceDP();
-        PrintAlignment(alignment);
-        PrintAlignStats(alignment);
-    }
-    return align_score;
+	int align_score = RunDP();
+	if (print_alignment)
+	{
+		Alignment alignment = RetraceDP();
+		PrintAlignment(alignment);
+		PrintAlignStats(alignment);
+	}
+	return align_score;
 }
 
 
@@ -19,7 +19,7 @@ int Aligner::Align(bool print_alignment)
 
 void Aligner::InitDP()
 {
-    const int n_cols = s1_.size() + 1;
+	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
 	//std::cout << "Allocating dp table of size = " ;
 	//print_size(n_cols * n_rows * sizeof(DP_CELL));
@@ -31,7 +31,7 @@ void Aligner::InitDP()
 		dp_[j] = new DP_Cell[n_cols];
 	}
 
-    // initialize edge values
+	// initialize edge values
 	dp_[0][0] = {0};
 	for (int i=1; i<n_cols; i++) {
 		// TODO we want a value that's low enough not to conflict with table 
@@ -51,7 +51,7 @@ void Aligner::DelDP()
 {
 	const int n_rows = s2_.size() + 1;
 
-    for (int i = 0; i < n_rows; i++) {
+	for (int i = 0; i < n_rows; i++) {
 		delete[] dp_[i];
 	}
 	delete[] dp_;
@@ -81,8 +81,8 @@ void Aligner::PrintAlignStats(Alignment alignment)
 }
 
 void Aligner::PrintAlignmentLine(const std::string & retrace, 
-						const int i_retrace_start, int & i_s1, int & i_s2,
-                        const int bp_per_line) {
+	                             const int i_retrace_start, int & i_s1, int & i_s2,
+	                             const int bp_per_line) {
 	const int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
 
     // get maximum width of an index integer
