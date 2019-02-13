@@ -31,7 +31,7 @@ for performing alignments. GlobalAligner and LocalAligner inherit Aligner to imp
 and Smith-Waterman algorithm respectively. These are defined (in addition to some utility functions) in `aligner/`.
 
 Simple unit tests are implemented using the Google Test framework in `test/`. If you build with bazel, the framework
-should download automatically when you run `bazel test [...]`.
+should download automatically when you run `bazel test test:aligner-test --test_output=all`.
 
 
 
