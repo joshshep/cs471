@@ -109,8 +109,18 @@ void Aligner::PrintAlignStats(Alignment alignment) {
 
 	int perc_identities = int(0.5 + 100.0 *  num_matches / alignment.retrace.size());
 	int perc_gaps = int(0.5 + 100.0 *  num_gaps / alignment.retrace.size());
+	// TODO convert printf to std::cout
 	printf("Identities: %d/%lu (%d%%)\n", num_matches, alignment.retrace.size(), perc_identities);
 	printf("Gaps:       %d/%lu (%d%%)\n", num_gaps, alignment.retrace.size(), perc_gaps);
+	std::cout << std::endl;
+
+	// print name
+	std::string s1_name_short = seqs_.first.name.substr(1, seqs_.first.name.find(" "));
+	std::string s2_name_short = seqs_.second.name.substr(1, seqs_.second.name.find(" "));
+	std::cout << "s1 name (long): " << seqs_.first.name << std::endl;
+	std::cout << "s1 name (first whitespace): " << s1_name_short << std::endl;
+	std::cout << "s2 name (long): " << seqs_.second.name << std::endl;
+	std::cout << "s2 name (first whitespace): " << s2_name_short << std::endl;
 }
 
 void Aligner::PrintAlignmentLine(const std::string & retrace, 
