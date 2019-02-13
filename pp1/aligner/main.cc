@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	// TODO where should I put these constants?
 	const int kMinNumArgs = 3;
 	const int kMaxNumArgs = 4;
-	const char * kDfltConfigFname = "params.config";
+	const char * kDfltConfigFname = "parameters.config";
 
 	if (argc < kMinNumArgs) {
 		std::cout << "Error: too few arguments" << std::endl;

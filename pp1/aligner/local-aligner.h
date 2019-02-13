@@ -3,6 +3,7 @@
 
 #include "aligner/aligner.h"
 
+// inherits Aligner to implement the Smith-Waterman algorithm
 class LocalAligner : public Aligner {
 	// use base class's constructor
 	using Aligner::Aligner;

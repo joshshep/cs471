@@ -5,6 +5,7 @@
 https://docs.bazel.build/versions/master/install.html
 
 ## Build the alignment program
+From the root directory, run
 ```
 bazel build aligner
 ```
@@ -14,7 +15,7 @@ bazel build aligner
 bazel test test:aligner-test --test_output=all
 ``` 
 
-## Supply your own files
+## Run alignment on your own files
 From the root directory, run a command of the form 
 ```
 ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>
@@ -23,6 +24,11 @@ For example,
 ```
 ./bazel-bin/aligner/aligner data/cs471_sample.fasta 0
 ```
+
+# Outline
+We have 3 main classes: Aligner, GlobalAligner, and LocalAligner. Aligner defines a relatively general abstract class 
+for performing alignments. GlobalAligner and LocalAligner inherit Aligner to implement the Needleman-Wunsch algorithm
+and Smith-Waterman algorithm respectively. 
 
 # TODO
 
