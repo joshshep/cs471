@@ -28,10 +28,14 @@ For example,
 # Outline
 We have 3 main classes: Aligner, GlobalAligner, and LocalAligner. Aligner defines a relatively general abstract class 
 for performing alignments. GlobalAligner and LocalAligner inherit Aligner to implement the Needleman-Wunsch algorithm
-and Smith-Waterman algorithm respectively. 
+and Smith-Waterman algorithm respectively. These are defined (in addition to some utility functions) in `aligner/`.
+
+Simple unit tests are implemented using the Google Test framework in `test/`. If you build with bazel, the framework
+should download automatically when you run `bazel test [...]`.
+
+
 
 # TODO
-
 * bit-packing bp chars
 * linear space alignment
 * linear space retrace
