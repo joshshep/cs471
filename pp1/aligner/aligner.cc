@@ -6,7 +6,6 @@ int Aligner::Align(bool print_alignment)
     if (print_alignment)
     {
         Alignment alignment = RetraceDP();
-        std::cout << "alignment.retrace = " << alignment.retrace << std::endl;
         PrintAlignment(alignment);
         PrintAlignStats(alignment);
     }

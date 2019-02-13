@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	ScoreConfig scores = load_config(config_fname);
 
 	if (align_scope == GLOBAL) {
-		GlobalAligner aligner(sequences, scores);
+		GlobalAligner aligner(sequences.first.bps, sequences.second.bps, scores);
 		int align_score = aligner.Align();
 		std::cout << "Alignment score: " << align_score << std::endl;
 	} else {
