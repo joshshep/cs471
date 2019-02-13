@@ -1,12 +1,12 @@
 #include "aligner/aligner.h"
 
-void print_help() {
+void PrintHelp() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
 	std::cout << "E.g., ~$ ./align gene.fasta 0 params.config" << std::endl;
 }
 
-// courtesy of this s/o post https://stackoverflow.com/a/1798170
-std::string trim(const std::string& str,
+// modified from this s/o post https://stackoverflow.com/a/1798170
+std::string Trim(const std::string& str,
                  const std::string& whitespace) {
 	const auto strBegin = str.find_first_not_of(whitespace);
 	if (strBegin == std::string::npos)
@@ -18,13 +18,13 @@ std::string trim(const std::string& str,
 	return str.substr(strBegin, strRange);
 }
 
-void format_bps(std::string & str) {
+void Format_bps(std::string & str) {
 	for (auto& c : str) {
 		c = tolower(c);
 	}
 }
 
-std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname) {
+std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
 	if (!fasta_stream) {
@@ -78,7 +78,7 @@ std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname) {
 	return std::pair<Sequence, Sequence>(sequences[0], sequences[1]);
 }
 
-AlignmentScope parse_align_scope(const char *alignment_str) {
+AlignmentScope ParseAlignScope(const char *alignment_str) {
 	enum AlignmentScope align_scope;
 	switch (alignment_str[0]) {
 	case '0':
@@ -96,7 +96,7 @@ AlignmentScope parse_align_scope(const char *alignment_str) {
 	return align_scope;
 }
 
-void print_score_config(const ScoreConfig & scores) {
+void PrintScoreConfig(const ScoreConfig & scores) {
 	std::cout << "-- Scoring configuration settings --" << std::endl;
 	std::cout << "  match: " << scores.match << std::endl;
 	std::cout << "  mismatch: " << scores.mismatch << std::endl;
@@ -104,7 +104,7 @@ void print_score_config(const ScoreConfig & scores) {
 	std::cout << "  h: " << scores.h << std::endl;
 }
 
-ScoreConfig load_config(const char *config_fname) {
+ScoreConfig LoadConfig(const char *config_fname) {
 	std::cout << "Loading configuration settings from file '" << config_fname << "' ..." << std::endl;
 	std::ifstream config_stream(config_fname);
 	if (!config_stream) {
@@ -142,7 +142,7 @@ ScoreConfig load_config(const char *config_fname) {
 	return scores;
 }
 
-void print_size(size_t asize) {
+void PrintSize(size_t asize) {
 	if ((asize >> 30) > 0) {
 		printf("%.2lf GiB", (double) asize / (1<<30));
 	} else if ((asize >> 20) > 0) {
@@ -154,18 +154,18 @@ void print_size(size_t asize) {
 	}
 }
 
-char uint_len(unsigned int i) {
+char uintLen(unsigned int i) {
 	if (i >= 10) {
-		return 1 + uint_len(i/10);
+		return 1 + uintLen(i/10);
 	}
 	return 1;
 }
 
-char int_len(int i) {
+char intLen(int i) {
 	if (i < 0) {
-		return 1 + uint_len(-i);
+		return 1 + uintLen(-i);
 	}
-	return uint_len(i);
+	return uintLen(i);
 }
 
 

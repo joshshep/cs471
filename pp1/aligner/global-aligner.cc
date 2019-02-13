@@ -6,7 +6,7 @@ Alignment GlobalAligner::RetraceDP(){
 	int i = n_cols - 1;
 	int j = n_rows - 1;
 	std::string retraced = "";
-	enum RETRACE_STATE retrace_state;
+	RetraceState retrace_state;
 
 	retrace_state = GetRetraceState(dp_[j][i], s1_[i-1], s2_[j-1]);
 	

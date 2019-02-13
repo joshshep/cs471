@@ -36,8 +36,9 @@ typedef struct sequence {
 	std::string name;
 } Sequence;
 
-enum RETRACE_STATE { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
+enum RetraceState { INSERT = 'i', DELETE = 'd', MATCH = '|', MISMATCH = 'X'};
 enum AlignmentScope {GLOBAL, LOCAL};
+
 
 class Aligner
 {
@@ -71,7 +72,7 @@ protected:
 	void DelDP();
 
 	int Cost2Sub(char c1, char c2);
-	enum RETRACE_STATE GetRetraceState(const DP_Cell cell, char c_s1, char c_s2 );
+	RetraceState GetRetraceState(const DP_Cell cell, char c_s1, char c_s2 );
 
 	// prints
 	void PrintAlignStats(Alignment alignment);
@@ -90,15 +91,15 @@ protected:
 
 
 // TODO: organize/rename to match google style guide
-void print_help();
-void format_bps(std::string & str);
-std::string trim(const std::string& str, const std::string& whitespace = " ");
-std::pair<Sequence, Sequence> load_sequences(const char* fasta_fname);
-AlignmentScope parse_align_scope(const char *alignment_str);
-void print_score_config(const ScoreConfig & scores);
-ScoreConfig load_config(const char *config_fname);
-void print_size(size_t asize);
-char int_len(int n);
+void PrintHelp();
+void Format_bps(std::string & str);
+std::string Trim(const std::string& str, const std::string& whitespace = " ");
+std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname);
+AlignmentScope ParseAlignScope(const char *alignment_str);
+void PrintScoreConfig(const ScoreConfig & scores);
+ScoreConfig LoadConfig(const char *config_fname);
+void PrintSize(size_t asize);
+char intLen(int n);
 int max3(int &i0, int &i1, int &i2);
 int max3(DP_Cell & a);
 void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2);

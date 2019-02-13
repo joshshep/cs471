@@ -24,7 +24,7 @@ Alignment LocalAligner::RetraceDP() {
 	int i = 0;
 	int j = 0;
 	std::string retraced = "";
-	enum RETRACE_STATE retrace_state;
+	RetraceState retrace_state;
 
 	// get ending point for retrace
 	MaxCellInDP(i, j);
