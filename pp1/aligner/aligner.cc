@@ -87,7 +87,7 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 	const int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
 
     // get maximum width of an index integer
-	const int index_col_width = std::max(int_len(s1_.size()), int_len(s2_.size()));
+	const int index_col_width = std::max(intLen(s1_.size()), intLen(s2_.size()));
 
 	// print s1
 	printf("s1 %*d  ", index_col_width, i_s1+1);

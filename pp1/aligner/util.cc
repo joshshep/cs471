@@ -49,14 +49,14 @@ std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname) {
 			if (line[0] == '>') {
 				// found header
 				// beginning of sequence
-				line = trim(line);
+				line = Trim(line);
 				seq_name = line;
 				std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
 				iterating_through_seq = true;
 			} else {
 				//iterating through sequence
-				line = trim(line);
-				format_bps(line);
+				line = Trim(line);
+				Format_bps(line);
 				seq_bps += line;
 			}
 		}
@@ -138,7 +138,7 @@ ScoreConfig LoadConfig(const char *config_fname) {
 	if (provided != 0b1111) {
 		std::cout << "Warning: the parameter file '" << config_fname << "' did not provide values for each parameter (default value 0)" << std::endl;
 	}
-	print_score_config(scores);
+	PrintScoreConfig(scores);
 	return scores;
 }
 
@@ -187,8 +187,8 @@ void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2)
 		col_widths[i] = 0;
 		for (int j=0; j<n_rows; j++) {
 			col_widths[i] = std::max(
-				std::max(col_widths[i], int_len(dp[j][i].I)), 
-				std::max(int_len(dp[j][i].S), int_len(dp[j][i].D))
+				std::max(col_widths[i], intLen(dp[j][i].I)), 
+				std::max(intLen(dp[j][i].S), intLen(dp[j][i].D))
 			);
 		}
 		//printf("col_widths[%2d] = %d\n", i, col_widths[i]);
