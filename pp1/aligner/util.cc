@@ -169,11 +169,11 @@ char intLen(int i) {
 }
 
 
-int max3(int &i0, int &i1, int &i2) {
+int max3(const int i0, const int i1, const int i2) {
 	return std::max(i0, std::max(i1, i2));
 }
 
-int max3(DP_Cell & a) {
+int max3(const DP_Cell & a) {
 	return max3(a.D, a.I, a.S);
 }
 

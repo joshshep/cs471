@@ -36,7 +36,7 @@ void Aligner::InitDP() {
 	dp_[0][0] = {0};
 	for (int i=1; i<n_cols; i++) {
 		// TODO we want a value that's low enough not to conflict with table 
-		//      values but high enough to avoid INT_MIN
+		//      values but high enough to avoid underflowing INT_MIN
 		dp_[0][i].S = INT_MIN >> 2;
 		dp_[0][i].D = INT_MIN >> 2;
 		dp_[0][i].I = scoring_.h + i * scoring_.g;
