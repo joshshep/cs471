@@ -101,7 +101,7 @@ Alignment LocalAligner::RetraceDP() {
 		}
 	}
 	std::reverse(retraced.begin(), retraced.end());
-    Alignment alignment = {retraced, i, j};
+	Alignment alignment = {retraced, i, j};
 	return alignment;
 }
 
