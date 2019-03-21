@@ -1,10 +1,9 @@
 # Getting Started
 
 ## Install Bazel
-
 https://docs.bazel.build/versions/master/install.html
 
-## Build the PAT Tree builder program
+## Build the suffix Tree builder program
 From the root directory, run
 ```
 bazel build suffix-tree-builder
@@ -15,8 +14,14 @@ bazel build suffix-tree-builder
 bazel test test:suffix-tree-test --test_output=all
 ``` 
 
-## Run alignment on your own files
-TODO
+## Run the suffix tree builder on your own files
+```
+$ ./<test executable> <input file containing sequence s> <input alphabet file>
+```
+
+```
+./bazel-bin/suffix-tree-builder/suffix-tree-builder data/s1.fas data/English_alphabet.txt
+```
 
 # Outline
 Simple unit tests are implemented using the Google Test framework in `test/`. If you build with bazel, the framework

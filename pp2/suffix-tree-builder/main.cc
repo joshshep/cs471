@@ -3,14 +3,13 @@
 int main(int argc, char *argv[]) {
 	// defaults 
 	// TODO where should I put these constants?
-	const int kMinNumArgs = 3;
-	const int kMaxNumArgs = 4;
+	const int kNumArgs = 3;
 
-	if (argc < kMinNumArgs) {
+	if (argc < kNumArgs) {
 		std::cout << "Error: too few arguments" << std::endl;
 		//PrintHelp();
 		exit(1);
-	} else if (argc > kMaxNumArgs) {
+	} else if (argc > kNumArgs) {
 		std::cout << "Error: too many arguments" << std::endl;
 		//PrintHelp();
 		exit(1);
@@ -18,7 +17,7 @@ int main(int argc, char *argv[]) {
 
 	// load sequences from fasta based on cmd arg
 	const char * fasta_fname = argv[1];
-	//auto sequences = LoadSequences(fasta_fname);
+	auto sequence = LoadSequence(fasta_fname);
 	
 	return 0;
 }

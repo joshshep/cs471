@@ -2,6 +2,8 @@
 #define SUFFIX_TREE_BUILDER_H_
 
 #include <iostream>
+#include <fstream>
+#include <vector>
 
 typedef struct sequence {
 	std::string name;
@@ -27,8 +29,8 @@ void PrintSize(size_t asize);
 // loading from files
 ///////////////////////////////////////
 
-// loads exactly 2 sequences from the provided file name
-std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname);
+// loads exactly 1 sequence from the provided file name
+Sequence LoadSequence(const char* fasta_fname);
 
 
 ///////////////////////////////////////////
