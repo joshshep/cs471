@@ -11,7 +11,9 @@ typedef struct sequence {
 } Sequence;
 
 class SuffixTreeBuilder {
+public:
 
+private:
 };
 
 ////////////////////////////////
