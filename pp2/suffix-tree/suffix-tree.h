@@ -141,8 +141,11 @@ public:
 
     // index - the index at which the edge and query differ
     SuffixTreeNode* InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
+        edge_len_ -= index;
+        assert(edge_len_ > 0);
+
         child->incoming_edge_label_ += index;
-        child->edge_len_ += index;
+        child->edge_len_ -= index;
         assert(child->edge_len_ > 0);
 
 
@@ -173,18 +176,23 @@ public:
     }
     void PrintChildrenShallow(){
         for (auto child : children_){
-            printf(" (%s)", child.second->incoming_edge_label_);
+            printf(" ");
+            PrintNode(child.second);
         }
         printf("\n");
+    }
+    static void PrintNode(SuffixTreeNode *n){
+        printf("(%*.*s)", n->edge_len_, n->edge_len_, n->incoming_edge_label_);
     }
     // given a pointer to a specific node u in the tree, display u's children from left to right; 
     void PrintChildren(int ichild){
         Indent(ichild);
+        PrintNode(this);
         if (children_.size() == 0){
-            printf("(%s) LEAF!\n", incoming_edge_label_);
+            printf(" LEAF!\n");
             return;
         }
-        printf("(%s) children:", incoming_edge_label_);
+        printf(" children:");
         PrintChildrenShallow();
         for (auto child : children_){
             child.second->PrintChildren(ichild+1);
@@ -210,7 +218,6 @@ class SuffixTree {
 public:
     SuffixTree(const char* str, int len) : str_(str), len_(len) {
         BuildTreeSimple();
-        root_->PrintChildren();
     }
 
     void BuildTreeSimple(){
@@ -218,6 +225,10 @@ public:
         for (int i=0; i<len_-1; i++){
             root_->FindPath(str_+i, len_-i);
         }
+    }
+
+    void PrintTree(){
+        root_->PrintChildren();
     }
 
     void McCormick();
