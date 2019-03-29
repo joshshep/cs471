@@ -1,1 +1,1 @@
-#include "suffix-tree-builder/suffix-tree.h"
+#include "suffix-tree/suffix-tree.h"

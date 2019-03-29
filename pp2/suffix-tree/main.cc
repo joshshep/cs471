@@ -18,6 +18,11 @@ int main(int argc, char *argv[]) {
 	// load sequences from fasta based on cmd arg
 	const char * fasta_fname = argv[1];
 	auto sequence = LoadSequence(fasta_fname);
+
+	sequence.bps += '$';
+	const char * seq = sequence.bps.c_str();
+	int seq_len = sequence.bps.size();
+	SuffixTree* st = new SuffixTree(seq, seq_len);
 	
 	return 0;
 }

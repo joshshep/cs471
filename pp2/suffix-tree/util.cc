@@ -73,8 +73,8 @@ Sequence LoadSequence(const char* fasta_fname) {
 	}
 
 	for(auto seq : sequences) {
-		//std::cout << "sequence bps: " << seq.bps << std::endl;
-		//std::cout << "sequence name: " << seq.name << std::endl;
+		std::cout << "sequence bps: " << seq.bps << std::endl;
+		std::cout << "sequence name: " << seq.name << std::endl;
 	}
 	return sequences[0];
 }

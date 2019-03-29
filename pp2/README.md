@@ -20,7 +20,7 @@ $ ./<test executable> <input file containing sequence s> <input alphabet file>
 ```
 
 ```
-./bazel-bin/suffix-tree-builder/suffix-tree-builder data/s1.fas data/English_alphabet.txt
+./bazel-bin/suffix-tree/suffix-tree data/s1.fas data/English_alphabet.txt
 ```
 
 # Outline

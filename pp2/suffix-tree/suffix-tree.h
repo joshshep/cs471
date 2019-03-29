@@ -3,7 +3,8 @@
 
 #include <map>
 #include <vector>
-#include <assert.h>
+//#include <assert.h>
+#include <cassert>
 #include <stdio.h>
 
 #include <iostream>
@@ -18,7 +19,7 @@ typedef struct sequence {
 class SuffixTreeNode {
 public:
     SuffixTreeNode(const char* str, int len, SuffixTreeNode* parent)
-    : data_(str), data_len_(len), parent_(parent){
+    : incoming_edge_label_(str), edge_len_(len), parent_(parent){
         if (parent) {
             parent->children_[str[0]] = this;
         }
@@ -38,7 +39,7 @@ public:
 
     // TODO what does this return value mean?
     // we need find/create a path for the input string
-    bool FindPath(char* query, int query_len) {
+    bool FindPath(const char* query, int query_len) {
         assert(query_len > 0);
 
         auto search = children_.find(query[0]);
@@ -139,7 +140,7 @@ public:
     */
 
     // index - the index at which the edge and query differ
-    SuffixTreeNode* InsertNode(SuffixTreeNode* child, char* query, int query_len, int index) {
+    SuffixTreeNode* InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
         child->incoming_edge_label_ += index;
         child->edge_len_ += index;
         assert(child->edge_len_ > 0);
@@ -150,19 +151,41 @@ public:
 
         // the leaf adds itself to its parent's children_ list
         assert(query_len - index > 0);
-        auto newLeafNode = new SuffixTreeNode(query+index, query_len - index, newInternalNode);
+        
+        //auto _newLeafNode = new SuffixTreeNode(query+index, query_len - index, newInternalNode);
+        new SuffixTreeNode(query+index, query_len - index, newInternalNode);
+
         return newInternalNode;
     }
 
     void EnumerateDFS();
 
-    // given a pointer to a specific node u in the tree, display u's children from left to right; 
-    void PrintChildren(int ichild=0){
-        printf("[%d] children:");
+    void Indent(int indentation){
+        // printf is really cool
+        printf("%*s", indentation*2, "");
+    }
+    void PrintChildren(){
+        printf("root children:");
+        PrintChildrenShallow();
         for (auto child : children_){
-            printf(" %c", child.first);
+            child.second->PrintChildren(1);
+        }
+    }
+    void PrintChildrenShallow(){
+        for (auto child : children_){
+            printf(" (%s)", child.second->incoming_edge_label_);
         }
         printf("\n");
+    }
+    // given a pointer to a specific node u in the tree, display u's children from left to right; 
+    void PrintChildren(int ichild){
+        Indent(ichild);
+        if (children_.size() == 0){
+            printf("(%s) LEAF!\n", incoming_edge_label_);
+            return;
+        }
+        printf("(%s) children:", incoming_edge_label_);
+        PrintChildrenShallow();
         for (auto child : children_){
             child.second->PrintChildren(ichild+1);
         }
@@ -170,14 +193,11 @@ public:
 
     void PrintBWTindex();
 
-    SuffixTreeNode* parent_; 
     std::map<char, SuffixTreeNode*> children_;
 
-    const char * data_;
-    int data_len_;
-
-    char * incoming_edge_label_; //?
+    const char * incoming_edge_label_; //?
     int edge_len_; //?
+    SuffixTreeNode* parent_; 
 
     int str_depth_;
 	int id_;
@@ -188,14 +208,14 @@ public:
 
 class SuffixTree {
 public:
-    SuffixTree(char* str, int len):str_(str), len_(len) {
+    SuffixTree(const char* str, int len) : str_(str), len_(len) {
         BuildTreeSimple();
         root_->PrintChildren();
     }
 
     void BuildTreeSimple(){
         root_ = new SuffixTreeNode(str_, len_, nullptr);
-        for (int i=1; i<len_-1; i++){
+        for (int i=0; i<len_-1; i++){
             root_->FindPath(str_+i, len_-i);
         }
     }
@@ -207,7 +227,7 @@ public:
     void NodeHops();
 
     SuffixTreeNode* root_;
-    char* str_;
+    const char* str_;
     int len_;
 
 };
