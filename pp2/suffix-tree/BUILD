@@ -1,14 +1,14 @@
 cc_binary(
-	name = "suffix-tree-builder",
+	name = "suffix-tree",
 	srcs = glob(["main.cc"]),
-	deps = [":suffix-tree-builder-lib"],
+	deps = [":suffix-tree-lib"],
 	copts = ["-O3", "-march=native", "-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 )
 
 cc_library(
-	name = "suffix-tree-builder-lib",
-	srcs = glob(["suffix-tree-builder.cc", "util.cc"]),
-	hdrs = glob(["suffix-tree-builder.h"]),
+	name = "suffix-tree-lib",
+	srcs = glob(["suffix-tree.cc", "util.cc"]),
+	hdrs = glob(["suffix-tree.h"]),
 	visibility = ["//visibility:public"],
 	copts = ["-O3", "-march=native", "-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 )

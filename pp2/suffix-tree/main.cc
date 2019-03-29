@@ -1,4 +1,4 @@
-#include "suffix-tree-builder/suffix-tree-builder.h"
+#include "suffix-tree/suffix-tree.h"
 
 int main(int argc, char *argv[]) {
 	// defaults 
