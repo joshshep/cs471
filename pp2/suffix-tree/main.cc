@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
 	const char * fasta_fname = argv[1];
 	auto sequence = LoadSequence(fasta_fname);
 
+
 	sequence.bps += '$';
 	const char * seq = sequence.bps.c_str();
 	int seq_len = sequence.bps.size();
