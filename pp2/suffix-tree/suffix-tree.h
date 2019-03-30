@@ -123,9 +123,7 @@ public:
         
         if (beta_len == child->edge_len_) {
             // the node exists
-            printf("ERROR\n");
             printf("NodeHops(): the node simply already exists\n");
-            assert(0);
             return child;
         }
 
