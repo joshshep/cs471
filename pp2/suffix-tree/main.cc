@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
 	SuffixTree* st = new SuffixTree(seq, seq_len);
 	st->PrintTree();
 
+	st->PrintBWTindex();
+
 	/*
 	SuffixTreeNode * stn = new SuffixTreeNode("foobar", 69, nullptr);
 	stn->FindPath("aaaa$", 5);

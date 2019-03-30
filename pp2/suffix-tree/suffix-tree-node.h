@@ -98,6 +98,10 @@ public:
         }
     }
 
+    bool IsLeaf() {
+        return this->children_.size() == 0;
+    }
+
     bool IsRoot() {
         return this->suffix_link_ == this;
     }

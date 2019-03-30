@@ -37,6 +37,26 @@ public:
     const char* str_;
     int len_;
 
+
+    void PrintBWTindex(){
+        PrintBWTindex(root_);
+    }
+
+    void PrintBWTindex(SuffixTreeNode* n){
+        if (n->children_.size() == 0) {
+            // Why not just zero index? ugh ...
+            if (n->id_==0) {
+                printf("%c\n", str_[len_-1]);
+            } else {
+                printf("%c\n", str_[n->id_-1]);
+            }
+            return;
+        }
+        for (auto child : n->children_){
+            PrintBWTindex(child.second);
+        }
+    }
+
 };
 
 ////////////////////////////////

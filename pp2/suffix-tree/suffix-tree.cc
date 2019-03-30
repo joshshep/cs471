@@ -9,7 +9,7 @@ void SuffixTree::BuildTreeMccreight(){
 
     auto prev_leaf = root_;
 
-    for (int i=0; i<len_-1; i++) {
+    for (int i=0; i<len_; i++) {
         auto u = prev_leaf->parent_;
         printf("\n***********************\n");
         printf("suffix: %s\n", str_+i);
@@ -27,6 +27,7 @@ void SuffixTree::BuildTreeMccreight(){
             printf("case2\n");
             prev_leaf = Case2(prev_leaf);
         }
+        prev_leaf->id_ = i;
         PrintTree();
 
     }
