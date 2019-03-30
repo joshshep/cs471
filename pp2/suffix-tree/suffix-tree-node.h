@@ -51,11 +51,8 @@ public:
         } else {
             str_depth_ = 0;
         }
-        std::random_device dev;
-        std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> dist6(0,999); // distribution in range [1, 6]
 
-        id_ = dist6(rng);
+        id_ = -1;
         //id_ = num_nodes_;
         //num_nodes_++;
     }
@@ -83,6 +80,16 @@ public:
         SuffixTreeNode* deepest_internal_node = this;
         GetDeepestInternalNode(deepest_internal_node);
         return deepest_internal_node;
+    }
+
+    void SetInternalNodeIds(int & i){
+        if (id_ == -1) {
+            id_ = i;
+            i++;
+        }
+        for (auto child : children_) {
+            child.second->SetInternalNodeIds(i);
+        }
     }
 
     void GetDeepestInternalNode(SuffixTreeNode*& max_depth_node) {

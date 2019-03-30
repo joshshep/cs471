@@ -9,6 +9,7 @@ class SuffixTree {
 public:
     SuffixTree(const char* str, int len) : str_(str), len_(len) {
         //BuildTreeSimple();
+        printf("input str length: %d\n", len);
         printf("Building suffix tree...\n");
         TimeBuildTreeMccreight();
     }
@@ -16,14 +17,16 @@ public:
         delete root_;
     }
 
-    void BuildTreeMccreight();
+    // returns the number of nodes in the tree
+    int BuildTreeMccreight();
 
     void TimeBuildTreeMccreight() {
         auto t1 = std::chrono::high_resolution_clock::now();
-        BuildTreeMccreight();
+        int num_nodes = BuildTreeMccreight();
         auto t2 = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
         printf("Time elapsed while building suffix tree: %llu microsecond(s)\n", duration);
+        printf("number of nodes in the tree: %d\n", num_nodes);
     }
 
     // SL(u) is known (root or internal node)

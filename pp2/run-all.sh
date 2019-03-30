@@ -2,8 +2,13 @@
 
 # note: suffix-tree may need to be re-written to run this
 
-for fname in data/*.{fas,fasta}; do
+logfile=runtime.log
+
+# delete log
+> $logfile
+
+for fname in `ls -rS data/*.{fas,fasta}`; do
     # the alphabet doesn't matter
-    ./bazel-bin/suffix-tree/suffix-tree $fname data/DNA_alphabet.txt
-    echo 
+    /usr/bin/time -lp ./bazel-bin/suffix-tree/suffix-tree $fname data/DNA_alphabet.txt | tee -a $logfile
+    echo | tee -a $logfile
 done

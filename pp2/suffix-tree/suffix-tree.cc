@@ -1,6 +1,6 @@
 #include "suffix-tree/suffix-tree.h"
 
-void SuffixTree::BuildTreeMccreight(){
+int SuffixTree::BuildTreeMccreight(){
     // the incoming edge label doesn't matter
     root_ = new SuffixTreeNode("root", 4, nullptr);
     // manually set root to have its suffix link point to itself
@@ -9,6 +9,10 @@ void SuffixTree::BuildTreeMccreight(){
 
     auto prev_leaf = root_;
 
+    // u is the parent of the previously created leaf
+    // u' is the parent of u 
+    // v is the parent of the new leaf to be created
+    // v' is the parent of v
     for (int i=0; i<len_; i++) {
         auto u = prev_leaf->parent_;
         //printf("\n***********************\n");
@@ -29,12 +33,15 @@ void SuffixTree::BuildTreeMccreight(){
         }
         prev_leaf->id_ = i;
         //PrintTree();
-
     }
-    // u is the parent of the previously created leaf
-    // u' is the parent of u 
-    // v is the parent of the new leaf to be created
-    // v' is the parent of v
+
+    // yes we set the internal node id's after everything
+    // its because these id's don't matter
+    int num_nodes = len_;
+
+    // SetInternalNodeIds modifies num_nodes inplace
+    root_->SetInternalNodeIds(num_nodes);
+    return num_nodes;
 }
 
 SuffixTreeNode* SuffixTree::Case1(SuffixTreeNode* prev_leaf, int index) {
