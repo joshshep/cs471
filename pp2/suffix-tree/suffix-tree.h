@@ -184,16 +184,17 @@ public:
 
     
     void PrintChildren(){
-        printf("root children:");
-        PrintChildrenShallow();
+        PrintNode(this);
+        printf(" (root)\n");
         for (auto child : children_){
+            // starting at node depth 1
             child.second->PrintChildren(1);
         }
     }
     static void PrintNode(SuffixTreeNode *n){
         if (n->suffix_link_) {
             auto sf = n->suffix_link_;
-            printf("([%d] %*.*s SF->[%d])", 
+            printf("([%d] %*.*s SL->[%d])", 
                 n->id_, 
                 n->edge_len_,  n->edge_len_,  n->incoming_edge_label_, 
                 sf->id_);
@@ -234,17 +235,16 @@ private:
         printf("\n");
     }
     // given a pointer to a specific node u in the tree, display u's children from left to right; 
-    void PrintChildren(int ichild){
-        Indent(ichild);
+    void PrintChildren(int node_depth){
+        Indent(node_depth);
         PrintNode(this);
         if (children_.size() == 0){
-            printf(" LEAF!\n");
+            printf("\n");
             return;
         }
-        printf(" children:");
-        PrintChildrenShallow();
+        printf("\n");
         for (auto child : children_){
-            child.second->PrintChildren(ichild+1);
+            child.second->PrintChildren(node_depth+1);
         }
     }
     void Indent(int indentation){
@@ -265,13 +265,15 @@ public:
     }*/
 
     void BuildTreeMccreight(){
-        root_ = new SuffixTreeNode(str_, len_, nullptr);
+        // the incoming edge label doesn't matter
+        root_ = new SuffixTreeNode("root", 4, nullptr);
         // manually set root to have its suffix link point to itself
         root_->suffix_link_ = root_;
+        root_->parent_ = root_;
 
-        auto prev_leaf = root_->FindPath(str_, len_);
+        auto prev_leaf = root_;
 
-        for (int i=1; i<len_-1; i++) {
+        for (int i=0; i<len_-1; i++) {
             auto u = prev_leaf->parent_;
             printf("\n***********************\n");
             printf("suffix: %s\n", str_+i);
@@ -285,21 +287,9 @@ public:
                 prev_leaf = Case1(prev_leaf, i);
             } else {
                 // SL(u) is not known yet
-                // Case2A and Case2B are the same?!
+                // Case2A and Case2B are the almost the same
                 printf("case2\n");
                 prev_leaf = Case2(prev_leaf);
-                //printf("exiting prematurely to test case2...\n");
-                //return;
-                /*
-                SuffixTreeNode* u_prime = u->parent_;
-                if (IsRoot(u_prime)) {
-                    // u' is the root
-                    Case2B(prev_leaf, i);
-                } else {
-                    // u' is _not_ the root
-                    Case2A(prev_leaf, i);
-                }
-                */
             }
             PrintTree();
 
@@ -339,13 +329,12 @@ public:
         auto beta = u->incoming_edge_label_;
         auto beta_len = u->edge_len_;
         if (u_prime->IsRoot()) {
+            // this is the difference between case A and case B
             beta++; beta_len--;
         }
         auto v = v_prime->NodeHops(beta, beta_len);
         assert(v);
 
-        //auto newLeaf = v_something->FindPath(str_ + index + v_something->str_depth_, len_ - index - v_something->str_depth_);
-        //auto v = newLeaf->parent_;
 
         printf("setting suffix link: ");
         SuffixTreeNode::PrintNode(u);
