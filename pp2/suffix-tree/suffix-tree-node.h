@@ -18,29 +18,6 @@ typedef struct sequence {
 	std::string bps;
 } Sequence;
 
-/*
-template <class T_Key>
-template <class T_Value>
-class LinkedList {
-    T_Value *& Get(T_Key query_key) {
-        if (query_key == key) {
-            return value;
-        }
-        if (!next || query_key > key) {
-            return nullptr;
-        }
-        return next->Get(query_key);
-    }
-    void Set(T_Key existing_key, T_Value * newValue) {
-        auto found_val = Get(existing_key);
-        f
-    }
-    T_Key * key;
-    T_Value * value;
-    LinkedList* next;
-};
-*/
-
 class SuffixTreeNode {
 public:
     SuffixTreeNode(const char* str, int len, SuffixTreeNode* parent)
@@ -126,6 +103,7 @@ public:
     void EnumerateDFS();
 
     
+    // print the children of the current node dfs
     void PrintChildren(){
         PrintNode(this);
         printf(" (root)\n");
