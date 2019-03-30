@@ -4,5 +4,6 @@
 
 for fname in data/*.{fas,fasta}; do
     # the alphabet doesn't matter
-    ./bazel-bin/suffix-tree/suffix-tree fname data/DNA_alphabet.txt
+    ./bazel-bin/suffix-tree/suffix-tree $fname data/DNA_alphabet.txt
+    echo 
 done

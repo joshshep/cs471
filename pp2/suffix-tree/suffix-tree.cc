@@ -11,24 +11,24 @@ void SuffixTree::BuildTreeMccreight(){
 
     for (int i=0; i<len_; i++) {
         auto u = prev_leaf->parent_;
-        printf("\n***********************\n");
-        printf("suffix: %s\n", str_+i);
-        printf("u==");
-        SuffixTreeNode::PrintNode(u);
-        printf("\n");
+        //printf("\n***********************\n");
+        //printf("suffix: %s\n", str_+i);
+        //printf("u==");
+        //SuffixTreeNode::PrintNode(u);
+        //printf("\n");
         if (u->suffix_link_) {
             // SL(u) is known
             // Case1A and Case1B are the same
-            printf("case1\n");
+            //printf("case1\n");
             prev_leaf = Case1(prev_leaf, i);
         } else {
             // SL(u) is not known yet
             // Case2A and Case2B are the almost the same
-            printf("case2\n");
+            //printf("case2\n");
             prev_leaf = Case2(prev_leaf);
         }
         prev_leaf->id_ = i;
-        PrintTree();
+        //PrintTree();
 
     }
     // u is the parent of the previously created leaf
@@ -42,7 +42,7 @@ SuffixTreeNode* SuffixTree::Case1(SuffixTreeNode* prev_leaf, int index) {
     auto v = u->suffix_link_;
     int alpha = v->str_depth_;
 
-    printf("case1() passed str: %*.*s\n", len_ - index - alpha, len_ - index - alpha, str_ + index + alpha);
+    //printf("case1() passed str: %*.*s\n", len_ - index - alpha, len_ - index - alpha, str_ + index + alpha);
 
     return v->FindPath(str_ + index + alpha, len_ - index - alpha);
 }
@@ -50,13 +50,9 @@ SuffixTreeNode* SuffixTree::Case1(SuffixTreeNode* prev_leaf, int index) {
 SuffixTreeNode* SuffixTree::Case2(SuffixTreeNode* prev_leaf) {
     auto u = prev_leaf->parent_;
     auto u_prime = u->parent_;
-    assert(u_prime);
+    //assert(u_prime);
     auto v_prime = u_prime->suffix_link_;
-    if (v_prime == nullptr) {
-        printf("ERROR: v_prime is null in case2\n");
-        PrintTree();
-    }
-    assert(v_prime);
+    //assert(v_prime);
     // when u_prime == v_prime == root, alpha_prime is 0
     auto beta = u->incoming_edge_label_;
     auto beta_len = u->edge_len_;
@@ -65,14 +61,14 @@ SuffixTreeNode* SuffixTree::Case2(SuffixTreeNode* prev_leaf) {
         beta++; beta_len--;
     }
     auto v = v_prime->NodeHops(beta, beta_len);
-    assert(v);
+    //assert(v);
 
 
-    printf("setting suffix link: ");
-    SuffixTreeNode::PrintNode(u);
-    printf("  points to  ");
-    SuffixTreeNode::PrintNode(v);
-    printf("\n");
+    //printf("setting suffix link: ");
+    //SuffixTreeNode::PrintNode(u);
+    //printf("  points to  ");
+    //SuffixTreeNode::PrintNode(v);
+    //printf("\n");
 
     u->suffix_link_ = v;
 

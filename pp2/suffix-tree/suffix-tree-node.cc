@@ -1,8 +1,8 @@
 #include "suffix-tree-node.h"
 
 SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
-    printf("FindPath('%*.*s')\n", query_len, query_len, query);
-    assert(query_len > 0);
+    //printf("FindPath('%*.*s')\n", query_len, query_len, query);
+    //assert(query_len > 0);
 
     auto search = children_.find(query[0]);
     if (search == children_.end()){
@@ -12,7 +12,6 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
         return newChild;
     }
     auto child = search->second;
-    assert(child);
 
     for (int i=0; i<child->edge_len_; i++){
         if (i >= query_len){
@@ -46,15 +45,15 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
 
     // we need to check this node's children
     // recurse
-    printf("recurse FindPath(%*.*s)\n", query_len - child->edge_len_, query_len - child->edge_len_, query + child->edge_len_);
+    //printf("recurse FindPath(%*.*s)\n", query_len - child->edge_len_, query_len - child->edge_len_, query + child->edge_len_);
 
     return child->FindPath(query + child->edge_len_, query_len - child->edge_len_);
 }
 
 SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
-    printf("NodeHops(%*.*s)\n", beta_len, beta_len, beta);
+    //printf("NodeHops(%*.*s)\n", beta_len, beta_len, beta);
     if (beta_len==0) {
-        printf("beta_len == 0\n");
+        //printf("beta_len == 0\n");
         return this;
     }
     auto search = children_.find(beta[0]);
@@ -64,13 +63,13 @@ SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
 
     if (beta_len > child->edge_len_){
         // hop
-        printf("NodeHops(): hop to next node\n");
+        //printf("NodeHops(): hop to next node\n");
         return child->NodeHops(beta + child->edge_len_, beta_len - child->edge_len_);
     }
     
     if (beta_len == child->edge_len_) {
         // the node exists
-        printf("NodeHops(): the node simply already exists\n");
+        //printf("NodeHops(): the node simply already exists\n");
         return child;
     }
 
@@ -80,7 +79,7 @@ SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
     // we need to break the edge and create a node
     // TODO findpath or insertnode?!
 
-    printf("NodeHops(): need to break an edge\n");
+    //printf("NodeHops(): need to break an edge\n");
     return this->BreakEdge(child, beta_len);
 }
 
