@@ -53,7 +53,7 @@ public:
     // we need find/create a path for the input string
     // returns: the newly created leaf node
     SuffixTreeNode* FindPath(const char* query, int query_len) {
-        printf("FindPath(%*.*s)\n", query_len, query_len, query);
+        printf("FindPath('%*.*s')\n", query_len, query_len, query);
         assert(query_len > 0);
 
         auto search = children_.find(query[0]);
@@ -116,11 +116,16 @@ public:
             printf("NodeHops(): hop to next node\n");
             return child->NodeHops(beta + child->edge_len_, beta_len - child->edge_len_);
         }
+        printf("NodeHops(): found parent\n");
+
+        return this;
+        /*
         if (beta_len == child->edge_len_) {
             // the node exists
             printf("NodeHops(): the node simply already exists\n");
             return child;
         }
+
 
         //FindPath(beta, beta_len);
 
@@ -129,6 +134,7 @@ public:
 
         printf("NodeHops(): insert node\n");
         return InsertNode(child, beta, beta_len, beta_len-1);
+        */
     }
     /*
     aaaa
@@ -169,8 +175,9 @@ public:
     // index - the index at which the edge and query differ
     SuffixTreeNode* InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
         assert(index > 0);
-        edge_len_ -= index;
-        assert(edge_len_ > 0);
+        //edge_len_ -= index;
+        //if (ed)
+        //assert(edge_len_ > 0);
 
         child->incoming_edge_label_ += index;
         child->edge_len_ -= index;
@@ -341,9 +348,18 @@ public:
         assert(v_prime);
         // when u_prime == v_prime == root, alpha_prime is 0
         int alpha_prime = v_prime->str_depth_;
-        auto newLeaf = v_prime->NodeHops(str_ + index + alpha_prime, len_ - index - alpha_prime);
-        assert(newLeaf);
+        auto v_something = v_prime->NodeHops(str_ + index + alpha_prime, len_ - index - alpha_prime);
+        assert(v_something);
+
+        auto newLeaf = v_something->FindPath(str_ + index + v_something->str_depth_, len_ - index - v_something->str_depth_);
         auto v = newLeaf->parent_;
+
+        printf("setting suffix link: ");
+        SuffixTreeNode::PrintNode(u);
+        printf("  points to  ");
+        SuffixTreeNode::PrintNode(v);
+        printf("\n");
+
         u->suffix_link_ = v;
         return newLeaf;
     }
