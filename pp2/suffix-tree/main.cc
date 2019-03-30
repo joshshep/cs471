@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	//st->PrintTree();
 
 	// TOGGLE
-	st->PrintBWTindex();
+	//st->PrintBWTindex();
 	st->GetLongestMatchingRepeat();
 
 	delete st;
