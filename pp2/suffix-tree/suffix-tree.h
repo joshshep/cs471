@@ -49,7 +49,6 @@ public:
         }
     }
 
-    // TODO what does this return value mean?
     // we need find/create a path for the input string
     // returns: the newly created leaf node
     SuffixTreeNode* FindPath(const char* query, int query_len) {
@@ -137,39 +136,15 @@ public:
         return this->BreakEdge(child, beta_len);
     }
     /*
-    aaaa
-    @ - a - a - a - a - $ - @
+    e.g.,
+    given
+    edge_label == aaaa
+    index = 2
+    this (aaaa)-> child
 
-    aabb
-    @ - a - a - @ - a - a - $ - @
-                 \ 
-                  - b - b - $ - @
-    */
-
-   /*
-   // at the current node, insert the
-    SuffixTreeNode* InsertNode(char* newStr, int len) {
-        for(int i=0; i<len && i<edge_len_; i++) {
-            if (newStr[i] != incoming_edge_label_[i]) {
-                return InsertNode(newStr, len, i);
-            }
-        }
-        // this shouldn't happen
-        printf("Failed to insert node\n");
-        assert(0);
-        return nullptr;
-    }
-
-    // TODO figure out who calls this (parent or child)
-    // insert a node between "this" and the parameter child
-    SuffixTreeNode* InsertNode(char* newStr, int len, int index) {
-        assert(newStr[0] == incoming_edge_label_[0]);
-        auto existingChild = children_[newStr[0]];
-        existingChild->incoming_edge_label_ += index;
-        auto newNode = new SuffixTreeNode(newStr, index, this);
-        children_[newStr[0]] = newNode;
-        return newNode;
-    }
+    we insert an intermediary internal node
+    this (aa)-> newInternal (aa)-> child
+    note: for this to remain a valid suffix tree, you MUST modify the returned node
     */
 
     // index - the index at which to break
