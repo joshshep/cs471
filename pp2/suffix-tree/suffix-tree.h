@@ -69,12 +69,12 @@ public:
         for (int i=0; i<child->edge_len_; i++){
             if (i >= query_len){
                 // the query string ends in the middle of an edge, so we need to insert a node
-                return InsertNode(child, query, query_len, i);
+                return this->InsertNode(child, query, query_len, i);
             }
             if (query[i] != child->incoming_edge_label_[i]){
                 // the edge labels do not match
                 // we need to create a new node
-                return InsertNode(child, query, query_len, i);
+                return this->InsertNode(child, query, query_len, i);
             }
         }
 
@@ -103,9 +103,13 @@ public:
         return child->FindPath(query + child->edge_len_, query_len - child->edge_len_);
     }
 
+    // return v
     SuffixTreeNode* NodeHops(const char* beta, int beta_len) {
         printf("NodeHops(%*.*s)\n", beta_len, beta_len, beta);
-        assert(beta_len > 0);
+        if (beta_len==0) {
+            printf("beta_len == 0\n");
+            return this;
+        }
         auto search = children_.find(beta[0]);
         assert(search != children_.end());
         auto child = search->second;
@@ -116,13 +120,12 @@ public:
             printf("NodeHops(): hop to next node\n");
             return child->NodeHops(beta + child->edge_len_, beta_len - child->edge_len_);
         }
-        printf("NodeHops(): found parent\n");
-
-        return this;
-        /*
+        
         if (beta_len == child->edge_len_) {
             // the node exists
+            printf("ERROR\n");
             printf("NodeHops(): the node simply already exists\n");
+            assert(0);
             return child;
         }
 
@@ -132,9 +135,8 @@ public:
         // we need to break the edge and create a node
         // TODO findpath or insertnode?!
 
-        printf("NodeHops(): insert node\n");
-        return InsertNode(child, beta, beta_len, beta_len-1);
-        */
+        printf("NodeHops(): need to break an edge\n");
+        return this->BreakEdge(child, beta_len);
     }
     /*
     aaaa
@@ -172,6 +174,24 @@ public:
     }
     */
 
+    // index - the index at which to break
+    // returns the new node
+    SuffixTreeNode* BreakEdge(SuffixTreeNode* child, int index) {
+        assert(index > 0);
+        assert(index < child->edge_len_);
+        
+        auto newInternalNode = new SuffixTreeNode(child->incoming_edge_label_, index, this);
+        newInternalNode->children_[child->incoming_edge_label_[index]] = child;
+
+        this->children_[newInternalNode->incoming_edge_label_[0]] = newInternalNode;
+
+        child->incoming_edge_label_ += index;
+        child->edge_len_ -= index;
+
+        // this -> newInternalNode -> child
+        return newInternalNode;
+    }
+
     // index - the index at which the edge and query differ
     SuffixTreeNode* InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
         assert(index > 0);
@@ -179,18 +199,10 @@ public:
         //if (ed)
         //assert(edge_len_ > 0);
 
-        child->incoming_edge_label_ += index;
-        child->edge_len_ -= index;
-        assert(child->edge_len_ > 0);
+        auto newInternalNode = this->BreakEdge(child, index);
+        auto newLeafNode = new SuffixTreeNode(query + index, query_len - index, newInternalNode);
 
-        auto newInternalNode = new SuffixTreeNode(query, index, this);
-        newInternalNode->children_[child->incoming_edge_label_[0]] = child;
-
-        assert(query_len - index > 0);
-
-        // the leaf adds itself to its parent's children_ list
-        //auto _newLeafNode = new SuffixTreeNode(query+index, query_len - index, newInternalNode);
-        auto newLeafNode = new SuffixTreeNode(query+index, query_len - index, newInternalNode);
+        newInternalNode->children_[newLeafNode->incoming_edge_label_[0]] = newLeafNode;
 
         return newLeafNode;
     }
@@ -216,6 +228,10 @@ public:
             printf("([%d] %*.*s)", n->id_, 
                 n->edge_len_, n->edge_len_, n->incoming_edge_label_);
         }
+    }
+
+    bool IsRoot() {
+        return this->suffix_link_ == this;
     }
     
 
@@ -298,7 +314,7 @@ public:
                 // SL(u) is not known yet
                 // Case2A and Case2B are the same?!
                 printf("case2\n");
-                prev_leaf = Case2(prev_leaf, i);
+                prev_leaf = Case2(prev_leaf);
                 //printf("exiting prematurely to test case2...\n");
                 //return;
                 /*
@@ -336,7 +352,7 @@ public:
     }
 
     // SL(u) is _not_ known
-    SuffixTreeNode* Case2(SuffixTreeNode* prev_leaf, int index) {
+    SuffixTreeNode* Case2(SuffixTreeNode* prev_leaf) {
         auto u = prev_leaf->parent_;
         auto u_prime = u->parent_;
         assert(u_prime);
@@ -347,12 +363,16 @@ public:
         }
         assert(v_prime);
         // when u_prime == v_prime == root, alpha_prime is 0
-        int alpha_prime = v_prime->str_depth_;
-        auto v_something = v_prime->NodeHops(str_ + index + alpha_prime, len_ - index - alpha_prime);
-        assert(v_something);
+        auto beta = u->incoming_edge_label_;
+        auto beta_len = u->edge_len_;
+        if (u_prime->IsRoot()) {
+            beta++; beta_len--;
+        }
+        auto v = v_prime->NodeHops(beta, beta_len);
+        assert(v);
 
-        auto newLeaf = v_something->FindPath(str_ + index + v_something->str_depth_, len_ - index - v_something->str_depth_);
-        auto v = newLeaf->parent_;
+        //auto newLeaf = v_something->FindPath(str_ + index + v_something->str_depth_, len_ - index - v_something->str_depth_);
+        //auto v = newLeaf->parent_;
 
         printf("setting suffix link: ");
         SuffixTreeNode::PrintNode(u);
@@ -361,7 +381,9 @@ public:
         printf("\n");
 
         u->suffix_link_ = v;
-        return newLeaf;
+
+        auto new_leaf = v->FindPath(prev_leaf->incoming_edge_label_, prev_leaf->edge_len_);
+        return new_leaf;
     }
     /*
     // SL(u) is unknown and u' is _not_ the root
