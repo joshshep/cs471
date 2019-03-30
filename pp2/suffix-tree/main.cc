@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 		//PrintHelp();
 		exit(1);
 	}
+	// since we assume the fasta file is valid, we can ignore the alphabet file
 
 	// load sequences from fasta based on cmd arg
 	const char * fasta_fname = argv[1];
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]) {
 	//st->PrintTree();
 
 	// TOGGLE
-	//st->PrintBWTindex();
+	st->PrintBWTindex();
 	st->GetLongestMatchingRepeat();
 
 	delete st;

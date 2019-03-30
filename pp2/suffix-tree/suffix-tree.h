@@ -11,7 +11,7 @@ public:
         //BuildTreeSimple();
         printf("input str length: %d\n", len);
         printf("Building suffix tree...\n");
-        TimeBuildTreeMccreight();
+        PrintBuildStats();
     }
     ~SuffixTree(){
         delete root_;
@@ -20,13 +20,20 @@ public:
     // returns the number of nodes in the tree
     int BuildTreeMccreight();
 
-    void TimeBuildTreeMccreight() {
+    void PrintBuildStats() {
+        // time build
         auto t1 = std::chrono::high_resolution_clock::now();
         int num_nodes = BuildTreeMccreight();
         auto t2 = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
+
+        // print stats
         printf("Time elapsed while building suffix tree: %llu microsecond(s)\n", duration);
-        printf("number of nodes in the tree: %d\n", num_nodes);
+        printf("total number of nodes in the tree: %d\n", num_nodes);
+        printf("number of internal nodes in the tree: %d\n", num_nodes - len_);
+        auto total_str_depth = root_->TotalStrDepth();
+        double avg_depth = (double) total_str_depth / (num_nodes - len_);
+        printf("avg str depth of internal node: %lf\n", avg_depth);
     }
 
     // SL(u) is known (root or internal node)

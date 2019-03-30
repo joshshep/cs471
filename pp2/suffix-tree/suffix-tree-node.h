@@ -154,6 +154,19 @@ public:
     bool IsRoot() {
         return this->suffix_link_ == this;
     }
+    uint64_t TotalStrDepth() {
+        uint64_t total = 0;
+        TotalStrDepth(total);
+        return total;
+    }
+    void TotalStrDepth(uint64_t& total){
+        if (children_.size() != 0) {
+            total += str_depth_;
+        }
+        for (auto child : children_){
+            child.second->TotalStrDepth(total);
+        }
+    }
     
 
     void PrintBWTindex();
@@ -168,7 +181,7 @@ public:
 	int id_;
     SuffixTreeNode* suffix_link_ = nullptr;
 
-    const char kStrTerminator = '$';
+    static const char kStrTerminator = '$';
 
     //////////////////////////////////////////////////////////////////////
     // private

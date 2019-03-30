@@ -77,7 +77,6 @@ SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
     //FindPath(beta, beta_len);
 
     // we need to break the edge and create a node
-    // TODO findpath or insertnode?!
 
     //printf("NodeHops(): need to break an edge\n");
     return this->BreakEdge(child, beta_len);
