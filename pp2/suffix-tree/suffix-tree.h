@@ -3,14 +3,28 @@
 
 #include "suffix-tree-node.h"
 
+#include <chrono>
+
 class SuffixTree {
 public:
     SuffixTree(const char* str, int len) : str_(str), len_(len) {
         //BuildTreeSimple();
-        BuildTreeMccreight();
+
+        TimeBuildTreeMccreight();
+    }
+    ~SuffixTree(){
+        delete root_;
     }
 
     void BuildTreeMccreight();
+
+    void TimeBuildTreeMccreight() {
+        auto t1 = std::chrono::high_resolution_clock::now();
+        BuildTreeMccreight();
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
+        printf("Time to build suffix tree: %llu microsecond(s)\n", duration);
+    }
 
     // SL(u) is known (root or internal node)
     SuffixTreeNode* Case1(SuffixTreeNode* prev_leaf, int index);
@@ -30,6 +44,17 @@ public:
     }
 
     void FindPath();
+
+    void GetLongestMatchingRepeat() {
+        SuffixTreeNode * n = root_->GetDeepestInternalNode();
+        printf("string depth of deepest node: %d\n", n->str_depth_);
+        printf("indices of longest exact matching repeat:");
+        for (auto child : n->children_) {
+            assert(child.second->IsLeaf());
+            printf(" %d", child.second->id_);
+        }
+        printf("\n");
+    }
 
     void NodeHops();
 

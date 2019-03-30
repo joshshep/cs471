@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
 	st->PrintTree();
 
 	st->PrintBWTindex();
+	st->GetLongestMatchingRepeat();
+
+	delete st;
 
 	/*
 	SuffixTreeNode * stn = new SuffixTreeNode("foobar", 69, nullptr);

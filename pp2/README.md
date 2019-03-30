@@ -6,7 +6,7 @@ https://docs.bazel.build/versions/master/install.html
 ## Build the suffix Tree builder program
 From the root directory, run
 ```
-bazel build suffix-tree-builder
+bazel build suffix-tree
 ```
 
 ## (optionally) Run the tests

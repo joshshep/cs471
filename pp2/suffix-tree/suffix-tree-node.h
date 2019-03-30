@@ -18,6 +18,29 @@ typedef struct sequence {
 	std::string bps;
 } Sequence;
 
+/*
+template <class T_Key>
+template <class T_Value>
+class LinkedList {
+    T_Value *& Get(T_Key query_key) {
+        if (query_key == key) {
+            return value;
+        }
+        if (!next || query_key > key) {
+            return nullptr;
+        }
+        return next->Get(query_key);
+    }
+    void Set(T_Key existing_key, T_Value * newValue) {
+        auto found_val = Get(existing_key);
+        f
+    }
+    T_Key * key;
+    T_Value * value;
+    LinkedList* next;
+};
+*/
+
 class SuffixTreeNode {
 public:
     SuffixTreeNode(const char* str, int len, SuffixTreeNode* parent)
@@ -55,6 +78,25 @@ public:
 
     // return v
     SuffixTreeNode* NodeHops(const char* beta, int beta_len);
+
+    SuffixTreeNode* GetDeepestInternalNode() {
+        SuffixTreeNode* deepest_internal_node = this;
+        GetDeepestInternalNode(deepest_internal_node);
+        return deepest_internal_node;
+    }
+
+    void GetDeepestInternalNode(SuffixTreeNode*& max_depth_node) {
+        for (auto child : children_) {
+            if (child.second->IsLeaf()) {
+                continue;
+            }
+            child.second->GetDeepestInternalNode(max_depth_node);
+        }
+        if (this->str_depth_ > max_depth_node->str_depth_) {
+            max_depth_node = this;
+        }
+    }
+
     /*
     e.g.,
     given
