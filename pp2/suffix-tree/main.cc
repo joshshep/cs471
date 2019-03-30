@@ -25,6 +25,8 @@ int main(int argc, char *argv[]) {
 	const char * seq = sequence.bps.c_str();
 	int seq_len = sequence.bps.size();
 	SuffixTree* st = new SuffixTree(seq, seq_len);
+
+	// print dfs
 	//st->PrintTree();
 
 	// TOGGLE
