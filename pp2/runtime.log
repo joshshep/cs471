@@ -3,7 +3,9 @@ Reading sequence: '>s1' ...
 input str length: 7
 Building suffix tree...
 Time elapsed while building suffix tree: 3 microsecond(s)
-number of nodes in the tree: 11
+total number of nodes in the tree: 11
+number of internal nodes in the tree: 4
+avg str depth of internal node: 1.500000
 string depth of deepest node: 3
 indices of longest exact matching repeat: 3 1
 
@@ -11,8 +13,10 @@ Opening fasta file 'data/s2.fas' ...
 Reading sequence: '>s2' ...
 input str length: 12
 Building suffix tree...
-Time elapsed while building suffix tree: 13 microsecond(s)
-number of nodes in the tree: 19
+Time elapsed while building suffix tree: 26 microsecond(s)
+total number of nodes in the tree: 19
+number of internal nodes in the tree: 7
+avg str depth of internal node: 1.714286
 string depth of deepest node: 4
 indices of longest exact matching repeat: 4 1
 
@@ -20,8 +24,10 @@ Opening fasta file 'data/colorblind_human_gene.fasta' ...
 Reading sequence: '>NC_000007.14:c128775790-128772489 Homo sapiens chromosome 7, GRCh38.p7 Primary Assembly' ...
 input str length: 3303
 Building suffix tree...
-Time elapsed while building suffix tree: 1214 microsecond(s)
-number of nodes in the tree: 5408
+Time elapsed while building suffix tree: 1318 microsecond(s)
+total number of nodes in the tree: 5408
+number of internal nodes in the tree: 2105
+avg str depth of internal node: 5.720665
 string depth of deepest node: 18
 indices of longest exact matching repeat: 1817 1810
 
@@ -29,8 +35,10 @@ Opening fasta file 'data/colorblind_mouse_gene.fasta' ...
 Reading sequence: '>NC_000072.6:c29380513-29376671 Mus musculus strain C57BL/6J chromosome 6, GRCm38.p4 C57BL/6J' ...
 input str length: 3844
 Building suffix tree...
-Time elapsed while building suffix tree: 1525 microsecond(s)
-number of nodes in the tree: 6315
+Time elapsed while building suffix tree: 1406 microsecond(s)
+total number of nodes in the tree: 6315
+number of internal nodes in the tree: 2471
+avg str depth of internal node: 5.794011
 string depth of deepest node: 14
 indices of longest exact matching repeat: 2839 2838
 
@@ -38,8 +46,10 @@ Opening fasta file 'data/Human-BRCA2-cds.fasta' ...
 Reading sequence: '>(gi|37675288:1224-1411, 2166-2271, 4821-5069, 10820-10928, 11846-11895, 11987-12027, 12244-12358, 15190-15239, 16668-16779, 18021-19136, 22014-26945, 30307-30402, 32576-32645, 40623-41050, 42190-42371, 43504-43691, 48285-48455, 48941-49295, 56170-56325, 56724-56868, 62438-62559, 65085-65283, 65518-65681, 65775-65913, 80490-80734, 82699-82845, 83963-85469) Homo sapiens breast cancer 2, early onset (BRCA2) gene, complete cds' ...
 input str length: 11383
 Building suffix tree...
-Time elapsed while building suffix tree: 5675 microsecond(s)
-number of nodes in the tree: 18683
+Time elapsed while building suffix tree: 4325 microsecond(s)
+total number of nodes in the tree: 18683
+number of internal nodes in the tree: 7300
+avg str depth of internal node: 6.784110
 string depth of deepest node: 14
 indices of longest exact matching repeat: 7251 9236
 
@@ -47,8 +57,10 @@ Opening fasta file 'data/Slyco.fas' ...
 Reading sequence: '>gi|149384932|ref|NC_007898.2| Solanum lycopersicum chloroplast, complete genome' ...
 input str length: 155462
 Building suffix tree...
-Time elapsed while building suffix tree: 109738 microsecond(s)
-number of nodes in the tree: 254435
+Time elapsed while building suffix tree: 110875 microsecond(s)
+total number of nodes in the tree: 254435
+number of internal nodes in the tree: 98973
+avg str depth of internal node: 8.628656
 string depth of deepest node: 48
 indices of longest exact matching repeat: 88150 88130
 
@@ -56,8 +68,10 @@ Opening fasta file 'data/chr12.fas' ...
 Reading sequence: '>ref|NC_001144| [org=Saccharomyces cerevisiae] [strain=S288C] [moltype=genomic] [chromosome=XII]' ...
 input str length: 1078176
 Building suffix tree...
-Time elapsed while building suffix tree: 1074820 microsecond(s)
-number of nodes in the tree: 1777696
+Time elapsed while building suffix tree: 1028242 microsecond(s)
+total number of nodes in the tree: 1777696
+number of internal nodes in the tree: 699520
+avg str depth of internal node: 106.804919
 string depth of deepest node: 8375
 indices of longest exact matching repeat: 451418 460555
 
