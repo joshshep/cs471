@@ -1,5 +1,7 @@
 #include "read-map/read-map.h"
 
+#include <assert.h>
+
 std::vector<Sequence> LoadSequencesVector(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
@@ -45,7 +47,7 @@ std::vector<Sequence> LoadSequencesVector(const char* fasta_fname) {
 		std::cout << "sequence bps: " << seq.bps << std::endl;
 		std::cout << "sequence name: " << seq.name << std::endl;
 	}
-	return sequnces;
+	return sequences;
 }
 
 int main(int argc, char *argv[]) {
@@ -65,11 +67,11 @@ int main(int argc, char *argv[]) {
 	const char * genome = argv[1];
 	const char * reads_fname = argv[2];
 	auto genome_vec = LoadSequencesVector(reads_fname);
-	assert(genome_vec.length == 1);
+	assert(genome_vec.size() == 1);
 	auto genome = genome_vec[0];
 
 	auto reads = LoadSequencesVector(reads_fname);
-	printf("Read %d read(s) from fname '%s'\n", reads.length, reads_fname);
+	printf("Read %d read(s) from fname '%s'\n", reads.size(), reads_fname);
 
 	ReadMap* read_map = new ReadMap(genome, reads);
 
