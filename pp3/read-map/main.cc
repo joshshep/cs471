@@ -88,14 +88,14 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	const char * genome = argv[1];
+	const char * genome_fname = argv[1];
 	const char * reads_fname = argv[2];
-	auto genome_vec = LoadSequencesVector(reads_fname);
+	auto genome_vec = LoadSequencesVector(genome_fname);
 	assert(genome_vec.size() == 1);
 	auto genome = genome_vec[0];
 
 	auto reads = LoadSequencesVector(reads_fname);
-	printf("Read %d read(s) from fname '%s'\n", reads.size(), reads_fname);
+	printf("Read %d read(s) from fname '%s'\n", (int)reads.size(), reads_fname);
 
 	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads);
 

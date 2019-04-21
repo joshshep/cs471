@@ -5,7 +5,7 @@ namespace read_map {
 #define ZETA 25
 
 ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> reads) {
-	genome_len_ = genome.bps.length;
+	genome_len_ = genome.bps.size();
 	genome_bps_ = genome.bps.c_str();
 }
 

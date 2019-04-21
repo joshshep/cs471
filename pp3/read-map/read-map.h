@@ -12,6 +12,7 @@ namespace read_map {
 using suffix_tree::Sequence;
 
 class ReadMap {
+public:
 	ReadMap(Sequence & genome, std::vector<Sequence> reads);
 
 	int PrepareST(suffix_tree::SuffixTreeNode* node);
