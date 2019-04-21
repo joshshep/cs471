@@ -1,5 +1,33 @@
 #include "suffix-tree-node.h"
 
+SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) {
+    auto search = children_.find(query[0]);
+    if (search == children_.end()){
+        // we need to add a child
+        match_len = 0;
+        return this;
+    }
+    auto child = search->second;
+
+    for (int i=0; i<child->edge_len_; i++){
+        if (i >= query_len){
+            // the query string ends in the middle of an edge, so we need to insert a node
+            match_len = i;
+            return this;
+        }
+        if (query[i] != child->incoming_edge_label_[i]){
+            // the edge labels do not match
+            // we need to create a new node
+            match_len = i;
+            return this;
+        }
+    }
+
+    // we need to check this node's children
+    // recurse
+    return child->MatchStr(query + child->edge_len_, query_len - child->edge_len_, match_len);
+}
+
 SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
     //printf("FindPath('%*.*s')\n", query_len, query_len, query);
     //assert(query_len > 0);

@@ -48,6 +48,8 @@ public:
         }
     }
 
+    SuffixTreeNode* MatchStr(const char* query, int query_len, int &match_len);
+
     // we need find/create a path for the input string
     // returns: the newly created leaf node
     SuffixTreeNode* FindPath(const char* query, int query_len);
