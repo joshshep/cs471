@@ -5,20 +5,20 @@
 #include "suffix-tree/suffix-tree.h"
 
 #include <stdio.h>
-
+#include <string.h>
 
 class ReadMap {
-    ReadMap(Sequence & genome, std::vector<Sequence> reads);
+	ReadMap(Sequence & genome, std::vector<Sequence> reads);
 
-    int PrepareST(SuffixTreeNode* node);
+	int PrepareST(SuffixTreeNode* node);
 
-    int Run();
+	int Run();
 
-    int genome_len_;
-    const char * genome_bps_;
-    int * A_;
-    int next_index_;
-    SuffixTree * st_;
+	int genome_len_;
+	const char * genome_bps_;
+	int * A_;
+	int next_index_;
+	SuffixTree * st_;
 };
 
 

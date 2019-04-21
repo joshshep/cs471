@@ -13,18 +13,18 @@ int ReadMap::PrepareST(SuffixTreeNode* node) {
 	}
 	if (node->IsLeaf()) {
 		// is leaf
-		A_[next_index] = node->id_;
+		A_[next_index_] = node->id_;
 		if (node->str_depth_ >= ZETA) {
-			node->start_leaf_index_ = next_index;
-			node->end_leaf_index_ = next_index;
+			node->start_leaf_index_ = next_index_;
+			node->end_leaf_index_ = next_index_;
 		}
-		next_index++;
+		next_index_++;
 		return 0;
 	}
 
 	// is node
 	for (auto child : node->children_) {
-		PrepareST(child);
+		PrepareST(child.second);
 	}
 
 	// now we set the internal node's start/end index
@@ -43,15 +43,15 @@ int ReadMap::Run() {
 	st_ = new SuffixTree(genome_bps_, genome_len_);
 	
 	// step 2: prepare the suffix tree
-	A_ = new int[genome_len];
+	A_ = new int[genome_len_];
 	next_index_ = 0;
-	memset(A_, -1, sizeof(int) * genome_len);
+	memset(A_, -1, sizeof(int) * genome_len_);
 	PrepareST(st_->root_);
 
 	// step 3:
 
 
-	delete A;
-	delete st;
+	delete A_;
+	delete st_;
 	return 0;
 }
