@@ -52,7 +52,7 @@ std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 			line = Trim(line);
 			seq_bps = "";
 			seq_name = line;
-			std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
+			//std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
 			iterating_through_seq = true;
 		} else {
 			//iterating through sequence
@@ -65,10 +65,11 @@ std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 		sequences.push_back({seq_name, seq_bps});
 	}
 
-	for(auto seq : sequences) {
+	for (auto seq : sequences) {
 		//std::cout << "sequence bps: " << seq.bps << std::endl;
-		std::cout << "sequence name: " << seq.name << std::endl;
+		//std::cout << "sequence name: " << seq.name << std::endl;
 	}
+	std::cout << "Loaded " << sequences.size() << " fasta sequence(s)" << std::endl;
 	return sequences;
 }
 
@@ -93,7 +94,7 @@ int main(int argc, char *argv[]) {
 	auto genome = genome_vec[0];
 
 	auto reads = LoadSequencesVector(reads_fname);
-	printf("Read %d read(s) from fname '%s'\n", (int)reads.size(), reads_fname);
+	//printf("Read %d read(s) from fname '%s'\n", (int)reads.size(), reads_fname);
 
 	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads);
 
