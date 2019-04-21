@@ -1,5 +1,7 @@
 #include "suffix-tree-node.h"
 
+namespace suffix_tree {
+
 SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) {
     auto search = children_.find(query[0]);
     if (search == children_.end()){
@@ -139,3 +141,5 @@ SuffixTreeNode* SuffixTreeNode::InsertNode(SuffixTreeNode* child, const char* qu
 
     return newLeafNode;
 }
+
+} // namespace suffix_tree

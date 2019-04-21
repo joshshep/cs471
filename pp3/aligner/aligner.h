@@ -9,6 +9,7 @@
 #include <utility> // pair
 #include <vector>
 
+namespace aligner {
 
 typedef struct dp_cell {
 	int D;
@@ -152,4 +153,5 @@ int max3(const DP_Cell & a);
 // prints the dp table using ridiculously tedious and complicated ascii art
 void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2);
 
+} //namespace aligner
 #endif

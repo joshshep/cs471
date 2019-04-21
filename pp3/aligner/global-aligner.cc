@@ -1,5 +1,7 @@
 #include "aligner/global-aligner.h"
 
+namespace aligner {
+
 void GlobalAligner::InitDP() {
 	const int n_cols = s1_.size() + 1;
 	const int n_rows = s2_.size() + 1;
@@ -140,3 +142,5 @@ int GlobalAligner::RunDP() {
 
 	return align_score;
 }
+
+} // namespace aligner

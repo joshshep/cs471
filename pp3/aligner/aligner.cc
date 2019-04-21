@@ -1,5 +1,7 @@
 #include "aligner/aligner.h"
 
+namespace aligner {
+
 int Aligner::Align(bool print_alignment) {
 	int align_score = RunDP();
 	if (print_alignment) {
@@ -196,3 +198,5 @@ int Aligner::Cost2Sub(char c1, char c2) {
 	}
 	return scoring_.mismatch;
 }
+
+} // namespace aligner

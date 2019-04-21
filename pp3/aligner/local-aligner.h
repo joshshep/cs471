@@ -3,6 +3,8 @@
 
 #include "aligner/aligner.h"
 
+namespace aligner {
+
 // inherits Aligner to implement the Smith-Waterman algorithm
 class LocalAligner : public Aligner {
 	// use base class's constructor
@@ -21,4 +23,5 @@ class LocalAligner : public Aligner {
 	void MaxCellInDP(int &i_max, int &j_max);
 };
 
+} // namespace aligner
 #endif

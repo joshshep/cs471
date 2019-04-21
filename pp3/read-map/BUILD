@@ -15,5 +15,4 @@ cc_library(
 		"//aligner:aligner-lib",
 	],
 	visibility = ["//visibility:public"],
-	timeout="short",
 )

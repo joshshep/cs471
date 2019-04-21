@@ -3,6 +3,8 @@
 
 #include "aligner/aligner.h"
 
+namespace aligner {
+
 // inherits Aligner to implement the Needleman-Wunsch algorithm
 class GlobalAligner : public Aligner {
 	// use base class's constructor
@@ -17,5 +19,7 @@ class GlobalAligner : public Aligner {
 	// determine the alignment by retracing/backtracking through the dp table
 	Alignment RetraceDP() override;
 };
+
+} // namespace aligner
 
 #endif

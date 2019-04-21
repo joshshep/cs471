@@ -1,5 +1,7 @@
 #include "suffix-tree/suffix-tree.h"
 
+namespace suffix_tree {
+
 int SuffixTree::BuildTreeMccreight(){
     // the incoming edge label doesn't matter
     root_ = new SuffixTreeNode("root", 4, nullptr);
@@ -82,3 +84,5 @@ SuffixTreeNode* SuffixTree::Case2(SuffixTreeNode* prev_leaf) {
     auto new_leaf = v->FindPath(prev_leaf->incoming_edge_label_, prev_leaf->edge_len_);
     return new_leaf;
 }
+
+} // namespace suffix_tree

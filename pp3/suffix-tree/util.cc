@@ -1,5 +1,6 @@
 #include "suffix-tree/suffix-tree.h"
 
+namespace suffix_tree {
 
 void PrintHelp() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
@@ -104,3 +105,5 @@ char intLen(int i) {
 	}
 	return uintLen(i);
 }
+
+} // namespace suffix_tree

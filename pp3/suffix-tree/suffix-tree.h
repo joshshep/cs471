@@ -1,9 +1,13 @@
 #ifndef SUFFIX_TREE_H_
 #define SUFFIX_TREE_H_
 
+#include <chrono>
+
 #include "suffix-tree-node.h"
 
-#include <chrono>
+
+namespace suffix_tree {
+
 
 class SuffixTree {
 public:
@@ -131,5 +135,7 @@ std::string Trim(const std::string& str, const std::string& whitespace = " ");
 
 // determines the length of the input integer
 char intLen(int n);
+
+} // namespace suffix_tree
 
 #endif

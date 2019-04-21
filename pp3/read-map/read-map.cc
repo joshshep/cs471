@@ -1,5 +1,7 @@
 #include "read-map/read-map.h"
 
+namespace read_map {
+
 #define ZETA 25
 
 ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> reads) {
@@ -7,7 +9,7 @@ ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> reads) {
 	genome_bps_ = genome.bps.c_str();
 }
 
-int ReadMap::PrepareST(SuffixTreeNode* node) {
+int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 	if (!node) {
 		return 0;
 	}
@@ -40,7 +42,7 @@ int ReadMap::PrepareST(SuffixTreeNode* node) {
 
 int ReadMap::Run() {
 	// step 1: construct the suffix tree
-	st_ = new SuffixTree(genome_bps_, genome_len_);
+	st_ = new suffix_tree::SuffixTree(genome_bps_, genome_len_);
 	
 	// step 2: prepare the suffix tree
 	A_ = new int[genome_len_];
@@ -55,3 +57,5 @@ int ReadMap::Run() {
 	delete st_;
 	return 0;
 }
+
+} // namespace read_map

@@ -2,7 +2,31 @@
 
 #include <assert.h>
 
-std::vector<Sequence> LoadSequencesVector(const char* fasta_fname) {
+void PrintHelp() {
+	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
+	std::cout << "E.g., ~$ ./align gene.fasta 0 params.config" << std::endl;
+}
+
+// modified from this s/o post https://stackoverflow.com/a/1798170
+std::string Trim(const std::string& str,
+                 const std::string& delimiter = " ") {
+	const auto strBegin = str.find_first_not_of(delimiter);
+	if (strBegin == std::string::npos)
+		return ""; // no content
+
+	const auto strEnd = str.find_last_not_of(delimiter);
+	const auto strRange = strEnd - strBegin + 1;
+
+	return str.substr(strBegin, strRange);
+}
+
+void Format_bps(std::string & str) {
+	for (auto& c : str) {
+		c = tolower(c);
+	}
+}
+
+std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 	std::cout << "Opening fasta file '" << fasta_fname << "' ..." << std::endl;
 	std::ifstream fasta_stream(fasta_fname);
 	if (!fasta_stream) {
@@ -11,7 +35,7 @@ std::vector<Sequence> LoadSequencesVector(const char* fasta_fname) {
 	}
 
 	std::string line, seq_bps, seq_name;
-	std::vector<Sequence> sequences;
+	std::vector<suffix_tree::Sequence> sequences;
 	bool iterating_through_seq = false;
 	while (std::getline(fasta_stream, line)) {
 		if (line.empty()) {
@@ -73,7 +97,7 @@ int main(int argc, char *argv[]) {
 	auto reads = LoadSequencesVector(reads_fname);
 	printf("Read %d read(s) from fname '%s'\n", reads.size(), reads_fname);
 
-	ReadMap* read_map = new ReadMap(genome, reads);
+	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads);
 
 	read_map->Run();
 

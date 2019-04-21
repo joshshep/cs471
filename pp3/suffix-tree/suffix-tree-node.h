@@ -13,6 +13,8 @@
 #include <random>
 #include <iostream>
 
+namespace suffix_tree {
+
 typedef struct sequence {
 	std::string name;
 	std::string bps;
@@ -197,5 +199,7 @@ private:
         printf("%*s", indentation*2, "");
     }
 };
+
+} //namespace suffix_tree
 
 #endif
