@@ -8,6 +8,7 @@ cc_binary(
 cc_library(
 	name = "read-map-lib",
 	srcs = ["read-map.cc"],
+	hdrs = ["read-map.h"],
 	copts = ["-O3", "-march=native", "-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 	deps = [
 		"//suffix-tree:suffix-tree-lib",

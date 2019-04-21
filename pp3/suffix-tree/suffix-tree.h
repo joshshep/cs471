@@ -17,6 +17,12 @@ public:
         delete root_;
     }
 
+    /*
+    SuffixTreeNode* MatchStr(const char* query, int query_len, int & match_len) {
+        return root_->MatchStr()
+    }
+    */
+
     // returns the number of nodes in the tree
     int BuildTreeMccreight();
 
