@@ -39,28 +39,26 @@ std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 	bool iterating_through_seq = false;
 	while (std::getline(fasta_stream, line)) {
 		if (line.empty()) {
+			continue;
+		}
+		// non empty
+		if (line[0] == '>') {
+			// found header
+			// beginning of sequence
 			if (iterating_through_seq) {
-				// end of sequence
+				// end of previous sequence too!
 				sequences.push_back({seq_name, seq_bps});
-				seq_bps = "";
-				seq_name = "";
-				iterating_through_seq = false;
 			}
+			line = Trim(line);
+			seq_bps = "";
+			seq_name = line;
+			std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
+			iterating_through_seq = true;
 		} else {
-			// non empty
-			if (line[0] == '>') {
-				// found header
-				// beginning of sequence
-				line = Trim(line);
-				seq_name = line;
-				std::cout << "Reading sequence: '" << seq_name << "' ..." << std::endl;
-				iterating_through_seq = true;
-			} else {
-				//iterating through sequence
-				line = Trim(line);
-				Format_bps(line);
-				seq_bps += line;
-			}
+			//iterating through sequence
+			line = Trim(line);
+			Format_bps(line);
+			seq_bps += line;
 		}
 	}
 	if (iterating_through_seq) {
@@ -68,7 +66,7 @@ std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 	}
 
 	for(auto seq : sequences) {
-		std::cout << "sequence bps: " << seq.bps << std::endl;
+		//std::cout << "sequence bps: " << seq.bps << std::endl;
 		std::cout << "sequence name: " << seq.name << std::endl;
 	}
 	return sequences;
