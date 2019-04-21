@@ -99,5 +99,7 @@ int main(int argc, char *argv[]) {
 
 	read_map->Run();
 
+	delete read_map;
+
 	return 0;
 }
