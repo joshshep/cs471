@@ -42,18 +42,21 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 
 int ReadMap::Run() {
 	// step 1: construct the suffix tree
-	std::cout << "ReadMap: Step 1: construct the reference genome suffix tree" << std::endl;
+	std::cout << "***** ReadMap: Step 1 *****" << std::endl;
+	std::cout << "Constructing the reference genome suffix tree..." << std::endl;
 	st_ = new suffix_tree::SuffixTree(genome_bps_, genome_len_);
 	
 	// step 2: prepare the suffix tree
-	std::cout << "ReadMap: Step 2: build A" << std::endl;
+	std::cout << "***** ReadMap: Step 2 *****" << std::endl;
+	std::cout << "Building A (PrepareST)..." << std::endl;
 	A_ = new int[genome_len_];
 	next_index_ = 0;
 	memset(A_, -1, sizeof(int) * genome_len_);
 	PrepareST(st_->root_);
 
 	// step 3:
-	std::cout << "ReadMap: Step 3: ??" << std::endl;
+	std::cout << "***** ReadMap: Step 3 *****" << std::endl;
+	std::cout << "??ing ..." << std::endl;
 
 	std::cout << "ReadMap: dealloc" << std::endl;
 	delete A_;
