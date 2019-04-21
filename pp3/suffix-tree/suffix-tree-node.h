@@ -30,6 +30,8 @@ public:
         }
 
         id_ = -1;
+        start_leaf_index_ = -1;
+        end_leaf_index_ = -1;
         //id_ = num_nodes_;
         //num_nodes_++;
     }
@@ -158,6 +160,9 @@ public:
     int str_depth_;
 	int id_;
     SuffixTreeNode* suffix_link_ = nullptr;
+
+    int start_leaf_index_;
+    int end_leaf_index_;
 
     static const char kStrTerminator = '$';
 
