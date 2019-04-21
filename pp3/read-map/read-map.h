@@ -6,7 +6,20 @@
 
 #include <stdio.h>
 
-int ReadMap(Sequence & genome, std::vector<Sequence> reads);
+
+class ReadMap {
+    ReadMap(Sequence & genome, std::vector<Sequence> reads);
+
+    int PrepareST(SuffixTreeNode* node);
+
+    int Run();
+
+    int genome_len_;
+    const char * genome_bps_;
+    int * A_;
+    int next_index_;
+    SuffixTree * st_;
+};
 
 
 #endif

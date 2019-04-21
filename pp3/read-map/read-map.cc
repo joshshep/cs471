@@ -2,13 +2,18 @@
 
 #define ZETA 25
 
-int PrepareST(SuffixTreeNode* node, int* A, int & next_index) {
+ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> reads) {
+	genome_len_ = genome.bps.length;
+	genome_bps_ = genome.bps.c_str();
+}
+
+int ReadMap::PrepareST(SuffixTreeNode* node) {
 	if (!node) {
 		return 0;
 	}
 	if (node->IsLeaf()) {
 		// is leaf
-		A[next_index] = node->id_;
+		A_[next_index] = node->id_;
 		if (node->str_depth_ >= ZETA) {
 			node->start_leaf_index_ = next_index;
 			node->end_leaf_index_ = next_index;
@@ -19,7 +24,7 @@ int PrepareST(SuffixTreeNode* node, int* A, int & next_index) {
 
 	// is node
 	for (auto child : node->children_) {
-		PrepareST(child, A, next_index);
+		PrepareST(child);
 	}
 
 	// now we set the internal node's start/end index
@@ -33,18 +38,15 @@ int PrepareST(SuffixTreeNode* node, int* A, int & next_index) {
 	return 0;
 }
 
-int ReadMap(Sequence & genome, std::vector<Sequence> reads) {
-	const int genome_len = genome.bps.length;
-	const char * genome_bps = genome.bps.c_str();
-
+int ReadMap::Run() {
 	// step 1: construct the suffix tree
-	SuffixTree* st = new SuffixTree(genome_bps, genome_len);
+	st_ = new SuffixTree(genome_bps_, genome_len_);
 	
 	// step 2: prepare the suffix tree
-	int* A = new int[genome_len];
-	int next_index = 0;
-	memset(A, -1, sizeof(int) * genome_len);
-	PrepareST(st->root_, A, next_index);
+	A_ = new int[genome_len];
+	next_index_ = 0;
+	memset(A_, -1, sizeof(int) * genome_len);
+	PrepareST(st_->root_);
 
 	// step 3:
 
