@@ -43,11 +43,12 @@ enum AlignmentScope {GLOBAL, LOCAL};
 class Aligner {
 public:
 	// TODO: resolve redundancy in {s1, s2} and seqs without messing with non-POD issues in initialization lists
-	Aligner(const std::string & s1, const std::string & s2, const std::pair<Sequence, Sequence> & seqs, const ScoreConfig & scoring) : 
+	Aligner(const std::string & s1, const std::string & s2, const ScoreConfig & scoring, const std::string & s1_name = "", const std::string & s2_name = "") : 
 		s1_(s1),
 		s2_(s2),
-		seqs_(seqs),
-		scoring_(scoring) {
+		scoring_(scoring),
+		s1_name_(s1_name),
+		s2_name_(s2_name) {
 		// alloc and initialize dp table
 		AllocDP();
 	}
@@ -97,8 +98,9 @@ protected:
 	DP_Cell** dp_; // the internal dp table we use to calculate the alignment
 	const std::string & s1_; // string representing base pair sequence 1
 	const std::string & s2_; // string representing base pair sequence 2
-	const std::pair<Sequence, Sequence> & seqs_; // pair of sequences to align (TODO redundant)
 	const ScoreConfig & scoring_; // the loaded scores for aligning procedure
+	const std::string & s1_name_; // string representing base pair sequence 1
+	const std::string & s2_name_; // string representing base pair sequence 2
 };
 
 
