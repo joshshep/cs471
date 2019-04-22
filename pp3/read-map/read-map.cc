@@ -106,8 +106,8 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 	local_aligner_->CountRetraceStats(alignment_stats);
 
 	int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
-	double perc_identity = (double)alignment_stats.nMatches / align_len;
-	printf("  %% identity: %lf\n", perc_identity);
+	double prop_identity = (double)alignment_stats.nMatches / align_len;
+	printf("  %% identity: %lf\n", prop_identity);
 
 	double len_coverage = (double)align_len / read_len;
 	printf("  len coverage: %lf\n", len_coverage);
