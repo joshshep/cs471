@@ -89,9 +89,6 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 	int genome_align_len = read_len * 2;
 	genome_align_len = std::min(genome_align_len, genome_len_ - genome_align_start);
 
-	// TODO: this is bad because it makes a copy
-	std::string genome_substr = genome_.bps.substr(genome_align_start, genome_align_len);
-
 	int alignment_score = local_aligner_->Align(false);
 
 	return alignment_score;
