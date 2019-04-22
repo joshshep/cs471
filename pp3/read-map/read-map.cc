@@ -62,7 +62,6 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(suffix_tree::Sequence & read) {
 			deepest_node = cand_deepest_node;
 		}
 	}
-	assert(deepest_node);
 	return deepest_node;
 }
 
@@ -92,6 +91,10 @@ int ReadMap::Align(int genome_match_start, suffix_tree::Sequence & read) {
 
 int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read);
+	if (deepest_node == nullptr) {
+		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		return -1;
+	}
 	for (int genome_match_start = deepest_node->start_leaf_index_; 
 	     genome_match_start <= deepest_node->end_leaf_index_; 
 	     genome_match_start++) {
