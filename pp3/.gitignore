@@ -2,3 +2,5 @@ data/
 
 # bazel excludes
 bazel-*
+
+.vscode/
