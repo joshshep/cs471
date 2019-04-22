@@ -11,12 +11,14 @@ namespace read_map {
 
 // minimum exact match length
 #define ZETA 25
+#define MAX_READ_LEN 120
 
 using suffix_tree::Sequence;
 
 class ReadMap {
 public:
 	ReadMap(Sequence & genome, std::vector<Sequence>& reads);
+	~ReadMap();
 
 	int PrepareST(suffix_tree::SuffixTreeNode* node);
 
@@ -37,6 +39,7 @@ public:
 	suffix_tree::SuffixTree * st_;
 	Sequence & genome_;
 	std::vector<Sequence> & reads_;
+	aligner::LocalAligner * local_aligner_ = nullptr;
 };
 
 } // namespace read_map

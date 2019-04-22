@@ -6,6 +6,15 @@ ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads)
 	: genome_(genome), reads_(reads) {
 	genome_len_ = genome.bps.size();
 	genome_bps_ = genome.bps.c_str();
+
+	// from the assignment
+	// {m_a =+1, m_i=-2, h=-5, g=-1}
+	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN, MAX_READ_LEN, align_config);
+}
+
+ReadMap::~ReadMap() {
+	delete local_aligner_;
 }
 
 int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
@@ -83,15 +92,7 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 	// TODO: this is bad because it makes a copy
 	std::string genome_substr = genome_.bps.substr(genome_align_start, genome_align_len);
 
-	// from the assignment
-	// {m_a =+1, m_i=-2, h=-5, g=-1}
-	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
-
-	aligner::LocalAligner * local_aligner = new aligner::LocalAligner(genome_substr, read, align_config);
-
-	int alignment_score = local_aligner->Align(false);
-
-	delete local_aligner;
+	int alignment_score = local_aligner_->Align(false);
 
 	return alignment_score;
 }
@@ -102,15 +103,15 @@ int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return -1;
 	}
-	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
-	//std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
+	std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
+	std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
 	for (int leaf_index = deepest_node->start_leaf_index_; 
 	     leaf_index <= deepest_node->end_leaf_index_; 
 	     leaf_index++) {
 		assert(leaf_index >= 0);
 		int genome_match_start = A_[leaf_index];
 		int alignment_score = Align(genome_match_start, read.bps);
-		//printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
+		printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
 	}
 
 	return 0;

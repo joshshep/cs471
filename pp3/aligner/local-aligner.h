@@ -6,9 +6,10 @@
 namespace aligner {
 
 // inherits Aligner to implement the Smith-Waterman algorithm
-class LocalAligner : public Aligner {
+class LocalAligner final : public Aligner {
 	// use base class's constructor
 	using Aligner::Aligner;
+	// the base class destructor is called automatically when localAligner is deleted
 
 	// set the edge values in the dp table to zero
 	void InitDP();
