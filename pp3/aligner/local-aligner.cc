@@ -3,8 +3,8 @@
 namespace aligner {
 
 void LocalAligner::InitDP() {
-	const int n_cols = s1_.size() + 1;
-	const int n_rows = s2_.size() + 1;
+	const int n_cols = s1_len_ + 1;
+	const int n_rows = s2_len_ + 1;
 
 	// initialize edge values
 	dp_[0][0] = {0, 0, 0};
@@ -18,8 +18,8 @@ void LocalAligner::InitDP() {
 
 void LocalAligner::MaxCellInDP(int &i_max, int &j_max) {
 	// TODO should we make n_cols a const member val?
-	const int n_cols = s1_.size() + 1;
-	const int n_rows = s2_.size() + 1;
+	const int n_cols = s1_len_ + 1;
+	const int n_rows = s2_len_ + 1;
 	int max_val = 0;
 	for (int j=0; j<n_rows; j++) {
 		for (int i=0; i<n_cols; i++) {
@@ -121,8 +121,8 @@ int LocalAligner::RunDP() {
 	// initialize the edge values in the dp table
 	InitDP();
 
-	const int n_cols = s1_.size() + 1;
-	const int n_rows = s2_.size() + 1;
+	const int n_cols = s1_len_ + 1;
+	const int n_rows = s2_len_ + 1;
 
 	int align_score = 0;
 	// main dp processing loop

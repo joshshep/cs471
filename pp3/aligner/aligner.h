@@ -43,12 +43,11 @@ enum AlignmentScope {GLOBAL, LOCAL};
 class Aligner {
 public:
 	// TODO: resolve redundancy in {s1, s2} and seqs without messing with non-POD issues in initialization lists
-	Aligner(const std::string & s1, const std::string & s2, const ScoreConfig & scoring, const std::string & s1_name = "", const std::string & s2_name = "") : 
-		s1_(s1),
-		s2_(s2),
-		scoring_(scoring),
-		s1_name_(s1_name),
-		s2_name_(s2_name) {
+	Aligner(const int s1_max_len, const int s2_max_len, const ScoreConfig & scoring) : 
+		s1_max_len_(s1_max_len),
+		s2_max_len_(s2_max_len),
+		scoring_(scoring)
+		{
 		// alloc and initialize dp table
 		AllocDP();
 	}
@@ -93,14 +92,27 @@ protected:
 	void PrintAlignmentLine(const std::string & retrace, 
 	                        const int i_retrace_start, int & i_s1, int & i_s2,
 	                        const int bp_per_line);
+	
+	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
+		assert(s1_len <= s1_max_len_);
+		assert(s2_len <= s2_max_len_);
+		s1_ = s1;
+		s1_len_ = s1_len;
+		s2_ = s2;
+		s2_len_ = s2_len;
+	}
 
 	// vars
 	DP_Cell** dp_; // the internal dp table we use to calculate the alignment
-	const std::string & s1_; // string representing base pair sequence 1
-	const std::string & s2_; // string representing base pair sequence 2
+	const int s1_max_len_;
+	const int s2_max_len_;
 	const ScoreConfig & scoring_; // the loaded scores for aligning procedure
-	const std::string & s1_name_; // string representing base pair sequence 1
-	const std::string & s2_name_; // string representing base pair sequence 2
+	
+
+	const char * s1_ = nullptr;
+	const char * s2_ = nullptr;
+	int s1_len_ = -1;
+	int s2_len_ = -1;
 };
 
 

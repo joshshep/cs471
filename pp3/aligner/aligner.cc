@@ -22,8 +22,8 @@ int Aligner::Align(bool print_alignment) {
 /////////////////////////////
 
 void Aligner::AllocDP() {
-	const int n_cols = s1_.size() + 1;
-	const int n_rows = s2_.size() + 1;
+	const int n_cols = s1_max_len_+ 1;
+	const int n_rows = s2_max_len_ + 1;
 	//std::cout << "Allocating dp table of size = " ;
 	//print_size(n_cols * n_rows * sizeof(DP_CELL));
 	//std::cout << " ..." << std::endl;
@@ -36,7 +36,7 @@ void Aligner::AllocDP() {
 }
 
 void Aligner::DelDP() {
-	const int n_rows = s2_.size() + 1;
+	const int n_rows = s2_max_len_ + 1;
 
 	for (int i = 0; i < n_rows; i++) {
 		delete[] dp_[i];
@@ -108,12 +108,14 @@ void Aligner::PrintAlignStats(Alignment alignment) {
 	std::cout << std::endl;
 
 	// print name
+	/*
 	std::string s1_name_short = s1_name_.substr(1, s1_name_.find(" "));
 	std::string s2_name_short = s2_name_.substr(1, s2_name_.find(" "));
 	std::cout << "s1 name (full):  " << s1_name_ << std::endl;
 	std::cout << "s1 name (short): " << s1_name_short << std::endl;
 	std::cout << "s2 name (full):  " << s2_name_ << std::endl;
 	std::cout << "s2 name (short): " << s2_name_short << std::endl;
+	*/
 }
 
 void Aligner::PrintAlignmentLine(const std::string & retrace, 
@@ -122,7 +124,7 @@ void Aligner::PrintAlignmentLine(const std::string & retrace,
 	const int i_retrace_end = std::min((int)retrace.size(), i_retrace_start + bp_per_line);
 
     // get maximum width of an index integer
-	const int index_col_width = std::max(intLen(s1_.size()), intLen(s2_.size()));
+	const int index_col_width = std::max(intLen(s1_len_), intLen(s2_len_));
 
 	// print s1
 	printf("s1  %*d  ", index_col_width, i_s1+1);
