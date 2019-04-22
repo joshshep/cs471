@@ -13,3 +13,8 @@ Run read map on an example
 ```
 ./bazel-bin/read-map/read-map data/Peach_reference.fasta data/Peach_simulated_reads.fasta
 ```
+
+## Running tests
+```
+bazel test test:read-map-test --test_output=all
+```
