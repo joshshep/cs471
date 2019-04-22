@@ -1,5 +1,7 @@
 #include "aligner/aligner.h"
 
+namespace aligner {
+
 void PrintHelp() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
 	std::cout << "E.g., ~$ ./align gene.fasta 0 params.config" << std::endl;
@@ -252,3 +254,5 @@ void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2)
 
 	delete[] col_widths;
 }
+
+} // namespace aligner
