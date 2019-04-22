@@ -8,6 +8,7 @@
 #include <fstream> 
 #include <utility> // pair
 #include <vector>
+#include <assert.h>
 
 namespace aligner {
 
@@ -62,6 +63,15 @@ public:
 	// returms the alignment score (returned from the pure virtual RunDP())
 	int Align(bool print_alignment=true);
 
+	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
+		assert(s1_len <= s1_max_len_);
+		assert(s2_len <= s2_max_len_);
+		s1_ = s1;
+		s1_len_ = s1_len;
+		s2_ = s2;
+		s2_len_ = s2_len;
+	}
+
 protected:
 
 	// (pure virtual) fills in the dp table with valid values
@@ -92,15 +102,6 @@ protected:
 	void PrintAlignmentLine(const std::string & retrace, 
 	                        const int i_retrace_start, int & i_s1, int & i_s2,
 	                        const int bp_per_line);
-	
-	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
-		assert(s1_len <= s1_max_len_);
-		assert(s2_len <= s2_max_len_);
-		s1_ = s1;
-		s1_len_ = s1_len;
-		s2_ = s2;
-		s2_len_ = s2_len;
-	}
 
 	// vars
 	DP_Cell** dp_; // the internal dp table we use to calculate the alignment

@@ -10,7 +10,7 @@ ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads)
 	// from the assignment
 	// {m_a =+1, m_i=-2, h=-5, g=-1}
 	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
-	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN, MAX_READ_LEN, align_config);
+	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN * 2, MAX_READ_LEN, align_config);
 }
 
 ReadMap::~ReadMap() {
@@ -57,25 +57,32 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	int read_len = read.size();
 
 	suffix_tree::SuffixTreeNode* deepest_node = nullptr;
+	suffix_tree::SuffixTreeNode* cur_node = root; // i.e., T
 	int deepest_node_depth = ZETA - 1;
 	assert(ZETA > 0);
-	for (int i=0; i < read_len - ZETA + 1; i++) {
-		//printf("i=%d ; bps_len - ZETA = %d\n", i, bps_len - ZETA);
+	for (int i = 0; i < read_len - ZETA + 1; i++) {
 		int match_len = -1;
-		// TODO use suffix links
-		auto cand_deepest_node = root->MatchStr(read_bps + i, read_len - i, match_len);
+
+		// i.e., u
+		auto cand_deepest_node = cur_node->MatchStr(
+			read_bps + i + cur_node->str_depth_, 
+			read_len - i - cur_node->str_depth_, 
+			match_len
+		);
 		assert(cand_deepest_node);
-		/*
+
 		printf("- i=%d : read='%s'\n", i, read_bps + i);
 		printf("  candidate deepest str depth: %d\n", cand_deepest_node->str_depth_);
 		printf("  match_len = %d\n", match_len);
-		printf("  num children = %d\n", cand_deepest_node->children_.size());
-		*/
+		printf("  num children = %d\n", (int)cand_deepest_node->children_.size());
+
 		// by the project assignment description, we must use this heuristic
 		if (cand_deepest_node->str_depth_ + match_len > deepest_node_depth) {
 			deepest_node_depth = cand_deepest_node->str_depth_ + match_len;
 			deepest_node = cand_deepest_node;
 		}
+		cur_node = cand_deepest_node->suffix_link_;
+		assert(cur_node);
 	}
 	return deepest_node;
 }
@@ -89,6 +96,7 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 	int genome_align_len = read_len * 2;
 	genome_align_len = std::min(genome_align_len, genome_len_ - genome_align_start);
 
+	local_aligner_->SetOperands(genome_bps_ + genome_align_start, genome_align_len, read.c_str(), read_len);
 	int alignment_score = local_aligner_->Align(false);
 
 	return alignment_score;
@@ -100,15 +108,15 @@ int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return -1;
 	}
-	std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
-	std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
+	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
+	//std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
 	for (int leaf_index = deepest_node->start_leaf_index_; 
 	     leaf_index <= deepest_node->end_leaf_index_; 
 	     leaf_index++) {
 		assert(leaf_index >= 0);
 		int genome_match_start = A_[leaf_index];
 		int alignment_score = Align(genome_match_start, read.bps);
-		printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
+		//printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
 	}
 
 	return 0;

@@ -11,7 +11,7 @@ namespace read_map {
 
 // minimum exact match length
 #define ZETA 25
-#define MAX_READ_LEN 120
+#define MAX_READ_LEN 105
 
 using suffix_tree::Sequence;
 
