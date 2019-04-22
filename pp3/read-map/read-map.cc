@@ -65,9 +65,8 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(suffix_tree::Sequence & read) {
 	return deepest_node;
 }
 
-int ReadMap::Align(int genome_match_start, suffix_tree::Sequence & read) {
-	const char* read_bps = read.bps.c_str();
-	int read_len = read.bps.size();
+int ReadMap::Align(int genome_match_start, std::string & read) {
+	int read_len = read.size();
 
 	int genome_align_start = genome_match_start - read_len;
 	genome_align_start = std::max(genome_align_start, 0);
@@ -82,7 +81,7 @@ int ReadMap::Align(int genome_match_start, suffix_tree::Sequence & read) {
 	// {m_a =+1, m_i=-2, h=-5, g=-1}
 	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
 
-	aligner::LocalAligner * local_aligner = new aligner::LocalAligner(genome_substr, read.bps, align_config);
+	aligner::LocalAligner * local_aligner = new aligner::LocalAligner(genome_substr, read, align_config);
 
 	int alignment_score = local_aligner->Align(false);
 
@@ -95,12 +94,14 @@ int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return -1;
 	}
+
+	std::cout << "deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
 	for (int genome_match_start = deepest_node->start_leaf_index_; 
 	     genome_match_start <= deepest_node->end_leaf_index_; 
 	     genome_match_start++) {
 		assert(genome_match_start >= 0);
-		int alignment_score = Align(genome_match_start, read);
-		
+		int alignment_score = Align(genome_match_start, read.bps);
+		printf("[%d] alignment_score: %d\n", genome_match_start, alignment_score);
 	}
 
 	return 0;

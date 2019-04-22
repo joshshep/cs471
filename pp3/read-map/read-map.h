@@ -25,7 +25,7 @@ public:
 
 	int CalcReadMappings();
 
-	int Align(int genome_match_start, suffix_tree::Sequence & read);
+	int Align(int genome_match_start, std::string & read);
 
 	int genome_len_;
 	const char * genome_bps_;
