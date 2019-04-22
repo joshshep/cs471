@@ -33,6 +33,84 @@ void LocalAligner::MaxCellInDP(int &i_max, int &j_max) {
 	}
 }
 
+void LocalAligner::CountRetraceStats(AlignmentStats & scoring) {
+	scoring.nMatches = 0;
+	scoring.nMismatches = 0;
+	scoring.nGaps = 0;
+	int i = 0;
+	int j = 0;
+	RetraceState retrace_state;
+
+	// get ending point for retrace
+	MaxCellInDP(i, j); // modifies i and j inplace
+
+	retrace_state = GetRetraceState(dp_[j][i], s1_[i-1], s2_[j-1]);
+	
+	// determine the Alignment by retracing from (i,j) to where the cell max==0
+	while (true) {
+		// move based on our retrace step
+		switch(retrace_state) {
+		case MATCH:
+			scoring.nMatches++;
+			i--; j--;
+			break;
+		case MISMATCH:
+			scoring.nMismatches++;
+			i--; j--;
+			break;
+		case INSERT:
+			scoring.nGaps++;
+			i--;
+			break;
+		case DELETE:
+			scoring.nGaps++;
+			j--;
+			break;
+		}
+
+		// dp boundary check
+		if (i < 1 || j < 1) {
+			//std::cout << "retrace DP loop: reached edge of dp table" << std::endl;
+			break;
+		}
+		DP_Cell & cell = dp_[j][i];
+
+		// continue retracing until we arrive at the origin cell (where max==0)
+		if (max3(cell) <= 0) {
+			//std::cout << "retrace DP loop: found zero value" << std::endl;
+			break;
+		}
+
+		// determine the retrace state (the next retrace step)
+		switch(retrace_state) {
+		case MATCH:
+		case MISMATCH:
+		{
+			retrace_state = GetRetraceState(cell, s1_[i-1], s2_[j-1]);
+			break;
+		}
+		case INSERT:
+		{
+			int i_i = cell.I + scoring_.g;
+			int i_s = cell.S + scoring_.g + scoring_.h;
+			int i_d = cell.D + scoring_.g + scoring_.h;
+			retrace_state = GetRetraceState({i_d, i_i, i_s}, s1_[i-1], s2_[j-1]);
+			break;
+		}
+		case DELETE:
+		{
+			int d_d = cell.D + scoring_.g;
+			int d_s = cell.S + scoring_.g + scoring_.h;
+			int d_i = cell.I + scoring_.g + scoring_.h;
+			retrace_state = GetRetraceState({d_d, d_i, d_s}, s1_[i-1], s2_[j-1]);
+			break;
+		}
+		}
+	}
+	scoring.startIndex = i;
+}
+
+
 Alignment LocalAligner::RetraceDP() {
 	int i = 0;
 	int j = 0;

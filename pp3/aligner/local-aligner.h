@@ -5,6 +5,13 @@
 
 namespace aligner {
 
+typedef struct alignment_stats {
+	int nMatches;
+	int nMismatches;
+	int nGaps;
+	int startIndex;
+} AlignmentStats;
+
 // inherits Aligner to implement the Smith-Waterman algorithm
 class LocalAligner final : public Aligner {
 	// use base class's constructor
@@ -22,6 +29,9 @@ class LocalAligner final : public Aligner {
 
 	// determines the cell in the dp corresponding to the max val
 	void MaxCellInDP(int &i_max, int &j_max);
+
+public:
+	void CountRetraceStats(AlignmentStats & scoring);
 };
 
 } // namespace aligner
