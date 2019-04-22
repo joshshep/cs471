@@ -9,6 +9,9 @@
 
 namespace read_map {
 
+// minimum exact match length
+#define ZETA 25
+
 using suffix_tree::Sequence;
 
 class ReadMap {
@@ -19,7 +22,7 @@ public:
 
 	int Run();
 
-	suffix_tree::SuffixTreeNode* FindLoc(suffix_tree::Sequence & read);
+	suffix_tree::SuffixTreeNode* FindLoc(std::string & read);
 
 	int CalcReadMapping(suffix_tree::Sequence & read);
 

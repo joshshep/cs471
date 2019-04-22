@@ -2,9 +2,6 @@
 
 namespace read_map {
 
-// minimum exact match length
-#define ZETA 25
-
 ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads)
 	: genome_(genome), reads_(reads) {
 	genome_len_ = genome.bps.size();
@@ -18,7 +15,8 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 	if (node->IsLeaf()) {
 		// is leaf
 		A_[next_index_] = node->id_;
-		if (node->str_depth_ >= ZETA) {
+		// TODO DEBUG TEST: remove this true shortcut eval
+		if (true || node->str_depth_ >= ZETA) {
 			node->start_leaf_index_ = next_index_;
 			node->end_leaf_index_ = next_index_;
 		}
@@ -26,13 +24,14 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 		return 0;
 	}
 
-	// is node
+	// is internal node (so it must have children)
 	for (auto child : node->children_) {
 		PrepareST(child.second);
 	}
 
 	// now we set the internal node's start/end index
-	if (node->str_depth_ >= ZETA) {
+	// TODO DEBUG TEST: remove this true shortcut eval
+	if (true || node->str_depth_ >= ZETA) {
 		auto first_child = node->children_.begin()->second;
 		auto last_child = node->children_.rbegin()->second;
 		node->start_leaf_index_ = first_child->start_leaf_index_;
@@ -42,23 +41,30 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 	return 0;
 }
 
-suffix_tree::SuffixTreeNode* ReadMap::FindLoc(suffix_tree::Sequence & read) {
+suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	suffix_tree::SuffixTreeNode* root = st_->root_;
 
-	const char * bps = read.bps.c_str();
-	int bps_len = read.bps.size();
+	const char * read_bps = read.c_str();
+	int read_len = read.size();
 
 	suffix_tree::SuffixTreeNode* deepest_node = nullptr;
 	int deepest_node_depth = ZETA - 1;
-	for (int i=0; i < bps_len - ZETA; i++) {
+	assert(ZETA > 0);
+	for (int i=0; i < read_len - ZETA + 1; i++) {
+		//printf("i=%d ; bps_len - ZETA = %d\n", i, bps_len - ZETA);
 		int match_len = -1;
 		// TODO use suffix links
-		auto cand_deepest_node = root->MatchStr(bps + i, bps_len - i, match_len);
+		auto cand_deepest_node = root->MatchStr(read_bps + i, read_len - i, match_len);
 		assert(cand_deepest_node);
-
+		/*
+		printf("- i=%d : read='%s'\n", i, read_bps + i);
+		printf("  candidate deepest str depth: %d\n", cand_deepest_node->str_depth_);
+		printf("  match_len = %d\n", match_len);
+		printf("  num children = %d\n", cand_deepest_node->children_.size());
+		*/
 		// by the project assignment description, we must use this heuristic
-		if (cand_deepest_node->str_depth_ > deepest_node_depth) {
-			deepest_node_depth = cand_deepest_node->str_depth_;
+		if (cand_deepest_node->str_depth_ + match_len > deepest_node_depth) {
+			deepest_node_depth = cand_deepest_node->str_depth_ + match_len;
 			deepest_node = cand_deepest_node;
 		}
 	}
@@ -85,32 +91,42 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 
 	int alignment_score = local_aligner->Align(false);
 
+	delete local_aligner;
+
 	return alignment_score;
 }
 
 int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
-	auto deepest_node = FindLoc(read);
+	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
 		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return -1;
 	}
-
-	std::cout << "deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
-	for (int genome_match_start = deepest_node->start_leaf_index_; 
-	     genome_match_start <= deepest_node->end_leaf_index_; 
-	     genome_match_start++) {
-		assert(genome_match_start >= 0);
+	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
+	//std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
+	for (int leaf_index = deepest_node->start_leaf_index_; 
+	     leaf_index <= deepest_node->end_leaf_index_; 
+	     leaf_index++) {
+		assert(leaf_index >= 0);
+		int genome_match_start = A_[leaf_index];
 		int alignment_score = Align(genome_match_start, read.bps);
-		printf("[%d] alignment_score: %d\n", genome_match_start, alignment_score);
+		//printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
 	}
 
 	return 0;
 }
 
 int ReadMap::CalcReadMappings() {
+	int i = 0;
 	for (auto read : reads_) {
+		if (i % 5000 == 0) {
+			printf("%d/%d reads complete\n", i, (int)reads_.size());
+		}
 		CalcReadMapping(read);
+		i++;
 	}
+	printf("%d/%d reads complete\n", i, (int)reads_.size());
+
 	return 0;
 }
 
