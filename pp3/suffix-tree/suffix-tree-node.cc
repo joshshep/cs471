@@ -5,7 +5,11 @@ namespace suffix_tree {
 SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) {
     auto search = children_.find(query[0]);
     if (search == children_.end()){
-        // we need to add a child
+        if (this->IsLeaf()) {
+            // technically possible
+            match_len = edge_len_;
+            return parent_;
+        }
         match_len = 0;
         return this;
     }
