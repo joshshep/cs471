@@ -55,13 +55,13 @@ public:
             PrintPath(root_, descendant);
     }
     void PrintPath(SuffixTreeNode *ancestor, SuffixTreeNode *descendant) {
-        printf("\n[%d] is the parent of [%d]\n", descendant->parent_->id_, descendant->id_);
-        printf("\nPrintPath(parent_id=[%d], child_id=[%d]): ", ancestor->id_, descendant->id_);
+        //printf("\n[%d] is the parent of [%d]\n", descendant->parent_->id_, descendant->id_);
+        //printf("\nPrintPath(parent_id=[%d], child_id=[%d]): ", ancestor->id_, descendant->id_);
         if (ancestor == descendant) {
-            printf("FOUND ancestor from desendent ; str_depth_=%d ; edge_len=%d\n", descendant->str_depth_, descendant->edge_len_);
+            //printf("FOUND ancestor from desendent ; str_depth_=%d ; edge_len=%d\n", descendant->str_depth_, descendant->edge_len_);
             return;
         }
-        printf("str_depth_=%d ; chars to print=%d", descendant->str_depth_, descendant->edge_len_);
+        //printf("str_depth_=%d ; chars to print=%d", descendant->str_depth_, descendant->edge_len_);
         PrintPath(ancestor, descendant->parent_);
         printf("%*.*s", descendant->edge_len_, descendant->edge_len_, descendant->incoming_edge_label_);
     }
