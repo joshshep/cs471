@@ -25,7 +25,7 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 		// is leaf
 		A_[next_index_] = node->id_;
 		// TODO DEBUG TEST: remove this true shortcut eval
-		if (true || node->str_depth_ >= ZETA) {
+		if (node->str_depth_ >= ZETA) {
 			node->start_leaf_index_ = next_index_;
 			node->end_leaf_index_ = next_index_;
 		}
@@ -40,7 +40,7 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 
 	// now we set the internal node's start/end index
 	// TODO DEBUG TEST: remove this true shortcut eval
-	if (true || node->str_depth_ >= ZETA) {
+	if (node->str_depth_ >= ZETA) {
 		auto first_child = node->children_.begin()->second;
 		auto last_child = node->children_.rbegin()->second;
 		node->start_leaf_index_ = first_child->start_leaf_index_;
@@ -61,13 +61,13 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - ZETA + 1; i++) {
-		int edge_match_len = -1;
+		int match_len = cur_node->str_depth_;
 
 		// i.e., u
 		auto cand_longest_match_node = cur_node->MatchStr(
 			read_bps + i + cur_node->str_depth_, 
 			read_len - i - cur_node->str_depth_, 
-			edge_match_len
+			match_len
 		);
 		assert(cand_longest_match_node);
 		/*
@@ -78,12 +78,21 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		*/
 
 		// by the project assignment description, we must use this heuristic
-		if (cand_longest_match_node->str_depth_ + edge_match_len > longest_match_len) {
-			longest_match_len = cand_longest_match_node->str_depth_ + edge_match_len;
+		//printf("  [%d] match_len = %d\n", i, match_len);
+		if (match_len > longest_match_len) {
+			longest_match_len = match_len;
 			longest_match_node = cand_longest_match_node;
 		}
-		cur_node = cand_longest_match_node->suffix_link_;
-		assert(cur_node);
+		if (!cand_longest_match_node->suffix_link_) {
+			// we are at a leaf node
+			// use our parents suffix link
+			// note: this will work as long as the root has children
+			cur_node = cand_longest_match_node->parent_->suffix_link_;
+			assert(cur_node);
+		} else {
+			cur_node = cand_longest_match_node->suffix_link_;
+			assert(cur_node);
+		}
 	}
 	return longest_match_node;
 }
@@ -109,7 +118,7 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		//std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return {-1, -1};
 	}
 	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
@@ -157,7 +166,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		//std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
 	}
 
 	//printf("  [%d] match\n", read_map_loc);
