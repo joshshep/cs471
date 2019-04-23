@@ -15,7 +15,12 @@ public:
         //BuildTreeSimple();
         printf("input str length: %d\n", len);
         printf("Building suffix tree...\n");
-        PrintBuildStats();
+
+        // simply build the tree
+        BuildTreeMccreight();
+
+        // build the tree with timing and stats
+        //PrintBuildStats();
     }
     ~SuffixTree(){
         delete root_;

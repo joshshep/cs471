@@ -64,14 +64,7 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
         // this suffix is already in the the tree
         // nothing to do
         // when does this happen?
-        printf("error: suffix already exists in tree?!\n");
-        printf("parent: ");
-        SuffixTreeNode::PrintNode(this);
-        printf("\n");
-        printf("child: ");
-        SuffixTreeNode::PrintNode(child);
-        printf("\n");
-        printf("query str: %*.*s\n", query_len, query_len, query);
+        printf("error: suffix already exists in the tree?!\n");
         assert(0);
         exit(1);
         return nullptr;
@@ -80,7 +73,6 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
     // we need to check this node's children
     // recurse
     //printf("recurse FindPath(%*.*s)\n", query_len - child->edge_len_, query_len - child->edge_len_, query + child->edge_len_);
-
     return child->FindPath(query + child->edge_len_, query_len - child->edge_len_);
 }
 
@@ -106,9 +98,6 @@ SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
         //printf("NodeHops(): the node simply already exists\n");
         return child;
     }
-
-
-    //FindPath(beta, beta_len);
 
     // we need to break the edge and create a node
 
