@@ -57,25 +57,25 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
-		printf("[i=%d] read=%s\n", i, read_bps + i);
+		//printf("[i=%d] read=%s\n", i, read_bps + i);
 		int match_len = search_src->str_depth_;
-		printf("  search_src: ");
-		st_->PrintPath(search_src);
-		printf(" (len=%d)\n", search_src->str_depth_);
+		//printf("  search_src: ");
+		//st_->PrintPath(search_src);
+		//printf(" (len=%d)\n", search_src->str_depth_);
 
 		// i.e., u
 
 		const char * query = read_bps + i + search_src->str_depth_;
 		int query_len = read_len - i - search_src->str_depth_;
-		printf("  query: %s\n", query);
+		//printf("  query: %s\n", query);
 		assert(query_len > 0);
-		printf("  match_len BEFORE MatchStr(): %d\n", match_len);
+		//printf("  match_len BEFORE MatchStr(): %d\n", match_len);
 		auto cand_longest_match_node = search_src->MatchStr(
 			query, 
 			query_len, 
 			match_len
 		);
-		printf("  match_len AFTER MatchStr(): %d\n", match_len);
+		//printf("  match_len AFTER MatchStr(): %d\n", match_len);
 
 		assert(cand_longest_match_node);
 
@@ -86,9 +86,9 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		
 		// update the search source
 		if (cand_longest_match_node->suffix_link_) {
-			printf("  cand_longest_match_node: ");
-			st_->PrintPath(cand_longest_match_node);
-			printf(" (len=%d)\n", cand_longest_match_node->str_depth_);
+			//printf("  cand_longest_match_node: ");
+			//st_->PrintPath(cand_longest_match_node);
+			//printf(" (len=%d)\n", cand_longest_match_node->str_depth_);
 			
 			search_src = cand_longest_match_node->suffix_link_;
 			assert(search_src->str_depth_ + 1 == cand_longest_match_node->str_depth_);
@@ -97,17 +97,17 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			// we are at a leaf node
 			// use our parents suffix link
 			// note: this will work as long as the root has children (?)
-			printf("  cand_longest_match_node->parent: ");
-			st_->PrintPath(cand_longest_match_node->parent_);
-			printf(" (len=%d)\n", cand_longest_match_node->parent_->str_depth_);
+			//printf("  cand_longest_match_node->parent: ");
+			//st_->PrintPath(cand_longest_match_node->parent_);
+			//printf(" (len=%d)\n", cand_longest_match_node->parent_->str_depth_);
 
 			search_src = cand_longest_match_node->parent_->suffix_link_;
 			assert(search_src->str_depth_ + 1 == cand_longest_match_node->parent_->str_depth_);
 			assert(search_src);
 		}
 	}
-	printf("  @@@@@\n");
-	printf("  longest_match_len: %d\n", longest_match_len);
+	//printf("  @@@@@\n");
+	//printf("  longest_match_len: %d\n", longest_match_len);
 	//printf("  longest match label: ");
 	//st_->PrintPath(longest_match_node);
 	//printf(" (len=%d)\n", longest_match_node ? longest_match_node->str_depth_ : -1);
