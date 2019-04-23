@@ -107,6 +107,7 @@ SuffixTreeNode* SuffixTreeNode::BreakEdge(SuffixTreeNode* child, int index) {
     
     auto newInternalNode = new SuffixTreeNode(child->incoming_edge_label_, index, this);
     newInternalNode->children_[child->incoming_edge_label_[index]] = child;
+    child->parent_ = newInternalNode;
 
     this->children_[newInternalNode->incoming_edge_label_[0]] = newInternalNode;
 
@@ -126,7 +127,7 @@ SuffixTreeNode* SuffixTreeNode::InsertNode(SuffixTreeNode* child, const char* qu
     auto newInternalNode = this->BreakEdge(child, index);
     auto newLeafNode = new SuffixTreeNode(query + index, query_len - index, newInternalNode);
 
-    newInternalNode->children_[newLeafNode->incoming_edge_label_[0]] = newLeafNode;
+    //newInternalNode->children_[newLeafNode->incoming_edge_label_[0]] = newLeafNode;
 
     return newLeafNode;
 }
