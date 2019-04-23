@@ -50,6 +50,7 @@ public:
 	Sequence & genome_;
 	std::vector<Sequence> & reads_;
 	aligner::LocalAligner * local_aligner_ = nullptr;
+	int n_aligns_ = 0;
 };
 
 } // namespace read_map

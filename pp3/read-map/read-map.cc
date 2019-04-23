@@ -101,6 +101,8 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 
 	// gather stats about the alignment
 	local_aligner_->CountRetraceStats(alignment_stats);
+
+	n_aligns_++; // keep track of the number of times we have aligned reads
 	return alignment_score;
 }
 
@@ -227,6 +229,7 @@ int ReadMap::Run() {
 	auto mappings = CalcReadMappings();
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
+	std::cout << "# of alignments / read: " << (double)n_aligns_/reads_.size() << std::endl;
 	std::cout << "Time elapsed: " << duration << " microseconds" << std::endl;
 
 	// step 4: write to the output file
