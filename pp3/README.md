@@ -9,6 +9,12 @@ Build the project:
 bazel build read-map
 ```
 
+build (w/ asserts disabled)
+```
+bazel build read-map --compilation_mode=opt
+```
+
+
 Run read map on an example
 ```
 ./bazel-bin/read-map/read-map data/Peach_reference.fasta data/Peach_simulated_reads.fasta
