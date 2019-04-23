@@ -60,7 +60,7 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - ZETA + 1; i++) {
 		printf("- i=%d : read='%s'\n", i, read_bps + i);
-		int match_len = cur_node->str_depth_;
+		int match_len = 0;
 
 		// i.e., u
 		printf("  MatchStr():\n");
@@ -69,8 +69,8 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		printf("    query_len: %d\n", read_len - i - cur_node->str_depth_);
 		printf("    match_len: %d\n", match_len);
 		auto cand_longest_match_node = cur_node->MatchStr(
-			read_bps + i + cur_node->str_depth_, 
-			read_len - i - cur_node->str_depth_, 
+			read_bps + i, 
+			read_len - i, 
 			match_len
 		);
 		assert(cand_longest_match_node);
@@ -82,6 +82,7 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			longest_match_len = match_len;
 			longest_match_node = cand_longest_match_node;
 		}
+		/*
 		if (!cand_longest_match_node->suffix_link_) {
 			// we are at a leaf node
 			// use our parents suffix link
@@ -92,6 +93,7 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			cur_node = cand_longest_match_node->suffix_link_;
 			assert(cur_node);
 		}
+		*/
 	}
 	return longest_match_node;
 }
