@@ -56,42 +56,46 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
-	suffix_tree::SuffixTreeNode* deepest_node = nullptr;
+	suffix_tree::SuffixTreeNode* longest_match_node = nullptr;
 	suffix_tree::SuffixTreeNode* cur_node = root; // i.e., T
-	int deepest_node_depth = ZETA - 1;
+	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - ZETA + 1; i++) {
-		int match_len = -1;
+		int edge_match_len = -1;
 
 		// i.e., u
-		auto cand_deepest_node = cur_node->MatchStr(
+		auto cand_longest_match_node = cur_node->MatchStr(
 			read_bps + i + cur_node->str_depth_, 
 			read_len - i - cur_node->str_depth_, 
-			match_len
+			edge_match_len
 		);
-		assert(cand_deepest_node);
-
+		assert(cand_longest_match_node);
+		/*
 		printf("- i=%d : read='%s'\n", i, read_bps + i);
 		printf("  candidate deepest str depth: %d\n", cand_deepest_node->str_depth_);
 		printf("  match_len = %d\n", match_len);
 		printf("  num children = %d\n", (int)cand_deepest_node->children_.size());
+		*/
 
 		// by the project assignment description, we must use this heuristic
-		if (cand_deepest_node->str_depth_ + match_len > deepest_node_depth) {
-			deepest_node_depth = cand_deepest_node->str_depth_ + match_len;
-			deepest_node = cand_deepest_node;
+		if (cand_longest_match_node->str_depth_ + edge_match_len > longest_match_len) {
+			longest_match_len = cand_longest_match_node->str_depth_ + edge_match_len;
+			longest_match_node = cand_longest_match_node;
 		}
-		cur_node = cand_deepest_node->suffix_link_;
+		cur_node = cand_longest_match_node->suffix_link_;
+		if (!cur_node) {
+			printf("cur_node is null?!\n");
+			printf("cand_longest_match_node->str_depth_: %d\n", cand_longest_match_node->str_depth_);
+			printf("cand_longest_match_node->id_: %d\n", cand_longest_match_node->id_);
+			cand_longest_match_node->PrintNode(cand_longest_match_node);
+		}
 		assert(cur_node);
 	}
-	return deepest_node;
+	return longest_match_node;
 }
 
-int ReadMap::Align(int genome_match_start, std::string & read) {
+int ReadMap::Align(int genome_align_start, std::string & read, aligner::AlignmentStats & alignment_stats) {
 	int read_len = read.size();
-
-	int genome_align_start = genome_match_start - read_len;
-	genome_align_start = std::max(genome_align_start, 0);
 
 	int genome_align_len = read_len * 2;
 	genome_align_len = std::min(genome_align_len, genome_len_ - genome_align_start);
@@ -102,17 +106,7 @@ int ReadMap::Align(int genome_match_start, std::string & read) {
 	int alignment_score = local_aligner_->Align(false);
 
 	// gather stats about the alignment
-	aligner::AlignmentStats alignment_stats;
 	local_aligner_->CountRetraceStats(alignment_stats);
-
-	int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
-	double prop_identity = (double)alignment_stats.nMatches / align_len;
-	printf("  %% identity: %lf\n", prop_identity);
-
-	double len_coverage = (double)align_len / read_len;
-	printf("  len coverage: %lf\n", len_coverage);
-	printf("  start index: %d + %d = %d\n", genome_align_start, alignment_stats.startIndex, genome_align_start + alignment_stats.startIndex);
-
 	return alignment_score;
 }
 
@@ -122,16 +116,56 @@ int ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return -1;
 	}
-	std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
-	std::cout << "  deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
+	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
+	//std::cout << "deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
+	//std::cout << "read: " << read.bps << std::endl;
+	int longest_align_len = -1;
+	int read_len = read.bps.size();
+	int read_map_loc = -1;
 	for (int leaf_index = deepest_node->start_leaf_index_; 
 	     leaf_index <= deepest_node->end_leaf_index_; 
 	     leaf_index++) {
 		assert(leaf_index >= 0);
 		int genome_match_start = A_[leaf_index];
-		int alignment_score = Align(genome_match_start, read.bps);
+		aligner::AlignmentStats alignment_stats;
+
+		int genome_align_start = genome_match_start - read_len;
+		genome_align_start = std::max(genome_align_start, 0);
+
+		// perform the alignment
+		int alignment_score = Align(genome_align_start, read.bps, alignment_stats);
+
+		// handle the result
+		int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
+		double prop_identity = (double)alignment_stats.nMatches / align_len;
+
+		double len_coverage = (double)align_len / read_len;
+
+		if (prop_identity > MIN_PROP_IDENTITY && len_coverage > MIN_PROP_LENGTH_COVERAGE) {
+			// good match
+			if (align_len > longest_align_len) {
+				// new best match
+				longest_align_len = align_len;
+				read_map_loc = genome_align_start + alignment_stats.startIndex;
+			}
+		}
+		/*
+		printf("  %% identity: %lf\n", prop_identity);
+		printf("  len coverage: %lf\n", len_coverage);
+		printf("  start index: %d + %d = %d\n", genome_align_start, alignment_stats.startIndex, genome_align_start + alignment_stats.startIndex);
+		printf("  %*.*s\n", align_len, align_len, genome_bps_ + genome_align_start + alignment_stats.startIndex);
+
+
 		printf("  [%d] alignment_score: %d\n", genome_match_start, alignment_score);
+		*/
 	}
+
+	if (read_map_loc < 0) {
+		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		return -1;
+	}
+
+	//printf("  [%d] match\n", read_map_loc);
 
 	return 0;
 }

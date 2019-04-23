@@ -10,7 +10,7 @@
 namespace read_map {
 
 // minimum exact match length
-#define ZETA 25
+#define ZETA 8
 #define MAX_READ_LEN 105
 #define MIN_PROP_IDENTITY 0.90
 #define MIN_PROP_LENGTH_COVERAGE 0.80
@@ -32,7 +32,7 @@ public:
 
 	int CalcReadMappings();
 
-	int Align(int genome_match_start, std::string & read);
+	int Align(int genome_align_start, std::string & read, aligner::AlignmentStats & alignment_stats);
 
 	int genome_len_;
 	const char * genome_bps_;
