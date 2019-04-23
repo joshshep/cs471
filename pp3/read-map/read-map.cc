@@ -118,7 +118,7 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		//std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return {-1, -1};
 	}
 	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
@@ -166,7 +166,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		//std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
 	}
 
 	//printf("  [%d] match\n", read_map_loc);
