@@ -169,6 +169,8 @@ void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
 	int n_mapless = 0;
+	// header
+	ofile << "Read name,Start index of hit,End index of hit" << endl;
 	for (int i = 0; i < (int)mappings.size(); i++) {
 		auto & mapping = mappings[i];
 		auto & read = reads_[i];
@@ -190,6 +192,9 @@ void ReadMap::SaveMappingsStats(std::string ofname, std::vector<Strpos>& mapping
 	int n_mapless = 0;
 	int incorrect_mappings = 0;
 	const int mapping_idx_threshold = 5; // characters
+
+	// header
+	ofile << "Read name,Start index of hit,End index of hit" << endl;
 	for (int i = 0; i < (int)mappings.size(); i++) {
 		auto & mapping = mappings[i];
 		auto & read = reads_[i];
