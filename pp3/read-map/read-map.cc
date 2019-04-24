@@ -57,25 +57,25 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
-		printf("[i=%d] read=%s\n", i, read_bps + i);
+		//printf("[i=%d] read=%s\n", i, read_bps + i);
 		int match_len = search_src->str_depth_;
-		printf("  search_src: ");
-		st_->PrintPath(search_src);
-		printf(" (len=%d)\n", search_src->str_depth_);
+		//printf("  search_src: ");
+		//st_->PrintPath(search_src);
+		//printf(" (len=%d)\n", search_src->str_depth_);
 
 		// i.e., u
 
 		const char * query = read_bps + i + search_src->str_depth_;
 		int query_len = read_len - i - search_src->str_depth_;
-		printf("  query: %s\n", query);
+		//printf("  query: %s\n", query);
 		assert(query_len > 0);
-		printf("  match_len BEFORE MatchStr(): %d\n", match_len);
+		//printf("  match_len BEFORE MatchStr(): %d\n", match_len);
 		auto cand_longest_match_node = search_src->MatchStr(
 			query, 
 			query_len, 
 			match_len
 		);
-		printf("  match_len AFTER MatchStr(): %d\n", match_len);
+		//printf("  match_len AFTER MatchStr(): %d\n", match_len);
 
 		assert(cand_longest_match_node);
 
@@ -122,8 +122,8 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		}
 		*/
 	}
-	printf("  @@@@@\n");
-	printf("  longest_match_len: %d\n", longest_match_len);
+	//printf("  @@@@@\n");
+	//printf("  longest_match_len: %d\n", longest_match_len);
 	//printf("  longest match label: ");
 	//st_->PrintPath(longest_match_node);
 	//printf(" (len=%d)\n", longest_match_node ? longest_match_node->str_depth_ : -1);
@@ -152,7 +152,7 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		//std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return {-1, -1};
 	}
 	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
@@ -191,7 +191,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		//std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
 	}
 
 	//printf("  [%d] match\n", read_map_loc);
