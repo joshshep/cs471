@@ -87,6 +87,13 @@ public:
         }
     }
 
+    void PrintParentage() {
+        printf("[%d] is the parent of [%d]\n", this->parent_->id_, this->id_);
+        for (auto child : children_) {
+            child.second->PrintParentage();
+        }
+    }
+
     /*
     e.g.,
     given

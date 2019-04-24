@@ -108,6 +108,7 @@ SuffixTreeNode* SuffixTreeNode::BreakEdge(SuffixTreeNode* child, int index) {
     auto newInternalNode = new SuffixTreeNode(child->incoming_edge_label_, index, this);
     newInternalNode->children_[child->incoming_edge_label_[index]] = child;
 
+    
     child->parent_ = newInternalNode;
     child->incoming_edge_label_ += index;
     child->edge_len_ -= index;
