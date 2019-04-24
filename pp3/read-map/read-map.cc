@@ -16,7 +16,7 @@ ReadMap::~ReadMap() {
 
 void ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 	if (!node) {
-		return 0;
+		return;
 	}
 	if (node->IsLeaf()) {
 		// is leaf
