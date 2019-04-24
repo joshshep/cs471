@@ -83,7 +83,22 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			longest_match_len = match_len;
 			longest_match_node = cand_longest_match_node;
 		}
+
+		if (match_len == cand_longest_match_node->str_depth_) {
+			// we ended at the node
+			if (cand_longest_match_node->suffix_link_) {
+				search_src = cand_longest_match_node->suffix_link_;
+
+			} else {
+				search_src = cand_longest_match_node->parent_->suffix_link_;
+			}
+		} else {
+			// we ended on an edge
+			search_src = cand_longest_match_node->parent_->suffix_link_;
+		}
+		assert(search_src);
 		
+		/*
 		// update the search source
 		if (cand_longest_match_node->suffix_link_) {
 			printf("  cand_longest_match_node: ");
@@ -105,6 +120,7 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			assert(search_src->str_depth_ + 1 == cand_longest_match_node->parent_->str_depth_);
 			assert(search_src);
 		}
+		*/
 	}
 	printf("  @@@@@\n");
 	printf("  longest_match_len: %d\n", longest_match_len);
