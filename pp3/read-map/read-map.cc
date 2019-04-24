@@ -14,7 +14,7 @@ ReadMap::~ReadMap() {
 	delete local_aligner_;
 }
 
-int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
+void ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 	if (!node) {
 		return 0;
 	}
@@ -26,7 +26,7 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 			node->end_leaf_index_ = next_index_;
 		}
 		next_index_++;
-		return 0;
+		return;
 	}
 
 	// is internal node (so it must have children)
@@ -42,7 +42,7 @@ int ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
 		node->end_leaf_index_ = last_child->end_leaf_index_;
 	}
 
-	return 0;
+	return;
 }
 
 suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
@@ -69,16 +69,11 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		}
 
 		// jump with our suffix link
-		if (match_len == cand_longest_match_node->str_depth_) {
-			// we ended at the node
-			if (cand_longest_match_node->suffix_link_) {
-				search_src = cand_longest_match_node->suffix_link_;
-
-			} else {
-				search_src = cand_longest_match_node->parent_->suffix_link_;
-			}
+		if (match_len == cand_longest_match_node->str_depth_ && cand_longest_match_node->suffix_link_) {
+			// use this node's suffix link
+			search_src = cand_longest_match_node->suffix_link_;
 		} else {
-			// we ended on an edge
+			// use this node's parent's suffix link
 			search_src = cand_longest_match_node->parent_->suffix_link_;
 		}
 		assert(search_src);

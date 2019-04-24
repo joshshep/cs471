@@ -31,7 +31,7 @@ public:
 	~ReadMap();
 
 	// generates A
-	int PrepareST(suffix_tree::SuffixTreeNode* node);
+	void PrepareST(suffix_tree::SuffixTreeNode* node);
 
 	// runs all of the steps in mapping the reads to the reference sequence "genome"
 	int Run(std::string ofname = "mapping-results.csv");
