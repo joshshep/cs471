@@ -31,6 +31,8 @@ class LocalAligner final : public Aligner {
 	void MaxCellInDP(int &i_max, int &j_max);
 
 public:
+	// retraces without generating the retrace string
+	// ... the stats are written to the input parameter scoring
 	void CountRetraceStats(AlignmentStats & scoring);
 };
 

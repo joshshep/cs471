@@ -30,20 +30,32 @@ public:
 	ReadMap(Sequence & genome, std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config);
 	~ReadMap();
 
+	// generates A
 	int PrepareST(suffix_tree::SuffixTreeNode* node);
 
+	// runs all of the steps in mapping the reads to the reference sequence "genome"
 	int Run(std::string ofname = "mapping-results.csv");
 
+	// finds the location to which this read maps in the reference sequnece
+	// returns the suffix tree node corresponding to the location 
 	suffix_tree::SuffixTreeNode* FindLoc(std::string & read);
 
+	// wraps FindLoc() and Align() for this read
+	// returns the location on the reference genome to which this read was aligned
 	Strpos CalcReadMapping(suffix_tree::Sequence & read);
 
+	// wraps CalcReadMapping()
+	// returns all of the locations of the mapped reads
 	std::vector<Strpos> CalcReadMappings();
 
+	// returns the alignment score between the read and the reference sequence at position genome_align_start
 	int Align(int genome_align_start, std::string & read, aligner::AlignmentStats & alignment_stats);
 
+	// writes the mapping locations for each read to the output file
+	// note: the additional stats require that the read name contains the read position
 	void SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings);
 	
+	// writes the mapping locations for each read to the output file
 	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
 	int genome_len_;

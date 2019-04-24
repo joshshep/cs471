@@ -63,6 +63,7 @@ public:
 	// returms the alignment score (returned from the pure virtual RunDP())
 	int Align(bool print_alignment=true);
 
+	// sets the strings for the dp table comparisons
 	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
 		assert(s1_len <= s1_max_len_);
 		assert(s2_len <= s2_max_len_);

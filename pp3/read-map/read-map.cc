@@ -60,14 +60,15 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 		int query_len = read_len - i - search_src->str_depth_;
 		assert(query_len > 0);
 		auto cand_longest_match_node = search_src->MatchStr(query, query_len, match_len);
-
 		assert(cand_longest_match_node);
 
+		// check if this is the best node encountered thus far
 		if (match_len > longest_match_len) {
 			longest_match_len = match_len;
 			longest_match_node = cand_longest_match_node;
 		}
 
+		// jump with our suffix link
 		if (match_len == cand_longest_match_node->str_depth_) {
 			// we ended at the node
 			if (cand_longest_match_node->suffix_link_) {
@@ -110,9 +111,8 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		//cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << endl;
 		return {-1, -1};
 	}
-	//cout << "Found deepest node for '" << read.name << "'" << endl;
-	//cout << "deepest_node str_depth: " << deepest_node->str_depth_ << endl;
-	//cout << "read: " << read.bps << endl;
+
+	// iterate through each child node of this deepest_node
 	int longest_align_len = -1;
 	int read_len = read.bps.size();
 	int read_map_loc = -1;
@@ -123,6 +123,8 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		int genome_match_start = A_[leaf_index];
 		aligner::AlignmentStats alignment_stats;
 
+		// we have the exact match location
+		// now we need to offset this in order to perform the alignment
 		int genome_align_start = genome_match_start - read_len;
 		genome_align_start = std::max(genome_align_start, 0);
 
@@ -203,6 +205,7 @@ void ReadMap::SaveMappingsStats(std::string ofname, std::vector<Strpos>& mapping
 			n_mapless++;
 		} else {
 			ofile << read.name << "," << mapping.start << "," << mapping.start + mapping.len << endl;
+			// TODO we could error check in this parsing process i.e., breakout
 			int str_idx = read.name.rfind('_') + 1;
 			int read_idx = std::stoi(read.name.substr(str_idx));
 			int dislocation = std::abs(read_idx - mapping.start);
@@ -223,6 +226,7 @@ int ReadMap::Run(std::string ofname) {
 	using std::chrono::high_resolution_clock;
 	using std::chrono::duration_cast;
 	using std::chrono::microseconds;
+
 	// step 1: construct the suffix tree
 	cout << endl;
 	cout << "***** ReadMap: Step 1 *****" << endl;

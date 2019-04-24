@@ -30,12 +30,6 @@ public:
         } else {
             str_depth_ = 0;
         }
-
-        id_ = -1;
-        start_leaf_index_ = -1;
-        end_leaf_index_ = -1;
-        //id_ = num_nodes_;
-        //num_nodes_++;
     }
     
     ~SuffixTreeNode(){
@@ -50,6 +44,9 @@ public:
         }
     }
 
+    // exhausts the query along the suffix tree from this node. returns the child node of the edge on which this query
+    // is exhausted
+    // this is basically the same as findpath except we don't modify the suffix tree
     SuffixTreeNode* MatchStr(const char* query, int query_len, int &match_len);
 
     // we need find/create a path for the input string
@@ -105,7 +102,6 @@ public:
     this (aa)-> newInternal (aa)-> child
     note: for this to remain a valid suffix tree, you MUST modify the returned node
     */
-
     // index - the index at which to break
     // returns the new node
     SuffixTreeNode* BreakEdge(SuffixTreeNode* child, int index);
@@ -114,7 +110,6 @@ public:
     SuffixTreeNode* InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index);
 
     void EnumerateDFS();
-
     
     // print the children of the current node dfs
     void PrintChildren(){
@@ -164,16 +159,16 @@ public:
 
     std::map<char, SuffixTreeNode*> children_;
 
-    const char * incoming_edge_label_; //?
-    int edge_len_; //?
+    const char * incoming_edge_label_;
+    int edge_len_;
     SuffixTreeNode* parent_; 
 
     int str_depth_;
-	int id_;
+	int id_ = -1;
     SuffixTreeNode* suffix_link_ = nullptr;
 
-    int start_leaf_index_;
-    int end_leaf_index_;
+    int start_leaf_index_ = -1;
+    int end_leaf_index_ = -1;
 
     static const char kStrTerminator = '$';
 
@@ -188,6 +183,7 @@ private:
         }
         printf("\n");
     }
+
     // given a pointer to a specific node u in the tree, display u's children from left to right; 
     void PrintChildren(int node_depth){
         Indent(node_depth);
