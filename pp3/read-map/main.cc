@@ -4,8 +4,8 @@
 #include <libgen.h>
 
 void PrintHelp() {
-	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
-	std::cout << "E.g., ~$ ./align gene.fasta 0 params.config" << std::endl;
+	std::cout << "~$ ./read-map <FASTA file containing reference genome sequence G> <FASTA file containing reads> <input alphabet file>" << std::endl;
+	std::cout << "E.g., ~$ ./bazel-bin/read-map/read-map data/Peach_reference.fasta data/Peach_simulated_reads.fasta data/alpha.txt" << std::endl;
 }
 
 // modified from this s/o post https://stackoverflow.com/a/1798170
@@ -99,21 +99,22 @@ std::string GetOutputFilename(const char * reads_fname) {
 
 int main(int argc, char *argv[]) {
 	// TODO where should I put these constants?
-	const int kNumArgs = 3;
+	const int kMinNumArgs = 3;
+	const int kMaxNumArgs = 4;
 
-	if (argc < kNumArgs) {
+	if (argc < kMinNumArgs) {
 		std::cout << "Error: too few arguments" << std::endl;
-		//PrintHelp();
+		PrintHelp();
 		exit(1);
-	} else if (argc > kNumArgs) {
+	} else if (argc > kMaxNumArgs) {
 		std::cout << "Error: too many arguments" << std::endl;
-		//PrintHelp();
+		PrintHelp();
 		exit(1);
 	}
 
 	const char * genome_fname = argv[1];
 	const char * reads_fname = argv[2];
-	
+	//const char * config_fname = argv[3];
 
 	auto genome_vec = LoadSequencesVector(genome_fname);
 	assert(genome_vec.size() == 1);
@@ -121,7 +122,10 @@ int main(int argc, char *argv[]) {
 
 	auto reads = LoadSequencesVector(reads_fname);
 
-	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads);
+	//const auto config = aligner::LoadConfig(config_fname);
+	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+
+	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads, align_config);
 
 	auto mapping_ofname = GetOutputFilename(reads_fname);
 	read_map->Run(mapping_ofname);

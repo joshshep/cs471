@@ -2,14 +2,11 @@
 
 namespace read_map {
 
-ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads)
+ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads, const aligner::ScoreConfig& align_config)
 	: genome_(genome), reads_(reads) {
 	genome_len_ = genome.bps.size();
 	genome_bps_ = genome.bps.c_str();
 
-	// from the assignment
-	// {m_a =+1, m_i=-2, h=-5, g=-1}
-	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
 	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN * 2, MAX_READ_LEN, align_config);
 }
 
@@ -57,25 +54,12 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
-		//printf("[i=%d] read=%s\n", i, read_bps + i);
 		int match_len = search_src->str_depth_;
-		//printf("  search_src: ");
-		//st_->PrintPath(search_src);
-		//printf(" (len=%d)\n", search_src->str_depth_);
-
-		// i.e., u
 
 		const char * query = read_bps + i + search_src->str_depth_;
 		int query_len = read_len - i - search_src->str_depth_;
-		//printf("  query: %s\n", query);
 		assert(query_len > 0);
-		//printf("  match_len BEFORE MatchStr(): %d\n", match_len);
-		auto cand_longest_match_node = search_src->MatchStr(
-			query, 
-			query_len, 
-			match_len
-		);
-		//printf("  match_len AFTER MatchStr(): %d\n", match_len);
+		auto cand_longest_match_node = search_src->MatchStr(query, query_len, match_len);
 
 		assert(cand_longest_match_node);
 
@@ -97,36 +81,7 @@ suffix_tree::SuffixTreeNode* ReadMap::FindLoc(std::string & read) {
 			search_src = cand_longest_match_node->parent_->suffix_link_;
 		}
 		assert(search_src);
-		
-		/*
-		// update the search source
-		if (cand_longest_match_node->suffix_link_) {
-			printf("  cand_longest_match_node: ");
-			st_->PrintPath(cand_longest_match_node);
-			printf(" (len=%d)\n", cand_longest_match_node->str_depth_);
-			
-			search_src = cand_longest_match_node->suffix_link_;
-			assert(search_src->str_depth_ + 1 == cand_longest_match_node->str_depth_);
-			assert(search_src);
-		} else {
-			// we are at a leaf node
-			// use our parents suffix link
-			// note: this will work as long as the root has children (?)
-			printf("  cand_longest_match_node->parent: ");
-			st_->PrintPath(cand_longest_match_node->parent_);
-			printf(" (len=%d)\n", cand_longest_match_node->parent_->str_depth_);
-
-			search_src = cand_longest_match_node->parent_->suffix_link_;
-			assert(search_src->str_depth_ + 1 == cand_longest_match_node->parent_->str_depth_);
-			assert(search_src);
-		}
-		*/
 	}
-	//printf("  @@@@@\n");
-	//printf("  longest_match_len: %d\n", longest_match_len);
-	//printf("  longest match label: ");
-	//st_->PrintPath(longest_match_node);
-	//printf(" (len=%d)\n", longest_match_node ? longest_match_node->str_depth_ : -1);
 	return longest_match_node;
 }
 
@@ -152,7 +107,7 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		//std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return {-1, -1};
 	}
 	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
@@ -177,7 +132,6 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		// handle the result
 		int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
 		double prop_identity = (double)alignment_stats.nMatches / align_len;
-
 		double len_coverage = (double)align_len / read_len;
 
 		if (prop_identity > MIN_PROP_IDENTITY && len_coverage > MIN_PROP_LENGTH_COVERAGE) {
@@ -191,11 +145,8 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		//std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
 	}
-
-	//printf("  [%d] match\n", read_map_loc);
-
 	return {read_map_loc, longest_align_len};
 }
 

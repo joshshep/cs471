@@ -25,7 +25,9 @@ using suffix_tree::Sequence;
 
 class ReadMap {
 public:
-	ReadMap(Sequence & genome, std::vector<Sequence>& reads);
+	// from the assignment
+	// config == {m_a =+1, m_i=-2, h=-5, g=-1}
+	ReadMap(Sequence & genome, std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config);
 	~ReadMap();
 
 	int PrepareST(suffix_tree::SuffixTreeNode* node);
