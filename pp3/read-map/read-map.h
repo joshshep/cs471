@@ -27,8 +27,6 @@ using std::endl;
 
 class ReadMap {
 public:
-	// from the assignment
-	// config == {m_a =+1, m_i=-2, h=-5, g=-1}
 	ReadMap(Sequence & genome, std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config);
 	~ReadMap();
 
@@ -44,6 +42,8 @@ public:
 
 	int Align(int genome_align_start, std::string & read, aligner::AlignmentStats & alignment_stats);
 
+	void SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings);
+	
 	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
 	int genome_len_;

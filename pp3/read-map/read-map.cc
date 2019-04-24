@@ -169,6 +169,25 @@ void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
 	int n_mapless = 0;
+	for (int i = 0; i < (int)mappings.size(); i++) {
+		auto & mapping = mappings[i];
+		auto & read = reads_[i];
+		if (mapping.start < 0) {
+			ofile << read.name << ",no mapping found" << endl;
+			n_mapless++;
+		} else {
+			ofile << read.name << "," << mapping.start << "," << mapping.start + mapping.len << endl;
+		}
+	}
+	int n_reads = (int)reads_.size();
+	double perc_attempted = (double)(100 * (n_reads - n_mapless)) / n_reads;
+	printf("%d / %d = %lf%% attempted mappings\n", n_reads - n_mapless, n_reads, perc_attempted);
+}
+
+void ReadMap::SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings) {
+	assert(mappings.size() == reads_.size());
+	std::ofstream ofile(ofname);
+	int n_mapless = 0;
 	int incorrect_mappings = 0;
 	const int mapping_idx_threshold = 5; // characters
 	for (int i = 0; i < (int)mappings.size(); i++) {
@@ -243,7 +262,7 @@ int ReadMap::Run(std::string ofname) {
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
-	cout << "ReadMap: dealloc" << endl;
+	cout << "ReadMap: deallocating..." << endl;
 	delete A_;
 	delete st_;
 	return 0;
