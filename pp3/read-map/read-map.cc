@@ -107,12 +107,12 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		//cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << endl;
 		return {-1, -1};
 	}
-	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
-	//std::cout << "deepest_node str_depth: " << deepest_node->str_depth_ << std::endl;
-	//std::cout << "read: " << read.bps << std::endl;
+	//cout << "Found deepest node for '" << read.name << "'" << endl;
+	//cout << "deepest_node str_depth: " << deepest_node->str_depth_ << endl;
+	//cout << "read: " << read.bps << endl;
 	int longest_align_len = -1;
 	int read_len = read.bps.size();
 	int read_map_loc = -1;
@@ -127,7 +127,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 		genome_align_start = std::max(genome_align_start, 0);
 
 		// perform the alignment
-		int alignment_score = Align(genome_align_start, read.bps, alignment_stats);
+		Align(genome_align_start, read.bps, alignment_stats);
 
 		// handle the result
 		int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
@@ -145,7 +145,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		//cout << "Failed to find a suitable alignment for '" << read.name << "'" << endl;
 	}
 	return {read_map_loc, longest_align_len};
 }
@@ -155,7 +155,7 @@ std::vector<Strpos> ReadMap::CalcReadMappings() {
 	for (int i = 0; i < (int)reads_.size(); i++) {
 		auto & read = reads_[i];
 		if (i % 5000 == 0) {
-			printf("%d/%d reads mapped\n", i, (int)reads_.size());
+			cout << i << "/" << reads_.size() << " reads mapped" << endl;
 		}
 		auto astrpos = CalcReadMapping(read);
 		mappings[i] = astrpos;
@@ -175,10 +175,10 @@ void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 		auto & mapping = mappings[i];
 		auto & read = reads_[i];
 		if (mapping.start < 0) {
-			ofile << read.name << ",no mapping found" << std::endl;
+			ofile << read.name << ",no mapping found" << endl;
 			n_mapless++;
 		} else {
-			ofile << read.name << "," << mapping.start << "," << mapping.start + mapping.len << std::endl;
+			ofile << read.name << "," << mapping.start << "," << mapping.start + mapping.len << endl;
 			int str_idx = read.name.rfind('_') + 1;
 			int read_idx = std::stoi(read.name.substr(str_idx));
 			int dislocation = std::abs(read_idx - mapping.start);
@@ -200,19 +200,19 @@ int ReadMap::Run(std::string ofname) {
 	using std::chrono::duration_cast;
 	using std::chrono::microseconds;
 	// step 1: construct the suffix tree
-	std::cout << std::endl;
-	std::cout << "***** ReadMap: Step 1 *****" << std::endl;
-	std::cout << "Constructing the reference genome suffix tree..." << std::endl;
+	cout << endl;
+	cout << "***** ReadMap: Step 1 *****" << endl;
+	cout << "Constructing the reference genome suffix tree..." << endl;
 	auto t1 = high_resolution_clock::now();
 	st_ = new suffix_tree::SuffixTree(genome_bps_, genome_len_);
     auto t2 = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>( t2 - t1 ).count();
-	std::cout << "Time elapsed: " << duration << " microseconds" << std::endl;
+	cout << "Time elapsed: " << duration << " microseconds" << endl;
 	
 	// step 2: prepare the suffix tree
-	std::cout << std::endl;
-	std::cout << "***** ReadMap: Step 2 *****" << std::endl;
-	std::cout << "Building A (PrepareST)..." << std::endl;
+	cout << endl;
+	cout << "***** ReadMap: Step 2 *****" << endl;
+	cout << "Building A (PrepareST)..." << endl;
 	t1 = high_resolution_clock::now();
 	A_ = new int[genome_len_];
 	next_index_ = 0;
@@ -220,30 +220,30 @@ int ReadMap::Run(std::string ofname) {
 	PrepareST(st_->root_);
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
-	std::cout << "Time elapsed: " << duration << " microseconds" << std::endl;
+	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
 	// step 3: map the reads
-	std::cout << std::endl;
-	std::cout << "***** ReadMap: Step 3 *****" << std::endl;
-	std::cout << "Calculating the read mappings..." << std::endl;
+	cout << endl;
+	cout << "***** ReadMap: Step 3 *****" << endl;
+	cout << "Calculating the read mappings..." << endl;
 	t1 = high_resolution_clock::now();
 	auto mappings = CalcReadMappings();
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
-	std::cout << "# of alignments / read: " << (double)n_aligns_/reads_.size() << std::endl;
-	std::cout << "Time elapsed: " << duration << " microseconds" << std::endl;
+	cout << "# of alignments / read: " << (double)n_aligns_/reads_.size() << endl;
+	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
 	// step 4: write to the output file
-	std::cout << std::endl;
-	std::cout << "***** ReadMap: Step 4 *****" << std::endl;
-	std::cout << "Writing output to '" << ofname << "'..." << std::endl;
+	cout << endl;
+	cout << "***** ReadMap: Step 4 *****" << endl;
+	cout << "Writing output to '" << ofname << "'..." << endl;
 	t1 = high_resolution_clock::now();
 	SaveMappings(ofname, mappings);
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
-	std::cout << "Time elapsed: " << duration << " microseconds" << std::endl;
+	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
-	std::cout << "ReadMap: dealloc" << std::endl;
+	cout << "ReadMap: dealloc" << endl;
 	delete A_;
 	delete st_;
 	return 0;

@@ -22,6 +22,7 @@ typedef struct strpos {
 } Strpos;
 
 using suffix_tree::Sequence;
+using std::cout, std::endl;
 
 class ReadMap {
 public:
