@@ -16,7 +16,7 @@ TEST(ReadMap, Sample1) {
 }
 */
 
-TEST(ReadMap, Sample1) {
+TEST(SuffixTree, Sample1) {
 	std::string genome = "banana$";
 	std::string read = "ana";
 
