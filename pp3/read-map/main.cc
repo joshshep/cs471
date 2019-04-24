@@ -1,6 +1,7 @@
 #include "read-map/read-map.h"
 
 #include <assert.h>
+#include <libgen.h>
 
 void PrintHelp() {
 	std::cout << "~$ ./<executable name> <input file containing both s1 and s2> <0: global, 1: local> <optional: path to parameters config file>" << std::endl;
@@ -73,6 +74,29 @@ std::vector<read_map::Sequence> LoadSequencesVector(const char* fasta_fname) {
 	return sequences;
 }
 
+void StripExt(char *s) {
+	while (*s) {
+		if (*s == '.') {
+			*s = 0;
+			return;
+		}
+		s++;
+	}
+}
+
+std::string GetOutputFilename(const char * reads_fname) {
+	char bname_buf[1024];
+	strcpy(bname_buf, reads_fname);
+	char *bname = basename(bname_buf);
+	StripExt(bname);
+
+	std::string mapping_ofname("mapping-results-");
+	mapping_ofname += bname;
+	mapping_ofname += ".csv";
+
+	return mapping_ofname;
+}
+
 int main(int argc, char *argv[]) {
 	// TODO where should I put these constants?
 	const int kNumArgs = 3;
@@ -89,16 +113,18 @@ int main(int argc, char *argv[]) {
 
 	const char * genome_fname = argv[1];
 	const char * reads_fname = argv[2];
+	
+
 	auto genome_vec = LoadSequencesVector(genome_fname);
 	assert(genome_vec.size() == 1);
 	auto genome = genome_vec[0];
 
 	auto reads = LoadSequencesVector(reads_fname);
-	//printf("Read %d read(s) from fname '%s'\n", (int)reads.size(), reads_fname);
 
 	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads);
 
-	read_map->Run();
+	auto mapping_ofname = GetOutputFilename(reads_fname);
+	read_map->Run(mapping_ofname);
 
 	delete read_map;
 

@@ -152,7 +152,7 @@ int ReadMap::Align(int genome_align_start, std::string & read, aligner::Alignmen
 Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	auto deepest_node = FindLoc(read.bps);
 	if (deepest_node == nullptr) {
-		std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
+		//std::cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << std::endl;
 		return {-1, -1};
 	}
 	//std::cout << "Found deepest node for '" << read.name << "'" << std::endl;
@@ -191,7 +191,7 @@ Strpos ReadMap::CalcReadMapping(suffix_tree::Sequence & read) {
 	}
 
 	if (read_map_loc < 0) {
-		std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
+		//std::cout << "Failed to find a suitable alignment for '" << read.name << "'" << std::endl;
 	}
 
 	//printf("  [%d] match\n", read_map_loc);
@@ -217,18 +217,34 @@ std::vector<Strpos> ReadMap::CalcReadMappings() {
 void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
+	int n_mapless = 0;
+	int incorrect_mappings = 0;
+	const int mapping_idx_threshold = 5; // characters
 	for (int i = 0; i < (int)mappings.size(); i++) {
 		auto & mapping = mappings[i];
 		auto & read = reads_[i];
 		if (mapping.start < 0) {
-			ofile << read.name << ",no match found" << std::endl;
+			ofile << read.name << ",no mapping found" << std::endl;
+			n_mapless++;
 		} else {
 			ofile << read.name << "," << mapping.start << "," << mapping.start + mapping.len << std::endl;
+			int str_idx = read.name.rfind('_') + 1;
+			int read_idx = std::stoi(read.name.substr(str_idx));
+			int dislocation = std::abs(read_idx - mapping.start);
+			if (dislocation > mapping_idx_threshold) {
+				incorrect_mappings++;
+			}
 		}
 	}
+	int n_reads = (int)reads_.size();
+	int correct_mappings = n_reads - n_mapless - incorrect_mappings;
+	double perc_attempted = (double)(100 * (n_reads - n_mapless)) / n_reads;
+	double perc_correct = (double)(100 * correct_mappings) / n_reads;
+	printf("%d / %d = %lf%% attempted mappings\n", n_reads - n_mapless, n_reads, perc_attempted);
+	printf("%d / %d = %lf%% correct mappings (within %d chars)\n", correct_mappings, n_reads, perc_correct, mapping_idx_threshold);
 }
 
-int ReadMap::Run() {
+int ReadMap::Run(std::string ofname) {
 	using std::chrono::high_resolution_clock;
 	using std::chrono::duration_cast;
 	using std::chrono::microseconds;
@@ -269,7 +285,6 @@ int ReadMap::Run() {
 	// step 4: write to the output file
 	std::cout << std::endl;
 	std::cout << "***** ReadMap: Step 4 *****" << std::endl;
-	std::string ofname = "output.csv";
 	std::cout << "Writing output to '" << ofname << "'..." << std::endl;
 	t1 = high_resolution_clock::now();
 	SaveMappings(ofname, mappings);

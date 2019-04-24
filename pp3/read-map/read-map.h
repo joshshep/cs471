@@ -30,7 +30,7 @@ public:
 
 	int PrepareST(suffix_tree::SuffixTreeNode* node);
 
-	int Run();
+	int Run(std::string ofname = "mapping-results.csv");
 
 	suffix_tree::SuffixTreeNode* FindLoc(std::string & read);
 
