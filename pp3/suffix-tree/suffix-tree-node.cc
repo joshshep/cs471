@@ -83,22 +83,15 @@ SuffixTreeNode* SuffixTreeNode::NodeHops(const char* beta, int beta_len) {
 	auto child = search->second;
 	assert(child);
 
-	if (beta_len > child->edge_len_){
-		// hop
-		//printf("NodeHops(): hop to next node\n");
-		return child->NodeHops(beta + child->edge_len_, beta_len - child->edge_len_);
-	}
-	
-	if (beta_len == child->edge_len_) {
-		// the node exists
-		//printf("NodeHops(): the node simply already exists\n");
-		return child;
+	if (beta_len < child->edge_len_) {
+		// we need to break the edge and create a node
+		//printf("NodeHops(): need to break an edge\n");
+		return this->BreakEdge(child, beta_len);
 	}
 
-	// we need to break the edge and create a node
-
-	//printf("NodeHops(): need to break an edge\n");
-	return this->BreakEdge(child, beta_len);
+	// hop
+	//printf("NodeHops(): hop to next node\n");
+	return child->NodeHops(beta + child->edge_len_, beta_len - child->edge_len_);
 }
 
 SuffixTreeNode* SuffixTreeNode::BreakEdge(SuffixTreeNode* child, int index) {
