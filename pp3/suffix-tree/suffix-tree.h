@@ -10,9 +10,10 @@ namespace suffix_tree {
 
 class SuffixTree {
 public:
-	SuffixTree(const char* str, int len) : str_(str), len_(len) {
+	// we add 1 to length to count the null terminator
+	SuffixTree(const char* str, int len) : str_(str), len_(len+1) {
 		//BuildTreeSimple();
-		printf("input str length: %d\n", len);
+		printf("input str length: %d\n", len_);
 		printf("Building suffix tree...\n");
 
 		// simply build the tree
@@ -24,12 +25,6 @@ public:
 	~SuffixTree(){
 		delete root_;
 	}
-
-	/*
-	SuffixTreeNode* MatchStr(const char* query, int query_len, int & match_len) {
-		return root_->MatchStr()
-	}
-	*/
 
 	// returns the number of nodes in the tree
 	int BuildTreeMccreight();
