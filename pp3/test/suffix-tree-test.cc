@@ -57,7 +57,7 @@ TEST(SuffixTreeFindPath, QueryMismatchInEdge) {
 	EXPECT_EQ(0, strncmp("zzz", leaf1->incoming_edge_label_, leaf1->edge_len_));
 
 	// delete root (which deletes its children)
-	delete root; 
+	delete root;
 }
 /*
 root
@@ -99,8 +99,60 @@ TEST(SuffixTreeFindPath, QueryEndsAtNode) {
 	delete root;
 }
 
+
+/*
+BEFORE root->FindPath("aaa")
+root
+    \
+     \ aaabbbaaa
+      \ 
+     leaf0
+
+AFTER root->FindPath("aaa")
+root
+    \
+     \ aaa
+      \ 
+       new_inner
+       /       \
+ '\0' /         \ bbbaaa
+     /           \
+leaf1            leaf0
+*/
 TEST(SuffixTreeFindPath, QueryEndsInEdge) {
-	// TODO is this possible?
+	std::string genome = "aaabbbaaa";
+	std::string query = "aaa";
+	suffix_tree::SuffixTreeNode * root = new suffix_tree::SuffixTreeNode("root", 4, nullptr);
+	root->parent_ = root;
+	suffix_tree::SuffixTreeNode * leaf0 = new suffix_tree::SuffixTreeNode(genome.c_str(), genome.size(), root);
+	auto leaf1 = root->FindPath(query.c_str(), query.size());
+
+	// verify children parent relationships
+	EXPECT_FALSE(leaf1 == nullptr);
+
+	EXPECT_EQ(1, root->children_.size());
+	auto search = root->children_.find('a');
+	EXPECT_FALSE(search == root->children_.end());
+	auto new_inner = search->second;
+	EXPECT_EQ(new_inner, leaf0->parent_);
+	EXPECT_EQ(new_inner, leaf1->parent_);
+	EXPECT_EQ(new_inner->parent_, root);
+
+	EXPECT_EQ(2, new_inner->children_.size());
+	// TODO verify *which* children
+	// TODO str_depths
+
+	// verify edges
+	EXPECT_EQ(3, new_inner->edge_len_);
+	EXPECT_EQ(0, strncmp("aaa", new_inner->incoming_edge_label_, new_inner->edge_len_));
+
+	EXPECT_EQ(6, leaf0->edge_len_);
+	EXPECT_EQ(0, strncmp("bbbaaa", leaf0->incoming_edge_label_, leaf0->edge_len_));
+
+	EXPECT_EQ(0, leaf1->edge_len_);
+
+	// delete root (which deletes its children)
+	delete root;
 }
 
 TEST(SuffixTreeNodeHops, BetaEndsAtNode) {
