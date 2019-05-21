@@ -1,6 +1,6 @@
 cc_test(
 	name = "read-map-test",
-	srcs = ["read-map-test.cc"],
+	srcs = glob(["*-test.cc"]),
 	copts = ["-Iexternal/gtest/include"],
 	deps = [
 		"@gtest//:main",

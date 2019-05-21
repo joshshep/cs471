@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "read-map/read-map.h"
 
@@ -16,6 +16,7 @@ TEST(ReadMap, Sample1) {
 }
 */
 
+/*
 TEST(SuffixTree, Sample1) {
 	std::string genome = "banana$";
 	std::string read = "ana";
@@ -31,3 +32,4 @@ TEST(SuffixTree, Sample1) {
 	delete st;
 	EXPECT_EQ(0, 0);
 }
+*/
