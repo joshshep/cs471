@@ -229,7 +229,7 @@ int ReadMap::Run(std::string ofname) {
 	cout << "Constructing the reference genome suffix tree..." << endl;
 	auto t1 = high_resolution_clock::now();
 	st_ = new suffix_tree::SuffixTree(genome_bps_, genome_len_);
-    auto t2 = high_resolution_clock::now();
+	auto t2 = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 	
