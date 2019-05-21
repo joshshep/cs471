@@ -96,7 +96,7 @@ this
 this
   \
    \
-  newInternalNode
+  new_internal_node
         \
          \
         child
@@ -105,16 +105,15 @@ SuffixTreeNode* SuffixTreeNode::BreakEdge(SuffixTreeNode* child, int index) {
 	assert(index > 0);
 	assert(index < child->edge_len_);
 	
-	auto newInternalNode = new SuffixTreeNode(child->incoming_edge_label_, index, this);
-	newInternalNode->children_[child->incoming_edge_label_[index]] = child;
+	auto new_internal_node = new SuffixTreeNode(child->incoming_edge_label_, index, this);
+	new_internal_node->children_[child->incoming_edge_label_[index]] = child;
 
 	
-	child->parent_ = newInternalNode;
+	child->parent_ = new_internal_node;
 	child->incoming_edge_label_ += index;
 	child->edge_len_ -= index;
 
-	// this -> newInternalNode -> child
-	return newInternalNode;
+	return new_internal_node;
 }
 
 /*
@@ -127,7 +126,7 @@ this
 this
   \
    \
-  newInternalNode
+  new_internal_node
         \
          \
         child
@@ -135,19 +134,16 @@ this
 this
   \
    \
-  newInternalNode
+  new_internal_node
     /       \
    /         \
 child      newLeafNode
 */
 SuffixTreeNode* SuffixTreeNode::InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
-	assert(index > 0);
-	assert(index < query_len);
+	auto new_internal_node = this->BreakEdge(child, index);
+	auto new_leaf_node = new SuffixTreeNode(query + index, query_len - index, new_internal_node);
 
-	auto newInternalNode = this->BreakEdge(child, index);
-	auto newLeafNode = new SuffixTreeNode(query + index, query_len - index, newInternalNode);
-
-	return newLeafNode;
+	return new_leaf_node;
 }
 
 } // namespace suffix_tree
