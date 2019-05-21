@@ -40,7 +40,6 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
 	for (int i=0; i<child->edge_len_; i++){
 		if (i >= query_len){
 			// the query string ends in the middle of an edge, so we need to insert a node
-			// TODO ??
 			return this->InsertNode(child, query, query_len, i);
 		}
 		if (query[i] != child->incoming_edge_label_[i]){
@@ -49,19 +48,6 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
 			return this->InsertNode(child, query, query_len, i);
 		}
 	}
-
-	/*
-	// we're at the end of the edge
-	if (child->edge_len_ == query_len){
-		// this suffix is already in the the tree
-		// nothing to do
-		// when does this happen?
-		printf("error: suffix already exists in the tree?!\n");
-		assert(0);
-		exit(1);
-		return nullptr;
-	}
-	*/
 
 	// we need to check this node's children
 	// recurse
