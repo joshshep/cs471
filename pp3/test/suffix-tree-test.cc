@@ -2,7 +2,6 @@
 
 #include "suffix-tree/suffix-tree.h"
 
-
 /*
 BEFORE root->FindPath("aaazzz")
 root
@@ -22,7 +21,6 @@ root
      /           \
 leaf1            leaf0
 */
-
 TEST(SuffixTreeFindPath, QueryMismatchInEdge) {
 	std::string genome = "aaabbbaaa";
 	std::string query = "aaazzz";
@@ -59,6 +57,7 @@ TEST(SuffixTreeFindPath, QueryMismatchInEdge) {
 	// delete root (which deletes its children)
 	delete root;
 }
+
 /*
 root
  \
@@ -156,11 +155,57 @@ TEST(SuffixTreeFindPath, QueryEndsInEdge) {
 }
 
 TEST(SuffixTreeNodeHops, BetaEndsAtNode) {
-	
+	auto root = new suffix_tree::SuffixTreeNode("root", 4, nullptr);
+	root->parent_ = root;
+	auto inner_node = new suffix_tree::SuffixTreeNode("aaa", 3, root);
+	auto leaf0 = new suffix_tree::SuffixTreeNode("bbb", 3, inner_node);
+	auto hop_result = root->NodeHops("aaabbb", 6);
+	EXPECT_EQ(leaf0, hop_result);
+
+	delete root;
 }
 
+/*
+root
+ \
+  \ aaa
+   \
+   inner_node
+       \
+        \ bbb
+         \
+        leaf
+
+
+root
+ \
+  \ aaa
+   \
+   inner_node
+       \
+        \ bb
+         \
+         n2
+          \
+           \ b
+            \
+			leaf
+
+*/
 TEST(SuffixTreeNodeHops, BetaEndsInEdge) {
+	auto root = new suffix_tree::SuffixTreeNode("root", 4, nullptr);
+	root->parent_ = root;
+	auto inner_node = new suffix_tree::SuffixTreeNode("aaa", 3, root);
+	auto leaf = new suffix_tree::SuffixTreeNode("bbb", 3, inner_node);
+	auto new_inner_node = root->NodeHops("aaabb", 5);
+
+	EXPECT_EQ(leaf->parent_, new_inner_node);
+	EXPECT_EQ(new_inner_node->parent_, inner_node);
+
+	EXPECT_EQ(1, leaf->edge_len_);
+	EXPECT_EQ(2, new_inner_node->edge_len_);
 	
+	delete root;
 }
 
 /*
@@ -179,23 +224,24 @@ TEST(SuffixTreeNodeHops, BetaEndsInEdge) {
 
 // depends on BuildTreeMccreight() and MatchStr()
 TEST(SuffixTree, BananaCase) {
-	std::string genome = "banana$";
+	std::string genome = "banana";
 	const char * bps = genome.c_str();
 
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
 	int num_nodes = st->BuildTreeMccreight();
-	assert(num_nodes == 11);
+	st->PrintTree();
+	EXPECT_EQ(11, num_nodes);
 	auto root = st->root_;
 	EXPECT_FALSE(root == nullptr);
 	
 	// ensure each suffix exists in the suffix tree
-	for (size_t i = 0; i < genome.size(); i++) {
+	for (size_t i = 0; i < genome.size() + 1; i++) {
 		int match_len = 0;
 		auto matched_node = root->MatchStr(bps + i, genome.size() - i, match_len);
 		EXPECT_FALSE(matched_node == nullptr);
 		EXPECT_EQ(match_len, genome.size() - i);
 	}
 
-	EXPECT_EQ(root->children_.size(), 4);
+	EXPECT_EQ(4, root->children_.size());
 	delete st;
 }
