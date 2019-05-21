@@ -19,10 +19,10 @@ typedef struct dp_cell {
 } DP_Cell;
 
 typedef struct score_config {
-	int match;
-	int mismatch;
-	int h; // start gap penalty
-	int g; // continuing gap penalty
+	int match; // match reward (generally positive)
+	int mismatch; // mismatch penalty (generally negative)
+	int h; // start gap penalty (generally negative)
+	int g; // continuing gap penalty (generally negative)
 } ScoreConfig;
 
 typedef struct alignment {

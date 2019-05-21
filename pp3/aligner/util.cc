@@ -100,10 +100,10 @@ AlignmentScope ParseAlignScope(const char *alignment_str) {
 
 void PrintScoreConfig(const ScoreConfig & scores) {
 	std::cout << "-- Scoring configuration settings --" << std::endl;
-	std::cout << "  match: " << scores.match << std::endl;
+	std::cout << "  match:    " << scores.match << std::endl;
 	std::cout << "  mismatch: " << scores.mismatch << std::endl;
-	std::cout << "  g: " << scores.g << std::endl;
-	std::cout << "  h: " << scores.h << std::endl;
+	std::cout << "  g:        " << scores.g << std::endl;
+	std::cout << "  h:        " << scores.h << std::endl;
 }
 
 ScoreConfig LoadConfig(const char *config_fname) {

@@ -3,7 +3,7 @@
 namespace suffix_tree {
 
 int SuffixTree::BuildTreeMccreight(){
-	// the incoming edge label doesn't matter
+	// the incoming edge label to the root doesn't matter
 	root_ = new SuffixTreeNode("root", 4, nullptr);
 	// manually set root to have its suffix link point to itself
 	root_->suffix_link_ = root_;
@@ -17,24 +17,16 @@ int SuffixTree::BuildTreeMccreight(){
 	// v' is the parent of v
 	for (int i=0; i<len_; i++) {
 		auto u = prev_leaf->parent_;
-		//printf("\n***********************\n");
-		//printf("suffix: %s\n", str_+i);
-		//printf("u==");
-		//SuffixTreeNode::PrintNode(u);
-		//printf("\n");
 		if (u->suffix_link_) {
 			// SL(u) is known
 			// Case1A and Case1B are the same
-			//printf("case1\n");
 			prev_leaf = Case1(prev_leaf, i);
 		} else {
 			// SL(u) is not known yet
 			// Case2A and Case2B are the almost the same
-			//printf("case2\n");
 			prev_leaf = Case2(prev_leaf);
 		}
 		prev_leaf->id_ = i;
-		//PrintTree();
 	}
 
 	// yes we set the internal node id's after everything
@@ -59,9 +51,7 @@ SuffixTreeNode* SuffixTree::Case1(SuffixTreeNode* prev_leaf, int index) {
 SuffixTreeNode* SuffixTree::Case2(SuffixTreeNode* prev_leaf) {
 	auto u = prev_leaf->parent_;
 	auto u_prime = u->parent_;
-	//assert(u_prime);
 	auto v_prime = u_prime->suffix_link_;
-	//assert(v_prime);
 	// when u_prime == v_prime == root, alpha_prime is 0
 	auto beta = u->incoming_edge_label_;
 	auto beta_len = u->edge_len_;
@@ -70,15 +60,6 @@ SuffixTreeNode* SuffixTree::Case2(SuffixTreeNode* prev_leaf) {
 		beta++; beta_len--;
 	}
 	auto v = v_prime->NodeHops(beta, beta_len);
-	//assert(v);
-
-
-	//printf("setting suffix link: ");
-	//SuffixTreeNode::PrintNode(u);
-	//printf("  points to  ");
-	//SuffixTreeNode::PrintNode(v);
-	//printf("\n");
-
 	u->suffix_link_ = v;
 
 	auto new_leaf = v->FindPath(prev_leaf->incoming_edge_label_, prev_leaf->edge_len_);

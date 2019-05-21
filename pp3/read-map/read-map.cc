@@ -165,8 +165,9 @@ std::vector<Strpos> ReadMap::CalcReadMappings() {
 void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
+	// keep track of the number of reads that we're not mapped (either due to MIN_PROP_IDENTITY or MIN_PROP_LENGTH_COVERAGE)
 	int n_mapless = 0;
-	// header
+	// write the csv header
 	ofile << "Read name,Start index of hit,End index of hit" << endl;
 	for (int i = 0; i < (int)mappings.size(); i++) {
 		auto & mapping = mappings[i];

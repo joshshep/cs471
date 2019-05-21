@@ -47,6 +47,7 @@ public:
 	// exhausts the query along the suffix tree from this node. returns the child node of the edge on which this query
 	// is exhausted
 	// this is basically the same as findpath except we don't modify the suffix tree
+	// in the initial call, match_len should equal 0
 	SuffixTreeNode* MatchStr(const char* query, int query_len, int &match_len);
 
 	// we need find/create a path for the input string
@@ -62,6 +63,7 @@ public:
 		return deepest_internal_node;
 	}
 
+	// sets the internal node ids starting with id i
 	void SetInternalNodeIds(int & i){
 		if (id_ == -1) {
 			id_ = i;
@@ -169,8 +171,6 @@ public:
 
 	int start_leaf_index_ = -1;
 	int end_leaf_index_ = -1;
-
-	static const char kStrTerminator = '$';
 
 	//////////////////////////////////////////////////////////////////////
 	// private
