@@ -8,30 +8,32 @@ ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads, const aligner
 	genome_bps_ = genome.bps.c_str();
 
 	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN * 2, MAX_READ_LEN, align_config);
+	A_ = new int[genome_len_];
 }
 
 ReadMap::~ReadMap() {
+	delete A_;
 	delete local_aligner_;
 }
 
-void ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node) {
+void ReadMap::PrepareST(suffix_tree::SuffixTreeNode* node, int & next_index) {
 	if (!node) {
 		return;
 	}
 	if (node->IsLeaf()) {
 		// is leaf
-		A_[next_index_] = node->id_;
+		A_[next_index] = node->id_;
 		if (node->str_depth_ >= ZETA) {
-			node->start_leaf_index_ = next_index_;
-			node->end_leaf_index_ = next_index_;
+			node->start_leaf_index_ = next_index;
+			node->end_leaf_index_ = next_index;
 		}
-		next_index_++;
+		next_index++;
 		return;
 	}
 
 	// is internal node (so it must have children)
 	for (auto child : node->children_) {
-		PrepareST(child.second);
+		PrepareST(child.second, next_index);
 	}
 
 	// now we set the internal node's start/end index
@@ -165,8 +167,10 @@ std::vector<Strpos> ReadMap::CalcReadMappings() {
 void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
-	// keep track of the number of reads that we're not mapped (either due to MIN_PROP_IDENTITY or MIN_PROP_LENGTH_COVERAGE)
+
+	// keep track of the number of reads that were not mapped (either due to MIN_PROP_IDENTITY or MIN_PROP_LENGTH_COVERAGE)
 	int n_mapless = 0;
+
 	// write the csv header
 	ofile << "Read name,Start index of hit,End index of hit" << endl;
 	for (int i = 0; i < (int)mappings.size(); i++) {
@@ -187,11 +191,16 @@ void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 void ReadMap::SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
+
+	// keep track of the number of reads that were not mapped (either due to MIN_PROP_IDENTITY or MIN_PROP_LENGTH_COVERAGE)
 	int n_mapless = 0;
+
+	// keep track of the number of reads that were mapped to a location in the genome, but at an incorrect position
+	// the correct position is parsed from the read Sequence's name field
 	int incorrect_mappings = 0;
 	const int mapping_idx_threshold = 5; // characters
 
-	// header
+	// write the csv header
 	ofile << "Read name,Start index of hit,End index of hit" << endl;
 	for (int i = 0; i < (int)mappings.size(); i++) {
 		auto & mapping = mappings[i];
@@ -218,59 +227,67 @@ void ReadMap::SaveMappingsStats(std::string ofname, std::vector<Strpos>& mapping
 	printf("%d / %d = %lf%% correct mappings (within %d chars)\n", correct_mappings, n_reads, perc_correct, mapping_idx_threshold);
 }
 
-int ReadMap::Run(std::string ofname) {
+void ReadMap::Run(std::string ofname) {
 	using std::chrono::high_resolution_clock;
 	using std::chrono::duration_cast;
 	using std::chrono::microseconds;
 
+	/**************************************************************************/
 	// step 1: construct the suffix tree
 	cout << endl;
 	cout << "***** ReadMap: Step 1 *****" << endl;
 	cout << "Constructing the reference genome suffix tree..." << endl;
 	auto t1 = high_resolution_clock::now();
+
 	st_ = new suffix_tree::SuffixTree(genome_bps_, genome_len_);
+
 	auto t2 = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 	
+	/**************************************************************************/
 	// step 2: prepare the suffix tree
 	cout << endl;
 	cout << "***** ReadMap: Step 2 *****" << endl;
 	cout << "Building A (PrepareST)..." << endl;
 	t1 = high_resolution_clock::now();
-	A_ = new int[genome_len_];
-	next_index_ = 0;
-	memset(A_, -1, sizeof(int) * genome_len_);
-	PrepareST(st_->root_);
+
+	int next_index = 0;
+	PrepareST(st_->root_, next_index);
+
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
+	/**************************************************************************/
 	// step 3: map the reads
 	cout << endl;
 	cout << "***** ReadMap: Step 3 *****" << endl;
 	cout << "Calculating the read mappings..." << endl;
 	t1 = high_resolution_clock::now();
+
 	auto mappings = CalcReadMappings();
+
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "# of alignments / read: " << (double)n_aligns_/reads_.size() << endl;
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
+	/**************************************************************************/
 	// step 4: write to the output file
 	cout << endl;
 	cout << "***** ReadMap: Step 4 *****" << endl;
 	cout << "Writing output to '" << ofname << "'..." << endl;
 	t1 = high_resolution_clock::now();
-	SaveMappings(ofname, mappings);
+
+	SaveMappingsStats(ofname, mappings);
+
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
 	cout << "Time elapsed: " << duration << " microseconds" << endl;
 
 	cout << "ReadMap: deallocating..." << endl;
-	delete A_;
 	delete st_;
-	return 0;
 }
 
 } // namespace read_map

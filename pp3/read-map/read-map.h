@@ -31,10 +31,10 @@ public:
 	~ReadMap();
 
 	// generates A
-	void PrepareST(suffix_tree::SuffixTreeNode* node);
+	void PrepareST(suffix_tree::SuffixTreeNode* node, int & next_index);
 
 	// runs all of the steps in mapping the reads to the reference sequence "genome"
-	int Run(std::string ofname = "mapping-results.csv");
+	void Run(std::string ofname = "mapping-results.csv");
 
 	// finds the location to which this read maps in the reference sequnece
 	// returns the suffix tree node corresponding to the location 
@@ -61,7 +61,6 @@ public:
 	int genome_len_;
 	const char * genome_bps_;
 	int * A_;
-	int next_index_;
 	suffix_tree::SuffixTree * st_;
 	Sequence & genome_;
 	std::vector<Sequence> & reads_;
