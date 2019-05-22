@@ -7,7 +7,7 @@ BEFORE root->FindPath("aaazzz")
 root
     \
      \ aaabbbaaa
-      \ 
+      \
      leaf0
 
 AFTER root->FindPath("aaazzz")
@@ -104,7 +104,7 @@ BEFORE root->FindPath("aaa")
 root
     \
      \ aaabbbaaa
-      \ 
+      \
      leaf0
 
 AFTER root->FindPath("aaa")
@@ -185,11 +185,11 @@ root
        \
         \ bb
          \
-         n2
+    new_inner_node
           \
            \ b
             \
-			leaf
+           leaf
 
 */
 TEST(SuffixTreeNodeHops, BetaEndsInEdge) {
@@ -210,18 +210,17 @@ TEST(SuffixTreeNodeHops, BetaEndsInEdge) {
 
 /*
 ([7] root SL->[7]) (root)
-  ([6] $)
+  ([6]  )
   ([8] a SL->[7])
-    ([5] $)
+    ([5]  )
     ([9] na SL->[10])
-      ([3] $)
-      ([1] na$)
-  ([0] banana$)
+      ([3]  )
+      ([1]  na)
+  ([0]  banana)
   ([10] na SL->[8])
-    ([4] $)
-    ([2] na$)
+    ([4]  )
+    ([2]  na)
 */
-
 // depends on BuildTreeMccreight() and MatchStr()
 TEST(SuffixTree, BananaCase) {
 	std::string genome = "banana";
@@ -229,7 +228,7 @@ TEST(SuffixTree, BananaCase) {
 
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
 	int num_nodes = st->BuildTreeMccreight();
-	st->PrintTree();
+	// st->PrintTree();
 	EXPECT_EQ(11, num_nodes);
 	auto root = st->root_;
 	EXPECT_FALSE(root == nullptr);
@@ -243,5 +242,50 @@ TEST(SuffixTree, BananaCase) {
 	}
 
 	EXPECT_EQ(4, root->children_.size());
+	delete st;
+}
+
+/*
+([12] root SL->[12]) (root)
+  ([11]  )
+  ([13] i SL->[12])
+    ([10]  )
+    ([7]  ppi)
+    ([14] ssi SL->[18])
+      ([4]  ppi)
+      ([1]  ssippi)
+  ([0]  mississippi)
+  ([15] p SL->[12])
+    ([9]  i)
+    ([8]  pi)
+  ([16] s SL->[12])
+    ([17] i SL->[13])
+      ([6]  ppi)
+      ([3]  ssippi)
+    ([18] si SL->[17])
+      ([5]  ppi)
+      ([2]  ssippi)
+*/
+// depends on BuildTreeMccreight() and MatchStr()
+TEST(SuffixTree, MississippiCase) {
+	std::string genome = "mississippi";
+	const char * bps = genome.c_str();
+
+	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
+	int num_nodes = st->BuildTreeMccreight();
+	// st->PrintTree();
+	EXPECT_EQ(19, num_nodes);
+	auto root = st->root_;
+	EXPECT_FALSE(root == nullptr);
+	
+	// ensure each suffix exists in the suffix tree
+	for (size_t i = 0; i < genome.size() + 1; i++) {
+		int match_len = 0;
+		auto matched_node = root->MatchStr(bps + i, genome.size() - i, match_len);
+		EXPECT_FALSE(matched_node == nullptr);
+		EXPECT_EQ(match_len, genome.size() - i);
+	}
+
+	EXPECT_EQ(5, root->children_.size());
 	delete st;
 }
