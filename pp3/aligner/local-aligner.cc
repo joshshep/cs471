@@ -214,16 +214,15 @@ int LocalAligner::RunDP() {
 			int d_d = cell_up.D + scoring_.g;
 			int d_i = cell_up.I + scoring_.g + scoring_.h;
 			int d_s = cell_up.S + scoring_.g + scoring_.h;
-			dp_[j][i].D = max3(d_d, d_i, d_s);
+			dp_[j][i].D = std::max({d_d, d_i, d_s});
 			dp_[j][i].D = std::max(0, dp_[j][i].D);
-
 
 			// insert
 			DP_Cell & cell_left = dp_[j][i-1];
 			int i_d = cell_left.D + scoring_.g + scoring_.h;
 			int i_i = cell_left.I + scoring_.g;
 			int i_s = cell_left.S + scoring_.g + scoring_.h;
-			dp_[j][i].I = max3(i_d, i_i, i_s);
+			dp_[j][i].I = std::max({i_d, i_i, i_s});
 			dp_[j][i].I = std::max(0, dp_[j][i].I);
 
 			// the alignment score is the max value in the dp table

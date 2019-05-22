@@ -170,13 +170,8 @@ char intLen(int i) {
 	return uintLen(i);
 }
 
-
-int max3(const int i0, const int i1, const int i2) {
-	return std::max(i0, std::max(i1, i2));
-}
-
 int max3(const DP_Cell & a) {
-	return max3(a.D, a.I, a.S);
+	return std::max({a.D, a.I, a.S});
 }
 
 void PrintDP_Table(DP_Cell** dp, const std::string & s1, const std::string & s2) {
