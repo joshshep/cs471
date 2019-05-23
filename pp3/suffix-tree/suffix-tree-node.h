@@ -15,6 +15,9 @@
 
 namespace suffix_tree {
 
+using std::cout;
+using std::endl;
+
 typedef struct sequence {
 	std::string name;
 	std::string bps;

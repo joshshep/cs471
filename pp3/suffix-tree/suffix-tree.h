@@ -37,12 +37,12 @@ public:
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
 
 		// print stats
-		printf("Time elapsed while building suffix tree: %llu microsecond(s)\n", duration);
-		printf("total number of nodes in the tree: %d\n", num_nodes);
-		printf("number of internal nodes in the tree: %d\n", num_nodes - len_);
+		cout << "Time elapsed while building suffix tree: " << duration << " microsecond(s)" << endl;
+		cout << "total number of nodes in the tree: " << num_nodes << endl;
+		cout << "number of internal nodes in the tree: " << num_nodes - len_ << endl;
 		auto total_str_depth = root_->TotalStrDepth();
 		double avg_depth = (double) total_str_depth / (num_nodes - len_);
-		printf("avg str depth of internal node: %lf\n", avg_depth);
+		cout << "avg str depth of internal node: " << avg_depth << endl;
 	}
 
 	void PrintPath(SuffixTreeNode *descendant) {
