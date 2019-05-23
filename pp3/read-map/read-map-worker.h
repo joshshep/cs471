@@ -55,14 +55,15 @@ public:
 	// writes the mapping locations for each read to the output file
 	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
-	int genome_len_;
-	const char * genome_bps_;
-	const suffix_tree::SuffixTree & st_;
-	const int * A_ = nullptr;
 	const Sequence & genome_;
 	const std::vector<Sequence> & reads_;
+	const suffix_tree::SuffixTree & st_;
+	const int * A_ = nullptr;
 	aligner::LocalAligner * local_aligner_ = nullptr;
 	int n_aligns_ = 0;
+
+	const char * genome_bps_;
+	int genome_len_;
 };
 
 } // namespace read_map

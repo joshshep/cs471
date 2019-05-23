@@ -21,7 +21,6 @@ TEST(ReadMap, Sample2) {
 
 	suffix_tree::Sequence genome_seq = {"genome", genome};
 	suffix_tree::Sequence read_seq = {"read12", read};
-	auto st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
 
 	std::vector<read_map::Sequence> reads{read_seq};
 	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads);

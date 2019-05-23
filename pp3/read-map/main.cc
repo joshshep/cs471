@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
 	auto read_map = new read_map::ReadMap(genome, reads);
 	read_map->Run();
 
-	delete read_map;
+	// delete read_map;
 
 	return 0;
 }

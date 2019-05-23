@@ -10,7 +10,9 @@ public:
 	ReadMap(Sequence & genome, std::vector<Sequence>& reads) : genome_(genome), reads_(reads) {
 		
 	}
-	~ReadMap();
+	~ReadMap() {
+		
+	}
 
 	// generates A
 	void PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index);
