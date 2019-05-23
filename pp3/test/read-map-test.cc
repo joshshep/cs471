@@ -15,6 +15,8 @@ TEST(ReadMap, Sample1) {
 	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads, align_config);
 	int next_index = 0;
 	read_mapping->PrepareST(st->root_, next_index);
+	// TODO this is bad
+	read_mapping->st_ = st;
 
 	// TODO
 	auto strpos = read_mapping->CalcReadMapping(read_seq);
@@ -37,11 +39,14 @@ TEST(ReadMap, Sample2) {
 	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads, align_config);
 	int next_index = 0;
 	read_mapping->PrepareST(st->root_, next_index);
+	// TODO this is bad
+	read_mapping->st_ = st;
 
 	// TODO
 	auto strpos = read_mapping->CalcReadMapping(read_seq);
 	EXPECT_EQ(-1, strpos.start);
 	EXPECT_EQ(-1, strpos.len);
+
 	delete read_mapping;
 	delete st;
 }

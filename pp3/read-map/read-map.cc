@@ -8,11 +8,16 @@ ReadMap::ReadMap(Sequence & genome, std::vector<Sequence> & reads, const aligner
 	genome_bps_ = genome.bps.c_str();
 
 	local_aligner_= new aligner::LocalAligner(MAX_READ_LEN * 2, MAX_READ_LEN, align_config);
+	printf("DEBUG: file='%s' ; line=%d\n", __FILE__, __LINE__);
+	printf("DEBUG: allocating A_ ...\n");
 	A_ = new int[genome_len_];
 }
 
 ReadMap::~ReadMap() {
-	delete A_;
+	printf("DEBUG: file='%s' ; line=%d\n", __FILE__, __LINE__);
+	printf("A_ == %p\n", (void *)A_);
+	delete[] A_;
+	printf("DEBUG: file='%s' ; line=%d\n", __FILE__, __LINE__);
 	delete local_aligner_;
 }
 

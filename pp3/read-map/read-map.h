@@ -60,7 +60,7 @@ public:
 
 	int genome_len_;
 	const char * genome_bps_;
-	int * A_;
+	int * A_ = nullptr;
 	suffix_tree::SuffixTree * st_;
 	Sequence & genome_;
 	std::vector<Sequence> & reads_;

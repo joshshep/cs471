@@ -13,8 +13,8 @@ public:
 	// we add 1 to length to count the null terminator
 	SuffixTree(const char* str, int len) : str_(str), len_(len+1) {
 		//BuildTreeSimple();
-		printf("input str length: %d\n", len_);
-		printf("Building suffix tree...\n");
+		//printf("input str length: %d\n", len_);
+		//printf("Building suffix tree...\n");
 
 		// simply build the tree
 		BuildTreeMccreight();
