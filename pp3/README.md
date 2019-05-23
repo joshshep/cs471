@@ -4,6 +4,9 @@
 
 ### extract sample data
 If you cloned this project from github, you will first need to decompress the data.zip file to `data/`
+```
+unzip data.zip
+```
 
 ### Install bazel - Google's build tool
 https://docs.bazel.build/versions/master/install.html
