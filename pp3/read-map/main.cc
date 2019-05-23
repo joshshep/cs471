@@ -123,12 +123,10 @@ int main(int argc, char *argv[]) {
 	auto reads = LoadSequencesVector(reads_fname);
 
 	//const auto config = aligner::LoadConfig(config_fname);
-	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+	//const aligner::ScoreConfig align_config = {1, -2, -5, -1};
 
-	read_map::ReadMap* read_map = new read_map::ReadMap(genome, reads, align_config);
-
-	auto mapping_ofname = GetOutputFilename(reads_fname);
-	read_map->Run(mapping_ofname);
+	auto read_map = new read_map::ReadMap(genome, reads);
+	read_map->Run();
 
 	delete read_map;
 
