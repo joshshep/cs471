@@ -160,9 +160,6 @@ AlignmentScope ParseAlignScope(const char *alignment_str);
 // determines the length of the input integer
 char intLen(int n);
 
-// returns the maximum of the 3 input values
-int max3(const int i0, const int i1, const int i2);
-
 // returns the maximum of the values in the dp cell
 int max3(const DP_Cell & a);
 

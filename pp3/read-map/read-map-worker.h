@@ -37,6 +37,9 @@ public:
 	// returns the suffix tree node corresponding to the location 
 	suffix_tree::SuffixTreeNode* FindLoc(const std::string & read);
 
+	// returns the alignment score between the read and the reference sequence at position genome_align_start
+	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);
+
 	// wraps FindLoc() and Align() for this read
 	// returns the location on the reference genome to which this read was aligned
 	Strpos CalcReadMapping(const suffix_tree::Sequence & read);
@@ -44,16 +47,6 @@ public:
 	// wraps CalcReadMapping()
 	// returns all of the locations of the mapped reads
 	void CalcReadMappings(int start_index, int num_reads, std::vector<Strpos>& mappings);
-
-	// returns the alignment score between the read and the reference sequence at position genome_align_start
-	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);
-
-	// writes the mapping locations for each read to the output file
-	// note: the additional stats require that the read name contains the read position
-	void SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings);
-	
-	// writes the mapping locations for each read to the output file
-	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
 	const int tid_;
 	const Sequence & genome_;
