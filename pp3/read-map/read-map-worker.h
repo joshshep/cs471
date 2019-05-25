@@ -27,7 +27,7 @@ using std::endl;
 
 class ReadMapWorker {
 public:
-	ReadMapWorker(const Sequence & genome, const std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config, const suffix_tree::SuffixTree& st, const int * A);
+	ReadMapWorker(const int tid, const Sequence & genome, const std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config, const suffix_tree::SuffixTree& st, const int * A);
 	~ReadMapWorker();
 
 	// runs all of the steps in mapping the reads to the reference sequence "genome"
@@ -43,7 +43,7 @@ public:
 
 	// wraps CalcReadMapping()
 	// returns all of the locations of the mapped reads
-	std::vector<Strpos> CalcReadMappings();
+	std::vector<Strpos> CalcReadMappings(int start_index, int num_reads);
 
 	// returns the alignment score between the read and the reference sequence at position genome_align_start
 	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);
@@ -55,9 +55,10 @@ public:
 	// writes the mapping locations for each read to the output file
 	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
+	const int tid_;
 	const Sequence & genome_;
-	const std::vector<Sequence> & reads_;
 	const suffix_tree::SuffixTree & st_;
+	const std::vector<Sequence> & reads_;
 	const int * A_ = nullptr;
 	aligner::LocalAligner * local_aligner_ = nullptr;
 	int n_aligns_ = 0;

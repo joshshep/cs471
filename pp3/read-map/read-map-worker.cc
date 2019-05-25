@@ -2,12 +2,13 @@
 
 namespace read_map {
 
-ReadMapWorker::ReadMapWorker(const Sequence & genome, 
-	const std::vector<Sequence> & reads, 
+ReadMapWorker::ReadMapWorker(const int tid,
+	const Sequence & genome,
+	const std::vector<Sequence>& reads,
 	const aligner::ScoreConfig& align_config, 
 	const suffix_tree::SuffixTree& st, 
 	const int * A)
-	: genome_(genome), reads_(reads), st_(st), A_(A) {
+	: tid_(tid), genome_(genome), reads_(reads), st_(st), A_(A) {
 	genome_len_ = genome.bps.size();
 	genome_bps_ = genome.bps.c_str();
 
@@ -120,21 +121,24 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	return {read_map_loc, longest_align_len};
 }
 
-std::vector<Strpos> ReadMapWorker::CalcReadMappings() {
+std::vector<Strpos> ReadMapWorker::CalcReadMappings(int start_index, int num_reads) {
 	std::vector<Strpos> mappings(reads_.size());
-	for (int i = 0; i < (int)reads_.size(); i++) {
+	int reads_mapped = 0;
+	for (int i = start_index; i < start_index + num_reads; i++) {
 		auto & read = reads_[i];
-		if (i % 5000 == 0) {
-			cout << i << "/" << reads_.size() << " reads mapped" << endl;
+		if (reads_mapped % 5000 == 0) {
+			cout << "[" << tid_ << "] " << reads_mapped << "/" << num_reads << " reads mapped" << endl;
 		}
 		auto astrpos = CalcReadMapping(read);
 		mappings[i] = astrpos;
+		reads_mapped++;
 	}
-	printf("%d/%d reads complete\n", (int)reads_.size(), (int)reads_.size());
+	cout << "[" << tid_ << "] " << num_reads << "/" << num_reads << " reads mapped" << endl;
 
 	return mappings;
 }
 
+/*
 void ReadMapWorker::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
 	assert(mappings.size() == reads_.size());
 	std::ofstream ofile(ofname);
@@ -198,7 +202,6 @@ void ReadMapWorker::SaveMappingsStats(std::string ofname, std::vector<Strpos>& m
 	printf("%d / %d = %lf%% correct mappings (within %d chars)\n", correct_mappings, n_reads, perc_correct, mapping_idx_threshold);
 }
 
-/*
 void ReadMapWorker::Run(std::string ofname) {
 	using std::chrono::high_resolution_clock;
 	using std::chrono::duration_cast;

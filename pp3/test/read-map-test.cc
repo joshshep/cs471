@@ -12,6 +12,8 @@ TEST(ReadMap, Sample1) {
 	std::vector<read_map::Sequence> reads{read_seq};
 	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads);
 
+	read_mapping->Run();
+
 	delete read_mapping;
 }
 
@@ -24,6 +26,8 @@ TEST(ReadMap, Sample2) {
 
 	std::vector<read_map::Sequence> reads{read_seq};
 	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads);
+
+	read_mapping->Run();
 
 	delete read_mapping;
 }
