@@ -126,13 +126,13 @@ void ReadMapWorker::CalcReadMappings(int start_index, int num_reads, std::vector
 	for (int i = start_index; i < start_index + num_reads; i++) {
 		auto & read = reads_[i];
 		if (reads_mapped % 5000 == 0) {
-			cout << "[" << tid_ << "] " << reads_mapped << "/" << num_reads << " reads mapped" << endl;
+			printf("[%d] %d / %d reads mapped\n", tid_, reads_mapped, num_reads);
 		}
 		auto astrpos = CalcReadMapping(read);
 		mappings[i] = astrpos;
 		reads_mapped++;
 	}
-	cout << "[" << tid_ << "] " << num_reads << "/" << num_reads << " reads mapped" << endl;
+	printf("[%d] %d / %d reads mapped\n", tid_, num_reads, num_reads);
 }
 
 } // namespace read_map
