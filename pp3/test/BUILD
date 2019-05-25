@@ -7,5 +7,4 @@ cc_test(
 		"//read-map:read-map-lib",
 	],
 	timeout="short",
-	linkopts = ["-pthread"],
 )

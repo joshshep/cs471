@@ -10,6 +10,7 @@ cc_library(
 	srcs = ["read-map.cc", "read-map-worker.cc"],
 	hdrs = ["read-map.h", "read-map-worker.h"],
 	copts = ["-O3", "-march=native", "-Wall", "-Wextra", "-pedantic", "-std=c++14"],
+	linkopts = ["-pthread"],
 	deps = [
 		"//suffix-tree:suffix-tree-lib",
 		"//aligner:aligner-lib",
