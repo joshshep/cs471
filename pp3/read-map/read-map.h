@@ -6,6 +6,10 @@
 
 namespace read_map {
 
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::microseconds;
+
 class ReadMap {
 public:
 	ReadMap(Sequence & genome, std::vector<Sequence>& reads) : genome_(genome), reads_(reads) {
@@ -108,32 +112,73 @@ public:
 	}
 
 	void Run(std::string ofname) {
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
 		// generate st
 		cout << endl;
 		cout << "Constructing the reference genome suffix tree..." << endl;
+		auto t1 = high_resolution_clock::now();
+
 		const suffix_tree::SuffixTree * st = new suffix_tree::SuffixTree(genome_.bps.c_str(),  genome_.bps.size());
 
+		auto t2 = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds>( t2 - t1 ).count();
+		cout << "Time elapsed: " << duration << " microseconds" << endl;
+
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
 		// generate A
 		cout << endl;
 		cout << "Building A (PrepareST)..." << endl;
+		t1 = high_resolution_clock::now();
+
 		int next_index = 0;
 		int * A = new int[genome_.bps.size()];
 		PrepareST(A, st->root_, next_index);
+
+		t2 = high_resolution_clock::now();
+		duration = duration_cast<microseconds>( t2 - t1 ).count();
+		cout << "Time elapsed: " << duration << " microseconds" << endl;
 		
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
 		// do the work
 		cout << endl;
 		cout << "Calculating the read mappings..." << endl;
+		t1 = high_resolution_clock::now();
+
 		const aligner::ScoreConfig align_config = {1, -2, -5, -1};
 		auto mappings = LaunchThreads(align_config, *st, A);
 
+		t2 = high_resolution_clock::now();
+		duration = duration_cast<microseconds>( t2 - t1 ).count();
+		cout << "Time elapsed: " << duration << " microseconds" << endl;
+
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
+		// save to file
 		cout << endl;
 		cout << "Saving mappings stats..." << endl;
+		t1 = high_resolution_clock::now();
 		SaveMappingsStats(ofname, mappings);
 
+		t2 = high_resolution_clock::now();
+		duration = duration_cast<microseconds>( t2 - t1 ).count();
+		cout << "Time elapsed: " << duration << " microseconds" << endl;
+
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
+		// deallocate
 		cout << endl;
 		cout << "Deallocating..." << endl;
+		t1 = high_resolution_clock::now();
+
 		delete[] A;
 		delete st;
+
+		t2 = high_resolution_clock::now();
+		duration = duration_cast<microseconds>( t2 - t1 ).count();
+		cout << "Time elapsed: " << duration << " microseconds" << endl;
 	}
 
 	Sequence & genome_;
