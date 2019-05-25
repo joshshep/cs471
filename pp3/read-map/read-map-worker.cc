@@ -121,8 +121,7 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	return {read_map_loc, longest_align_len};
 }
 
-std::vector<Strpos> ReadMapWorker::CalcReadMappings(int start_index, int num_reads) {
-	std::vector<Strpos> mappings(reads_.size());
+void ReadMapWorker::CalcReadMappings(int start_index, int num_reads, std::vector<Strpos>& mappings) {
 	int reads_mapped = 0;
 	for (int i = start_index; i < start_index + num_reads; i++) {
 		auto & read = reads_[i];
@@ -134,8 +133,6 @@ std::vector<Strpos> ReadMapWorker::CalcReadMappings(int start_index, int num_rea
 		reads_mapped++;
 	}
 	cout << "[" << tid_ << "] " << num_reads << "/" << num_reads << " reads mapped" << endl;
-
-	return mappings;
 }
 
 /*

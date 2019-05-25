@@ -124,9 +124,10 @@ int main(int argc, char *argv[]) {
 
 	//const auto config = aligner::LoadConfig(config_fname);
 	//const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+	auto mapping_ofname = GetOutputFilename(reads_fname);
 
 	auto read_map = new read_map::ReadMap(genome, reads);
-	read_map->Run();
+	read_map->Run(mapping_ofname);
 
 	// delete read_map;
 

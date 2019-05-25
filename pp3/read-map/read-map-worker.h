@@ -43,7 +43,7 @@ public:
 
 	// wraps CalcReadMapping()
 	// returns all of the locations of the mapped reads
-	std::vector<Strpos> CalcReadMappings(int start_index, int num_reads);
+	void CalcReadMappings(int start_index, int num_reads, std::vector<Strpos>& mappings);
 
 	// returns the alignment score between the read and the reference sequence at position genome_align_start
 	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);
@@ -57,8 +57,8 @@ public:
 
 	const int tid_;
 	const Sequence & genome_;
-	const suffix_tree::SuffixTree & st_;
 	const std::vector<Sequence> & reads_;
+	const suffix_tree::SuffixTree & st_;
 	const int * A_ = nullptr;
 	aligner::LocalAligner * local_aligner_ = nullptr;
 	int n_aligns_ = 0;
