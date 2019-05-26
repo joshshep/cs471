@@ -19,12 +19,17 @@ ReadMapWorker::~ReadMapWorker() {
 	delete local_aligner_;
 }
 
-suffix_tree::SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
+bool SuffixTreeComp(SuffixTreeNode* a, SuffixTreeNode* b) {
+	//comparison code here
+	return a->str_depth_ > b->str_depth_;
+}
+
+SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
-	suffix_tree::SuffixTreeNode* longest_match_node = nullptr;
-	suffix_tree::SuffixTreeNode* search_src = st_.root_; // i.e., T
+	SuffixTreeNode* longest_match_node = nullptr;
+	SuffixTreeNode* search_src = st_.root_; // i.e., T
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
@@ -55,6 +60,42 @@ suffix_tree::SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	return longest_match_node;
 }
 
+auto ReadMapWorker::FindLocSlow(const std::string & read) {
+	const char * read_bps = read.c_str();
+	int read_len = read.size();
+
+	std::priority_queue<
+		SuffixTreeNode*, 
+		std::vector<SuffixTreeNode*>, 
+		std::function<bool(SuffixTreeNode*, SuffixTreeNode*)>
+	> deepest_nodes(SuffixTreeComp);
+	SuffixTreeNode* search_src = st_.root_; // i.e., T
+	assert(ZETA > 0);
+	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
+		int match_len = search_src->str_depth_;
+
+		const char * query = read_bps + i + search_src->str_depth_;
+		int query_len = read_len - i - search_src->str_depth_;
+		assert(query_len > 0);
+		auto cand_longest_match_node = search_src->MatchStr(query, query_len, match_len);
+		assert(cand_longest_match_node);
+
+		fixed_heap::push_fixed_size(deepest_nodes, cand_longest_match_node, NUM_EXACT_MATCH_COMPS);
+
+		// jump with our suffix link
+		if (match_len == cand_longest_match_node->str_depth_ && cand_longest_match_node->suffix_link_) {
+			// use this node's suffix link
+			search_src = cand_longest_match_node->suffix_link_;
+		} else {
+			// use this node's parent's suffix link
+			search_src = cand_longest_match_node->parent_->suffix_link_;
+		}
+		assert(search_src);
+	}
+	return deepest_nodes;
+}
+
+
 int ReadMapWorker::Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
@@ -75,8 +116,8 @@ int ReadMapWorker::Align(int genome_align_start, const std::string & read, align
 }
 
 Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
-	auto deepest_node = FindLoc(read.bps);
-	if (deepest_node == nullptr) {
+	auto deepest_nodes = FindLocSlow(read.bps);
+	if (deepest_nodes.size() == 0) {
 		//cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << endl;
 		return {-1, -1};
 	}
@@ -85,32 +126,36 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	int longest_align_len = -1;
 	int read_len = read.bps.size();
 	int read_map_loc = -1;
-	for (int leaf_index = deepest_node->start_leaf_index_; 
-	     leaf_index <= deepest_node->end_leaf_index_; 
-	     leaf_index++) {
-		assert(leaf_index >= 0);
-		int genome_match_start = A_[leaf_index];
-		aligner::AlignmentStats alignment_stats;
+	while (!deepest_nodes.empty()) {
+		auto deepest_node = deepest_nodes.top();
+		deepest_nodes.pop();
+		for (int leaf_index = deepest_node->start_leaf_index_; 
+			leaf_index <= deepest_node->end_leaf_index_; 
+			leaf_index++) {
+			assert(leaf_index >= 0);
+			int genome_match_start = A_[leaf_index];
+			aligner::AlignmentStats alignment_stats;
 
-		// we have the exact match location
-		// now we need to offset this in order to perform the alignment
-		int genome_align_start = genome_match_start - read_len;
-		genome_align_start = std::max(genome_align_start, 0);
+			// we have the exact match location
+			// now we need to offset this in order to perform the alignment
+			int genome_align_start = genome_match_start - read_len;
+			genome_align_start = std::max(genome_align_start, 0);
 
-		// perform the alignment
-		Align(genome_align_start, read.bps, alignment_stats);
+			// perform the alignment
+			Align(genome_align_start, read.bps, alignment_stats);
 
-		// handle the result
-		int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
-		double prop_identity = (double)alignment_stats.nMatches / align_len;
-		double len_coverage = (double)align_len / read_len;
+			// handle the result
+			int align_len = alignment_stats.nMatches + alignment_stats.nMismatches + alignment_stats.nGaps;
+			double prop_identity = (double)alignment_stats.nMatches / align_len;
+			double len_coverage = (double)align_len / read_len;
 
-		if (prop_identity > MIN_PROP_IDENTITY && len_coverage > MIN_PROP_LENGTH_COVERAGE) {
-			// good match
-			if (align_len > longest_align_len) {
-				// new best match
-				longest_align_len = align_len;
-				read_map_loc = genome_align_start + alignment_stats.startIndex;
+			if (prop_identity > MIN_PROP_IDENTITY && len_coverage > MIN_PROP_LENGTH_COVERAGE) {
+				// good match
+				if (align_len > longest_align_len) {
+					// new best match
+					longest_align_len = align_len;
+					read_map_loc = genome_align_start + alignment_stats.startIndex;
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <chrono>
 
+#include "read-map/fixed-heap.h"
 #include "aligner/local-aligner.h"
 #include "suffix-tree/suffix-tree.h"
 
@@ -15,6 +16,7 @@ namespace read_map {
 #define MAX_READ_LEN 105
 #define MIN_PROP_IDENTITY 0.90
 #define MIN_PROP_LENGTH_COVERAGE 0.80
+#define NUM_EXACT_MATCH_COMPS 5
 
 typedef struct strpos {
 	int start;
@@ -22,6 +24,7 @@ typedef struct strpos {
 } Strpos;
 
 using suffix_tree::Sequence;
+using suffix_tree::SuffixTreeNode;
 using std::cout;
 using std::endl;
 
@@ -35,7 +38,8 @@ public:
 
 	// finds the location to which this read maps in the reference sequnece
 	// returns the suffix tree node corresponding to the location 
-	suffix_tree::SuffixTreeNode* FindLoc(const std::string & read);
+	SuffixTreeNode* FindLoc(const std::string & read);
+	auto FindLocSlow(const std::string & read);
 
 	// returns the alignment score between the read and the reference sequence at position genome_align_start
 	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);

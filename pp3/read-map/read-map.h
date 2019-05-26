@@ -21,6 +21,7 @@ public:
 	}
 
 	// generates A
+	// A contains 
 	void PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index);
 
 	std::vector<Strpos> LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, int num_threads=8);
@@ -29,7 +30,7 @@ public:
 
 	void SaveMappingsStats(std::string ofname, std::vector<Strpos>& mappings);
 
-	void Run(std::string ofname);
+	void Run(std::string ofname = "mapping-results.csv");
 
 	Sequence & genome_;
 	std::vector<Sequence> & reads_;

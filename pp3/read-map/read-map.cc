@@ -34,23 +34,28 @@ void ReadMap::PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_in
 }
 
 std::vector<Strpos> ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, int num_threads) {
-	cout << "Launching " << num_threads << " thread(s) ..." << endl;
+	cout << "Launching " << num_threads << " thread(s)..." << endl;
 	std::vector<ReadMapWorker *> workers(num_threads);
-	std::vector<std::thread> threads;//(num_threads);
+	std::vector<std::thread> threads;
 	int num_reads_rem = reads_.size();
 	std::vector<Strpos> mappings(reads_.size());
 
 	for (int tid=0; tid<num_threads; tid++) {
+		// calculate the number of reads that this worker needs to map
 		int this_worker_num_reads = num_reads_rem / (num_threads - tid);
 		workers[tid] = new ReadMapWorker(tid, genome_, reads_, align_config_, st, A);
 
+		// launch the thread on a lambda that calculates the mappings
 		threads.push_back(std::thread([worker = workers[tid], &mappings](int _istart_read, int _this_worker_num_reads) {
 			printf("_istart_read: %d ; _this_worker_num_reads: %d\n", _istart_read, _this_worker_num_reads);
 			worker->CalcReadMappings(_istart_read, _this_worker_num_reads, mappings);
 		}, reads_.size() - num_reads_rem, this_worker_num_reads));
+
+		// update the remaining number of reads that need to be mapped
 		num_reads_rem -= this_worker_num_reads;
 	}
 	
+	// wait for the threads to terminate
 	for (int tid=0; tid<num_threads; tid++) {
 		threads[tid].join();
 		delete workers[tid];
