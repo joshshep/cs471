@@ -10,7 +10,8 @@ TEST(ReadMap, Sample1) {
 	suffix_tree::Sequence read_seq = {"read26", read};
 
 	std::vector<read_map::Sequence> reads{read_seq};
-	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads);
+	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads, align_config);
 
 	read_mapping->Run();
 
@@ -25,7 +26,8 @@ TEST(ReadMap, Sample2) {
 	suffix_tree::Sequence read_seq = {"read12", read};
 
 	std::vector<read_map::Sequence> reads{read_seq};
-	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads);
+	const aligner::ScoreConfig align_config = {1, -2, -5, -1};
+	read_map::ReadMap * read_mapping = new read_map::ReadMap(genome_seq, reads, align_config);
 
 	read_mapping->Run();
 

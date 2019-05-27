@@ -19,11 +19,6 @@ ReadMapWorker::~ReadMapWorker() {
 	delete local_aligner_;
 }
 
-bool SuffixTreeComp(SuffixTreeNode* a, SuffixTreeNode* b) {
-	//comparison code here
-	return a->str_depth_ > b->str_depth_;
-}
-
 SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
@@ -60,14 +55,24 @@ SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	return longest_match_node;
 }
 
+typedef struct findLocCand {
+	int matchLen;
+	SuffixTreeNode* node;
+}FindLocCand;
+
+bool SuffixTreeComp(FindLocCand a, FindLocCand b) {
+	return a.matchLen > b.matchLen;
+}
+
+
 auto ReadMapWorker::FindLocSlow(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
 	std::priority_queue<
-		SuffixTreeNode*, 
-		std::vector<SuffixTreeNode*>, 
-		std::function<bool(SuffixTreeNode*, SuffixTreeNode*)>
+		FindLocCand, 
+		std::vector<FindLocCand>, 
+		std::function<bool(FindLocCand, FindLocCand)>
 	> deepest_nodes(SuffixTreeComp);
 	SuffixTreeNode* search_src = st_.root_; // i.e., T
 	assert(ZETA > 0);
@@ -79,9 +84,9 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 		assert(query_len > 0);
 		auto cand_longest_match_node = search_src->MatchStr(query, query_len, match_len);
 		assert(cand_longest_match_node);
+		FindLocCand cand = {match_len, cand_longest_match_node};
 
-		fixed_heap::push_fixed_size(deepest_nodes, cand_longest_match_node, NUM_EXACT_MATCH_COMPS);
-
+		fixed_heap::push_fixed_size(deepest_nodes, cand, NUM_EXACT_MATCH_COMPS);
 		// jump with our suffix link
 		if (match_len == cand_longest_match_node->str_depth_ && cand_longest_match_node->suffix_link_) {
 			// use this node's suffix link
@@ -127,8 +132,9 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	int read_len = read.bps.size();
 	int read_map_loc = -1;
 	while (!deepest_nodes.empty()) {
-		auto deepest_node = deepest_nodes.top();
+		auto find_loc_cand = deepest_nodes.top();
 		deepest_nodes.pop();
+		auto deepest_node = find_loc_cand.node;
 		for (int leaf_index = deepest_node->start_leaf_index_; 
 			leaf_index <= deepest_node->end_leaf_index_; 
 			leaf_index++) {

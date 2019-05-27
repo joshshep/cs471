@@ -162,7 +162,7 @@ void ReadMap::Run(std::string ofname) {
 	cout << "Calculating the read mappings..." << endl;
 	t1 = high_resolution_clock::now();
 
-	auto mappings = LaunchThreads(*st, A, 4);
+	auto mappings = LaunchThreads(*st, A, NUM_MAPPING_THREADS);
 
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();

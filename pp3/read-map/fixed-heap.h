@@ -9,16 +9,12 @@ namespace fixed_heap {
 
 // https://stackoverflow.com/a/2034936
 template<typename T>
-void push_fixed_size(std::priority_queue<T, std::vector<T>, std::function<bool(T, T)>> & q, T & new_elem, size_t max_size) {
-	if (new_elem <= q.top()) {
-		return;
-	}
-	// new_elem needs to be pushed
-	if (q.size() >= max_size) {
+void push_fixed_size(std::priority_queue<T, std::vector<T>, std::function<bool(T, T)>> & q, T new_elem, size_t max_size) {
+	q.push(new_elem);
+	if (q.size() > max_size) {
 		// exceeding size
 		q.pop();
 	}
-	q.push(new_elem);
 }
 /*
 template<typename T>

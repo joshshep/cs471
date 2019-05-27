@@ -6,6 +6,7 @@
 
 namespace read_map {
 
+#define NUM_MAPPING_THREADS 1
 using std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
 using std::chrono::microseconds;
