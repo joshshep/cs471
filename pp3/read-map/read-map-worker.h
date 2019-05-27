@@ -16,7 +16,7 @@ namespace read_map {
 #define MAX_READ_LEN 105
 #define MIN_PROP_IDENTITY 0.90
 #define MIN_PROP_LENGTH_COVERAGE 0.80
-#define NUM_EXACT_MATCH_COMPS 5
+#define NUM_EXACT_MATCH_COMPS 1
 
 typedef struct strpos {
 	int start;
