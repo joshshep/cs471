@@ -150,6 +150,8 @@ void ReadMap::Run(std::string ofname) {
 	int next_index = 0;
 	int * A = new int[genome_.bps.size()];
 	PrepareST(A, st->root_, next_index);
+	printf("next_index: %d == genome_len: %d (should equal)\n", next_index, (int) genome_.bps.size());
+	assert(next_index == (int) genome_.bps.size());
 
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();

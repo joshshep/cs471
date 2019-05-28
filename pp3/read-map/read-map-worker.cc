@@ -131,10 +131,13 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	int longest_align_len = -1;
 	int read_len = read.bps.size();
 	int read_map_loc = -1;
+	int i_deepest_node = 0;
 	while (!deepest_nodes.empty()) {
 		auto find_loc_cand = deepest_nodes.top();
 		deepest_nodes.pop();
 		auto deepest_node = find_loc_cand.node;
+		printf("[%d] i_deepest_node=%d ; match_len=%d (%d nodes remaining)\n", tid_, i_deepest_node, find_loc_cand.matchLen, (int)deepest_nodes.size());
+		++i_deepest_node;
 		for (int leaf_index = deepest_node->start_leaf_index_; 
 			leaf_index <= deepest_node->end_leaf_index_; 
 			leaf_index++) {
