@@ -30,7 +30,13 @@ using std::endl;
 
 class ReadMapWorker {
 public:
-	ReadMapWorker(const int tid, const Sequence & genome, const std::vector<Sequence>& reads, const aligner::ScoreConfig& align_config, const suffix_tree::SuffixTree& st, const int * A);
+	ReadMapWorker(
+		const int tid,
+		const Sequence & genome,
+		const std::vector<Sequence>& reads,
+		const aligner::ScoreConfig& align_config,
+		const suffix_tree::SuffixTree& st,
+		const int * A);
 	~ReadMapWorker();
 
 	// runs all of the steps in mapping the reads to the reference sequence "genome"

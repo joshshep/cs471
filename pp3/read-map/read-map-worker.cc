@@ -122,7 +122,7 @@ int ReadMapWorker::Align(int genome_align_start, const std::string & read, align
 
 Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 	auto deepest_nodes = FindLocSlow(read.bps);
-	if (deepest_nodes.size() == 0) {
+	if (deepest_nodes.size() == 0 || deepest_nodes.top().matchLen < ZETA ) {
 		//cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << endl;
 		return {-1, -1};
 	}
@@ -136,7 +136,7 @@ Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
 		auto find_loc_cand = deepest_nodes.top();
 		deepest_nodes.pop();
 		auto deepest_node = find_loc_cand.node;
-		printf("[%d] i_deepest_node=%d ; match_len=%d (%d nodes remaining)\n", tid_, i_deepest_node, find_loc_cand.matchLen, (int)deepest_nodes.size());
+		//printf("[%d] i_deepest_node=%d ; match_len=%d (%d nodes remaining)\n", tid_, i_deepest_node, find_loc_cand.matchLen, (int)deepest_nodes.size());
 		++i_deepest_node;
 		for (int leaf_index = deepest_node->start_leaf_index_; 
 			leaf_index <= deepest_node->end_leaf_index_; 
