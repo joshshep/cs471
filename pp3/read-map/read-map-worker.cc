@@ -69,6 +69,7 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
+	// min-heap
 	std::priority_queue<
 		FindLocCand, 
 		std::vector<FindLocCand>, 
@@ -86,6 +87,7 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 		assert(cand_longest_match_node);
 		FindLocCand cand = {match_len, cand_longest_match_node};
 
+		// push onto the min-heap (but only keep the top NUM_EXACT_MATCH_COMPS elements in the heap)
 		fixed_heap::push_fixed_size(deepest_nodes, cand, NUM_EXACT_MATCH_COMPS);
 		// jump with our suffix link
 		if (match_len == cand_longest_match_node->str_depth_ && cand_longest_match_node->suffix_link_) {

@@ -43,7 +43,6 @@ enum AlignmentScope {GLOBAL, LOCAL};
 // abstract class to determine the alignment between 2 base pair (BP) sequences 
 class Aligner {
 public:
-	// TODO: resolve redundancy in {s1, s2} and seqs without messing with non-POD issues in initialization lists
 	Aligner(const int s1_max_len, const int s2_max_len, const ScoreConfig & scoring) : 
 		s1_max_len_(s1_max_len),
 		s2_max_len_(s2_max_len),
