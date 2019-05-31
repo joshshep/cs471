@@ -18,15 +18,24 @@ namespace read_map {
 #define MIN_PROP_LENGTH_COVERAGE 0.80
 #define NUM_EXACT_MATCH_COMPS 5
 
+using suffix_tree::Sequence;
+using suffix_tree::SuffixTreeNode;
+using std::cout;
+using std::endl;
+
 typedef struct strpos {
 	int start;
 	int len;
 } Strpos;
 
-using suffix_tree::Sequence;
-using suffix_tree::SuffixTreeNode;
-using std::cout;
-using std::endl;
+/* 
+a record of a ST node and its corresponding match length
+this is used to keep track of candidates in the exaxt match heap
+*/
+typedef struct findLocCand {
+	int matchLen;
+	SuffixTreeNode* node;
+}FindLocCand;
 
 class ReadMapWorker {
 public:
@@ -38,9 +47,6 @@ public:
 		const suffix_tree::SuffixTree& st,
 		const int * A);
 	~ReadMapWorker();
-
-	// runs all of the steps in mapping the reads to the reference sequence "genome"
-	void Run(std::string ofname = "mapping-results.csv");
 
 	// finds the location to which this read maps in the reference sequnece
 	// returns the suffix tree node corresponding to the location 

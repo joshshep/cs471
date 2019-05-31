@@ -23,7 +23,7 @@ public:
 
 	// generates A
 	// A contains 
-	void PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index);
+	static void PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index);
 
 	std::vector<Strpos> LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, int num_threads=8);
 

@@ -55,10 +55,6 @@ SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	return longest_match_node;
 }
 
-typedef struct findLocCand {
-	int matchLen;
-	SuffixTreeNode* node;
-}FindLocCand;
 
 auto ReadMapWorker::FindLocSlow(const std::string & read) {
 	const char * read_bps = read.c_str();
