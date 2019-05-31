@@ -31,3 +31,8 @@ bazel build read-map --compilation_mode=opt
 * Suffix tree logic is contained in `suffix-tree/`
 * The read mapping logic that makes use of the above projects is contained in `read-map/`.
 * `docs/` contains the project description
+
+## TODO
+* figure out util funcs/share types
+* mock test multithreading
+* rm data unzip __MAXOSX
