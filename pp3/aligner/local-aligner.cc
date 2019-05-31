@@ -196,6 +196,8 @@ int LocalAligner::RunDP() {
 	   |
 	   n
 	*/
+	assert(s1_);
+	assert(s2_);
 	// initialize the edge values in the dp table
 	InitDP();
 
