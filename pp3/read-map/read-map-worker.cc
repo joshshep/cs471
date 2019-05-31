@@ -60,11 +60,6 @@ typedef struct findLocCand {
 	SuffixTreeNode* node;
 }FindLocCand;
 
-bool SuffixTreeComp(FindLocCand a, FindLocCand b) {
-	return a.matchLen > b.matchLen;
-}
-
-
 auto ReadMapWorker::FindLocSlow(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
@@ -74,7 +69,9 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 		FindLocCand, 
 		std::vector<FindLocCand>, 
 		std::function<bool(FindLocCand, FindLocCand)>
-	> deepest_nodes(SuffixTreeComp);
+	> deepest_nodes([](FindLocCand a, FindLocCand b){
+		return a.matchLen > b.matchLen;
+	});
 	SuffixTreeNode* search_src = st_.root_; // i.e., T
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
