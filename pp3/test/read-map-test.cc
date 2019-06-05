@@ -15,7 +15,7 @@ TEST(ReadMapWorker, Sample1) {
 
 	// build A
 	int next_index = 0;
-	int * A = new int[genome_seq.bps.size()];
+	int * A = new int[genome_seq.bps.size() + 1];
 	read_map::ReadMap::PrepareST(A, st->root_, next_index);
 
 	std::vector<read_map::Sequence> reads{read_seq};
@@ -44,7 +44,7 @@ TEST(ReadMapWorker, Sample2) {
 
 	// build A
 	int next_index = 0;
-	int * A = new int[genome_seq.bps.size()];
+	int * A = new int[genome_seq.bps.size() + 1];
 	read_map::ReadMap::PrepareST(A, st->root_, next_index);
 
 	std::vector<read_map::Sequence> reads{read_seq};
@@ -58,4 +58,28 @@ TEST(ReadMapWorker, Sample2) {
 	delete worker;
 	delete[] A;
 	delete st;
+}
+
+TEST(FixedHeap, Sample1) {
+	int max_size = 2;
+	auto cmp = [](int a, int b){
+		return a > b;
+	};
+	fixed_heap::FixedHeap<int> q(cmp, max_size);
+	EXPECT_EQ(0, q.size());
+	
+	q.fixed_push(42);
+	EXPECT_EQ(1, q.size());
+
+	q.fixed_push(45);
+	EXPECT_EQ(2, q.size());
+	EXPECT_EQ(42, q.top());
+
+	q.fixed_push(30);
+	EXPECT_EQ(max_size, q.size());
+	EXPECT_EQ(42, q.top());
+
+	q.fixed_push(50);
+	EXPECT_EQ(max_size, q.size());
+	EXPECT_EQ(45, q.top());
 }
