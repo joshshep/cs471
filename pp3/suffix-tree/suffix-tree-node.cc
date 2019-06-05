@@ -9,7 +9,7 @@ SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &
 	}
 	auto child = search->second;
 
-	for (int i=0; i<child->edge_len_; i++){
+	for (int i = 0; i < child->edge_len_; i++){
 		if (i >= query_len){
 			// the query string ends in the middle of an edge, so we need to insert a node
 			match_len += i;
@@ -37,7 +37,7 @@ SuffixTreeNode* SuffixTreeNode::FindPath(const char* query, int query_len) {
 	}
 	auto child = search->second;
 
-	for (int i=0; i<child->edge_len_; i++){
+	for (int i = 0; i < child->edge_len_; i++){
 		if (i >= query_len){
 			// the query string ends in the middle of an edge, so we need to insert a node
 			return this->InsertNode(child, query, query_len, i);

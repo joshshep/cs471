@@ -4,6 +4,8 @@ namespace read_map {
 
 void ReadMap::PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index) {
 	if (!node) {
+		// this shouldn't happen
+		assert(0);
 		return;
 	}
 	if (node->IsLeaf()) {
@@ -29,8 +31,6 @@ void ReadMap::PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_in
 		node->start_leaf_index_ = first_child->start_leaf_index_;
 		node->end_leaf_index_ = last_child->end_leaf_index_;
 	}
-
-	return;
 }
 
 void ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, std::vector<Strpos>& map_locs, int num_threads) {
@@ -40,7 +40,7 @@ void ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, st
 	int num_reads_rem = reads_.size();
 	map_locs.resize(reads_.size());
 
-	for (int tid=0; tid<num_threads; tid++) {
+	for (int tid = 0; tid < num_threads; tid++) {
 		// calculate the number of reads that this worker needs to map
 		int this_worker_num_reads = num_reads_rem / (num_threads - tid);
 		workers[tid] = new ReadMapWorker(tid, genome_, reads_, align_config_, st, A);
@@ -56,7 +56,7 @@ void ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, st
 	}
 	
 	// wait for the threads to terminate
-	for (int tid=0; tid<num_threads; tid++) {
+	for (int tid = 0; tid < num_threads; tid++) {
 		threads[tid].join();
 		delete workers[tid];
 	}
@@ -175,6 +175,7 @@ void ReadMap::Run(std::string ofname) {
 	cout << endl;
 	cout << "Saving mappings stats..." << endl;
 	t1 = high_resolution_clock::now();
+
 	SaveMappingsStats(ofname, map_locs);
 
 	t2 = high_resolution_clock::now();

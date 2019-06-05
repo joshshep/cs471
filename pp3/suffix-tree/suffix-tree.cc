@@ -15,7 +15,7 @@ int SuffixTree::BuildTreeMccreight(){
 	// u' is the parent of u 
 	// v is the parent of the new leaf to be created
 	// v' is the parent of v
-	for (int i=0; i<len_; i++) {
+	for (int i = 0; i < len_; i++) {
 		auto u = prev_leaf->parent_;
 		if (u->suffix_link_) {
 			// SL(u) is known
