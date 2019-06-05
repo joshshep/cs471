@@ -3,5 +3,5 @@ cc_library(
 	srcs = glob(["suffix-tree.cc", "suffix-tree-node.cc"]),
 	hdrs = glob(["suffix-tree.h", "suffix-tree-node.h"]),
 	visibility = ["//visibility:public"],
-	copts = ["-O3", "-march=native", "-Wall", "-Wextra", "-pedantic", "-std=c++14"],
+	copts = ["-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 )
