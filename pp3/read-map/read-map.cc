@@ -33,12 +33,12 @@ void ReadMap::PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_in
 	return;
 }
 
-std::vector<Strpos> ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, int num_threads) {
+void ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, std::vector<Strpos>& map_locs, int num_threads) {
 	cout << "Launching " << num_threads << " thread(s)..." << endl;
 	std::vector<ReadMapWorker *> workers(num_threads);
 	std::vector<std::thread> threads;
 	int num_reads_rem = reads_.size();
-	std::vector<Strpos> mappings(reads_.size());
+	map_locs.resize(reads_.size());
 
 	for (int tid=0; tid<num_threads; tid++) {
 		// calculate the number of reads that this worker needs to map
@@ -46,9 +46,9 @@ std::vector<Strpos> ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, co
 		workers[tid] = new ReadMapWorker(tid, genome_, reads_, align_config_, st, A);
 
 		// launch the thread on a lambda that calculates the mappings
-		threads.push_back(std::thread([worker = workers[tid], &mappings](int _istart_read, int _this_worker_num_reads) {
+		threads.push_back(std::thread([worker = workers[tid], &map_locs](int _istart_read, int _this_worker_num_reads) {
 			printf("_istart_read: %d ; _this_worker_num_reads: %d\n", _istart_read, _this_worker_num_reads);
-			worker->CalcReadMappings(_istart_read, _this_worker_num_reads, mappings);
+			worker->CalcReadMappings(_istart_read, _this_worker_num_reads, map_locs);
 		}, reads_.size() - num_reads_rem, this_worker_num_reads));
 
 		// update the remaining number of reads that need to be mapped
@@ -60,7 +60,6 @@ std::vector<Strpos> ReadMap::LaunchThreads(const suffix_tree::SuffixTree& st, co
 		threads[tid].join();
 		delete workers[tid];
 	}
-	return mappings;
 }
 
 void ReadMap::SaveMappings(std::string ofname, std::vector<Strpos>& mappings) {
@@ -163,7 +162,8 @@ void ReadMap::Run(std::string ofname) {
 	cout << "Calculating the read mappings..." << endl;
 	t1 = high_resolution_clock::now();
 
-	auto mappings = LaunchThreads(*st, A, NUM_MAPPING_THREADS);
+	std::vector<Strpos> map_locs;
+	LaunchThreads(*st, A, map_locs, NUM_MAPPING_THREADS);
 
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
@@ -175,7 +175,7 @@ void ReadMap::Run(std::string ofname) {
 	cout << endl;
 	cout << "Saving mappings stats..." << endl;
 	t1 = high_resolution_clock::now();
-	SaveMappingsStats(ofname, mappings);
+	SaveMappingsStats(ofname, map_locs);
 
 	t2 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( t2 - t1 ).count();
