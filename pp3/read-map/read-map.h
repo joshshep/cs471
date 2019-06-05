@@ -25,7 +25,7 @@ public:
 	// A contains 
 	static void PrepareST(int *A, suffix_tree::SuffixTreeNode* node, int & next_index);
 
-	std::vector<Strpos> LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, int num_threads=8);
+	void LaunchThreads(const suffix_tree::SuffixTree& st, const int * A, std::vector<Strpos>& map_locs,int num_threads=8);
 
 	void SaveMappings(std::string ofname, std::vector<Strpos>& mappings);
 
