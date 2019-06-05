@@ -56,18 +56,10 @@ SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 }
 
 
-auto ReadMapWorker::FindLocSlow(const std::string & read) {
+void ReadMapWorker::FindLocSlow(const std::string & read, FixedHeap<FindLocCand>& deepest_nodes) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
-	// min-heap
-	std::priority_queue<
-		FindLocCand, 
-		std::vector<FindLocCand>, 
-		std::function<bool(FindLocCand, FindLocCand)>
-	> deepest_nodes([](FindLocCand a, FindLocCand b){
-		return a.matchLen > b.matchLen;
-	});
 	SuffixTreeNode* search_src = st_.root_; // i.e., T
 	assert(ZETA > 0);
 	for (int i = 0; i < read_len - search_src->str_depth_ - ZETA + 1; i++) {
@@ -81,7 +73,7 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 		FindLocCand cand = {match_len, cand_longest_match_node};
 
 		// push onto the min-heap (but only keep the top NUM_EXACT_MATCH_COMPS elements in the heap)
-		fixed_heap::push_fixed_size(deepest_nodes, cand, NUM_EXACT_MATCH_COMPS);
+		deepest_nodes.fixed_push(cand);
 		// jump with our suffix link
 		if (match_len == cand_longest_match_node->str_depth_ && cand_longest_match_node->suffix_link_) {
 			// use this node's suffix link
@@ -92,7 +84,6 @@ auto ReadMapWorker::FindLocSlow(const std::string & read) {
 		}
 		assert(search_src);
 	}
-	return deepest_nodes;
 }
 
 
@@ -116,7 +107,11 @@ int ReadMapWorker::Align(int genome_align_start, const std::string & read, align
 }
 
 Strpos ReadMapWorker::CalcReadMapping(const suffix_tree::Sequence & read) {
-	auto deepest_nodes = FindLocSlow(read.bps);
+	// min-heap
+	FixedHeap<FindLocCand> deepest_nodes([](FindLocCand a, FindLocCand b){
+		return a.matchLen > b.matchLen;
+	}, NUM_EXACT_MATCH_COMPS);
+	FindLocSlow(read.bps, deepest_nodes);
 	if (deepest_nodes.size() == 0 || deepest_nodes.top().matchLen < ZETA ) {
 		//cout << "Warning: failed to find " << ZETA << " character exact match for read named '" << read.name << "'" << endl;
 		return {-1, -1};

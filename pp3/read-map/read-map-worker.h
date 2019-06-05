@@ -22,6 +22,7 @@ using suffix_tree::Sequence;
 using suffix_tree::SuffixTreeNode;
 using std::cout;
 using std::endl;
+using fixed_heap::FixedHeap;
 
 typedef struct strpos {
 	int start;
@@ -51,7 +52,7 @@ public:
 	// finds the location to which this read maps in the reference sequnece
 	// returns the suffix tree node corresponding to the location 
 	SuffixTreeNode* FindLoc(const std::string & read);
-	auto FindLocSlow(const std::string & read);
+	void FindLocSlow(const std::string & read, FixedHeap<FindLocCand>& deepest_nodes);
 
 	// returns the alignment score between the read and the reference sequence at position genome_align_start
 	int Align(int genome_align_start, const std::string & read, aligner::AlignmentStats & alignment_stats);

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "read-map/read-map.h"
+#include "read-map/fixed-heap.h"
 
 TEST(ReadMapWorker, Sample1) {
 	std::string genome = "bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzbcdefghijklmnopqrstuvwxyz";
