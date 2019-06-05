@@ -147,7 +147,7 @@ void ReadMap::Run(std::string ofname) {
 	t1 = high_resolution_clock::now();
 
 	int next_index = 0;
-	int * A = new int[genome_.bps.size()];
+	int * A = new int[genome_.bps.size() + 1];
 	PrepareST(A, st->root_, next_index);
 	assert(next_index == (int) genome_.bps.size() + 1);
 
