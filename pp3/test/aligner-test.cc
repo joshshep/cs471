@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "aligner/local-aligner.h"
 
 using aligner::ScoreConfig;
