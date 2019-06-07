@@ -43,19 +43,9 @@ enum AlignmentScope {GLOBAL, LOCAL};
 // abstract class to determine the alignment between 2 base pair (BP) sequences 
 class Aligner {
 public:
-	Aligner(const int s1_max_len, const int s2_max_len, const ScoreConfig & scoring) : 
-		s1_max_len_(s1_max_len),
-		s2_max_len_(s2_max_len),
-		scoring_(scoring)
-		{
-		// alloc and initialize dp table
-		AllocDP();
-	}
+	Aligner(const int s1_max_len, const int s2_max_len, const ScoreConfig & scoring);
 
-	~Aligner() {
-		// delete dp table
-		DelDP();
-	}
+	~Aligner();
 
 	// perform the alignment of the two sequences
 	// optionally prints information about the alignment (this is mainly used for tests)
@@ -63,14 +53,7 @@ public:
 	int Align(bool print_alignment=true);
 
 	// sets the strings for the dp table comparisons
-	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
-		assert(s1_len <= s1_max_len_);
-		assert(s2_len <= s2_max_len_);
-		s1_ = s1;
-		s1_len_ = s1_len;
-		s2_ = s2;
-		s2_len_ = s2_len;
-	}
+	void SetOperands(const char * s1, int s1_len, const char * s2, int s2_len);
 
 protected:
 

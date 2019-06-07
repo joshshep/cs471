@@ -2,6 +2,20 @@
 
 namespace aligner {
 
+Aligner::Aligner(const int s1_max_len, const int s2_max_len, const ScoreConfig & scoring) : 
+	s1_max_len_(s1_max_len),
+	s2_max_len_(s2_max_len),
+	scoring_(scoring)
+	{
+	// alloc and initialize dp table
+	AllocDP();
+}
+
+Aligner::~Aligner() {
+	// delete dp table
+	DelDP();
+}
+
 int Aligner::Align(bool print_alignment) {
 	int align_score = RunDP();
 	if (print_alignment) {
@@ -14,6 +28,15 @@ int Aligner::Align(bool print_alignment) {
 		// PrintDP_Table(dp_, s1_, s2_);
 	}
 	return align_score;
+}
+
+void Aligner::SetOperands(const char * s1, int s1_len, const char * s2, int s2_len) {
+	assert(s1_len <= s1_max_len_);
+	assert(s2_len <= s2_max_len_);
+	s1_ = s1;
+	s1_len_ = s1_len;
+	s2_ = s2;
+	s2_len_ = s2_len;
 }
 
 
