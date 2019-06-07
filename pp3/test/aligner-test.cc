@@ -5,7 +5,6 @@ using aligner::ScoreConfig;
 using aligner::Sequence;
 using aligner::LocalAligner;
 using aligner::intLen;
-using aligner::Format_bps;
 
 // TODO don't use macros
 #define PRINT_ALIGNMENT false
@@ -94,11 +93,6 @@ TEST(LocalAlign, Case0) {
 //////////////////////////////////////////////
 // Misc. tests
 //////////////////////////////////////////////
-TEST(FormatBps, UppercaseBps) {
-	std::string s = "ATC";
-	Format_bps(s);
-	EXPECT_EQ(s, std::string("atc"));
-}
 
 TEST(IntLen, Pos) {
 	EXPECT_EQ(1, intLen(1));

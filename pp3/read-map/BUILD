@@ -7,8 +7,8 @@ cc_binary(
 
 cc_library(
 	name = "read-map-lib",
-	srcs = ["read-map.cc", "read-map-worker.cc"],
-	hdrs = ["read-map.h", "read-map-worker.h", "fixed-heap.h"],
+	srcs = ["read-map.cc", "read-map-worker.cc", "util.cc"],
+	hdrs = ["read-map.h", "read-map-worker.h", "fixed-heap.h", "util.h"],
 	copts = ["-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 	linkopts = ["-pthread"],
 	deps = [

@@ -1,7 +1,7 @@
 cc_library(
 	name = "aligner-lib",
-	srcs = glob(["aligner.cc", "global-aligner.cc", "local-aligner.cc", "util.cc"]),
-	hdrs = glob(["aligner.h", "global-aligner.h", "local-aligner.h"]),
+	srcs = glob(["*.cc"]),
+	hdrs = glob(["*.h"]),
 	visibility = ["//visibility:public"],
 	copts = ["-Wall", "-Wextra", "-pedantic", "-std=c++14"],
 )

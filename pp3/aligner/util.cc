@@ -1,4 +1,4 @@
-#include "aligner/aligner.h"
+#include "aligner/util.h"
 
 namespace aligner {
 
@@ -26,44 +26,6 @@ void PrintScoreConfig(const ScoreConfig & scores) {
 	std::cout << "  mismatch: " << scores.mismatch << std::endl;
 	std::cout << "  g:        " << scores.g << std::endl;
 	std::cout << "  h:        " << scores.h << std::endl;
-}
-
-ScoreConfig LoadConfig(const char *config_fname) {
-	std::cout << "Loading configuration settings from file '" << config_fname << "' ..." << std::endl;
-	std::ifstream config_stream(config_fname);
-	if (!config_stream) {
-		std::cout << "Failed to open config file '" << config_fname << "'." << std::endl;
-		exit(1);
-	}
-
-	std::string line;
-	ScoreConfig scores;
-	int provided = 0;
-	while (std::getline(config_stream, line)) {
-		// TODO use hashmap
-		if (line.rfind("match ", 0) == 0) {
-			provided |= 0b0001;
-			int i = line.rfind(' ') + 1;
-			scores.match = stoi(line.substr(i));
-		} else if(line.rfind("mismatch ", 0) == 0) {
-			provided |= 0b0010;
-			int i = line.rfind(' ') + 1;
-			scores.mismatch = stoi(line.substr(i));
-		} else if(line.rfind("g ", 0) == 0) {
-			provided |= 0b0100;
-			int i = line.rfind(' ') + 1;
-			scores.g = stoi(line.substr(i));
-		} else if(line.rfind("h ", 0) == 0) {
-			provided |= 0b1000;
-			int i = line.rfind(' ') + 1;
-			scores.h = stoi(line.substr(i));
-		}
-	}
-	if (provided != 0b1111) {
-		std::cout << "Warning: the parameter file '" << config_fname << "' did not provide values for each parameter (default value 0)" << std::endl;
-	}
-	PrintScoreConfig(scores);
-	return scores;
 }
 
 void PrintSize(size_t asize) {

@@ -5,10 +5,9 @@
 #include <vector>
 //#include <assert.h>
 #include <cassert>
-#include <stdio.h>
-
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
 
 namespace suffix_tree {
 
