@@ -23,7 +23,6 @@ public:
 		//PrintBuildStats();
 	}
 	~SuffixTree(){
-		printf("line=%d: root_ = %p\n", __LINE__, (void *) root_);
 		delete root_;
 	}
 

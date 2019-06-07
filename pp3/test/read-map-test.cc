@@ -12,7 +12,6 @@ TEST(ReadMapWorker, Sample1) {
 
 	// build the suffix tree
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
-	st->BuildTreeMccreight();
 
 	// build A
 	int next_index = 0;
@@ -41,7 +40,6 @@ TEST(ReadMapWorker, Sample2) {
 
 	// build the suffix tree
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
-	st->BuildTreeMccreight();
 
 	// build A
 	int next_index = 0;
