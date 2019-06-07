@@ -11,7 +11,7 @@ TEST(ReadMapWorker, Sample1) {
 	suffix_tree::Sequence read_seq = {"read26", read};
 
 	// build the suffix tree
-	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
+	const suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
 
 	// build A
 	int next_index = 0;
@@ -39,7 +39,7 @@ TEST(ReadMapWorker, Sample2) {
 	suffix_tree::Sequence read_seq = {"read12", read};
 
 	// build the suffix tree
-	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
+	const suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome_seq.bps.c_str(), genome_seq.bps.size());
 
 	// build A
 	int next_index = 0;
