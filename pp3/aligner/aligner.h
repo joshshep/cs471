@@ -99,15 +99,11 @@ protected:
 	int s2_len_ = -1;
 };
 
-
 ////// Utility free functions
-// TODO: organize to match google style guide
 
 ////////////////////////////////
 // printing 
 ////////////////////////////////
-// prints the help to run this executable 
-void PrintHelp();
 
 // prints the scoring configuration values for {match, mismatch, gap start, gap extend}
 void PrintScoreConfig(const ScoreConfig & scores);
@@ -119,22 +115,10 @@ void PrintSize(size_t asize);
 ///////////////////////////////////////
 // loading from files
 ///////////////////////////////////////
-// loads exactly 2 sequences from the provided file name
-std::pair<Sequence, Sequence> LoadSequences(const char* fasta_fname);
-
-// loads the scoring configuration from the provided filename
-ScoreConfig LoadConfig(const char *config_fname);
-
-
 
 ///////////////////////////////////////////
 // misc free helpers (TODO)
 ///////////////////////////////////////////
-// formats the input string (representing base pairs) to lowercase
-void Format_bps(std::string & str);
-
-// trims the provided whitespace characters from the provided string
-std::string Trim(const std::string& str, const std::string& whitespace = " ");
 
 // returns the alignment scope (local or global) given a command line argument string
 AlignmentScope ParseAlignScope(const char *alignment_str);
