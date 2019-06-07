@@ -227,9 +227,7 @@ TEST(SuffixTree, BananaCase) {
 	const char * bps = genome.c_str();
 
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
-	int num_nodes = st->BuildTreeMccreight();
 	// st->PrintTree();
-	EXPECT_EQ(11, num_nodes);
 	auto root = st->root_;
 	EXPECT_FALSE(root == nullptr);
 	
@@ -272,9 +270,7 @@ TEST(SuffixTree, MississippiCase) {
 	const char * bps = genome.c_str();
 
 	suffix_tree::SuffixTree* st = new suffix_tree::SuffixTree(genome.c_str(), genome.size());
-	int num_nodes = st->BuildTreeMccreight();
 	// st->PrintTree();
-	EXPECT_EQ(19, num_nodes);
 	auto root = st->root_;
 	EXPECT_FALSE(root == nullptr);
 	
