@@ -60,18 +60,18 @@ TEST(ReadMapWorker, Sample2) {
 }
 
 TEST(FixedHeap, Sample1) {
-	int max_size = 2;
+	size_t max_size = 2;
 	auto cmp = [](int a, int b){
 		return a > b;
 	};
 	fixed_heap::FixedHeap<int> q(cmp, max_size);
-	EXPECT_EQ(0, q.size());
+	EXPECT_EQ(0U, q.size());
 	
 	q.fixed_push(42);
-	EXPECT_EQ(1, q.size());
+	EXPECT_EQ(1U, q.size());
 
 	q.fixed_push(45);
-	EXPECT_EQ(2, q.size());
+	EXPECT_EQ(2U, q.size());
 	EXPECT_EQ(42, q.top());
 
 	q.fixed_push(30);

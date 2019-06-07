@@ -32,7 +32,7 @@ TEST(SuffixTreeFindPath, QueryMismatchInEdge) {
 	// verify children parent relationships
 	EXPECT_FALSE(leaf1 == nullptr);
 
-	EXPECT_EQ(1, root->children_.size());
+	EXPECT_EQ(1U, root->children_.size());
 	auto search = root->children_.find('a');
 	EXPECT_FALSE(search == root->children_.end());
 	auto new_inner = search->second;
@@ -40,7 +40,7 @@ TEST(SuffixTreeFindPath, QueryMismatchInEdge) {
 	EXPECT_EQ(new_inner, leaf1->parent_);
 	EXPECT_EQ(new_inner->parent_, root);
 
-	EXPECT_EQ(2, new_inner->children_.size());
+	EXPECT_EQ(2U, new_inner->children_.size());
 	// TODO verify *which* children
 	// TODO str_depths
 
@@ -129,7 +129,7 @@ TEST(SuffixTreeFindPath, QueryEndsInEdge) {
 	// verify children parent relationships
 	EXPECT_FALSE(leaf1 == nullptr);
 
-	EXPECT_EQ(1, root->children_.size());
+	EXPECT_EQ(1U, root->children_.size());
 	auto search = root->children_.find('a');
 	EXPECT_FALSE(search == root->children_.end());
 	auto new_inner = search->second;
@@ -137,7 +137,7 @@ TEST(SuffixTreeFindPath, QueryEndsInEdge) {
 	EXPECT_EQ(new_inner, leaf1->parent_);
 	EXPECT_EQ(new_inner->parent_, root);
 
-	EXPECT_EQ(2, new_inner->children_.size());
+	EXPECT_EQ(2U, new_inner->children_.size());
 	// TODO verify *which* children
 	// TODO str_depths
 
@@ -236,10 +236,10 @@ TEST(SuffixTree, BananaCase) {
 		int match_len = 0;
 		auto matched_node = root->MatchStr(bps + i, genome.size() - i, match_len);
 		EXPECT_FALSE(matched_node == nullptr);
-		EXPECT_EQ(match_len, genome.size() - i);
+		EXPECT_EQ((size_t)match_len, genome.size() - i);
 	}
 
-	EXPECT_EQ(4, root->children_.size());
+	EXPECT_EQ(4U, root->children_.size());
 	delete st;
 }
 
@@ -279,9 +279,9 @@ TEST(SuffixTree, MississippiCase) {
 		int match_len = 0;
 		auto matched_node = root->MatchStr(bps + i, genome.size() - i, match_len);
 		EXPECT_FALSE(matched_node == nullptr);
-		EXPECT_EQ(match_len, genome.size() - i);
+		EXPECT_EQ((size_t)match_len, genome.size() - i);
 	}
 
-	EXPECT_EQ(5, root->children_.size());
+	EXPECT_EQ(5U, root->children_.size());
 	delete st;
 }
