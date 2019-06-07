@@ -2,7 +2,7 @@
 
 namespace suffix_tree {
 
-SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) {
+const SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) const {
 	auto search = children_.find(query[0]);
 	if (search == children_.end()){
 		return this;
@@ -92,6 +92,7 @@ SuffixTreeNode* SuffixTreeNode::BreakEdge(SuffixTreeNode* child, int index) {
 	assert(index < child->edge_len_);
 	
 	auto new_internal_node = new SuffixTreeNode(child->incoming_edge_label_, index, this);
+	this->children_[child->incoming_edge_label_[0]] = new_internal_node;
 	new_internal_node->children_[child->incoming_edge_label_[index]] = child;
 
 	
@@ -123,7 +124,7 @@ this
   new_internal_node
     /       \
    /         \
-child      newLeafNode
+child      new_leaf_node
 */
 SuffixTreeNode* SuffixTreeNode::InsertNode(SuffixTreeNode* child, const char* query, int query_len, int index) {
 	auto new_internal_node = this->BreakEdge(child, index);

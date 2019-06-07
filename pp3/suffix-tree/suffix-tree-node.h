@@ -51,7 +51,7 @@ public:
 	// is exhausted
 	// this is basically the same as findpath except we don't modify the suffix tree
 	// in the initial call, match_len should equal 0
-	SuffixTreeNode* MatchStr(const char* query, int query_len, int &match_len);
+	const SuffixTreeNode* MatchStr(const char* query, int query_len, int &match_len) const;
 
 	// we need find/create a path for the input string
 	// returns: the newly created leaf node
@@ -59,12 +59,6 @@ public:
 
 	// return v
 	SuffixTreeNode* NodeHops(const char* beta, int beta_len);
-
-	SuffixTreeNode* GetDeepestInternalNode() {
-		SuffixTreeNode* deepest_internal_node = this;
-		GetDeepestInternalNode(deepest_internal_node);
-		return deepest_internal_node;
-	}
 
 	// sets the internal node ids starting with id i
 	void SetInternalNodeIds(int & i){
@@ -75,6 +69,12 @@ public:
 		for (auto child : children_) {
 			child.second->SetInternalNodeIds(i);
 		}
+	}
+
+	SuffixTreeNode* GetDeepestInternalNode() {
+		SuffixTreeNode* deepest_internal_node = this;
+		GetDeepestInternalNode(deepest_internal_node);
+		return deepest_internal_node;
 	}
 
 	void GetDeepestInternalNode(SuffixTreeNode*& max_depth_node) {
@@ -89,7 +89,7 @@ public:
 		}
 	}
 
-	void PrintParentage() {
+	void PrintParentage() const {
 		printf("[%d] is the parent of [%d]\n", this->parent_->id_, this->id_);
 		for (auto child : children_) {
 			child.second->PrintParentage();
@@ -117,7 +117,7 @@ public:
 	void EnumerateDFS();
 	
 	// print the children of the current node dfs
-	void PrintChildren(){
+	void PrintChildren() const {
 		PrintNode(this);
 		printf(" (root)\n");
 		for (auto child : children_){
@@ -125,7 +125,7 @@ public:
 			child.second->PrintChildren(1);
 		}
 	}
-	static void PrintNode(SuffixTreeNode *n){
+	static void PrintNode(const SuffixTreeNode *n) {
 		if (n->suffix_link_) {
 			auto sf = n->suffix_link_;
 			printf("([%d] %*.*s SL->[%d])", 
@@ -138,19 +138,19 @@ public:
 		}
 	}
 
-	bool IsLeaf() {
+	bool IsLeaf() const {
 		return this->children_.size() == 0;
 	}
 
-	bool IsRoot() {
+	bool IsRoot() const {
 		return this->suffix_link_ == this;
 	}
-	uint64_t TotalStrDepth() {
+	uint64_t TotalStrDepth() const {
 		uint64_t total = 0;
 		TotalStrDepth(total);
 		return total;
 	}
-	void TotalStrDepth(uint64_t& total){
+	void TotalStrDepth(uint64_t& total) const {
 		if (children_.size() != 0) {
 			total += str_depth_;
 		}

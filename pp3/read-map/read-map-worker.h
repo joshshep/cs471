@@ -35,7 +35,7 @@ this is used to keep track of candidates in the exaxt match heap
 */
 typedef struct findLocCand {
 	int matchLen;
-	SuffixTreeNode* node;
+	const SuffixTreeNode* node;
 }FindLocCand;
 
 class ReadMapWorker {
@@ -51,7 +51,7 @@ public:
 
 	// finds the location to which this read maps in the reference sequnece
 	// returns the suffix tree node corresponding to the location 
-	SuffixTreeNode* FindLoc(const std::string & read);
+	const SuffixTreeNode* FindLoc(const std::string & read);
 	void FindLocSlow(const std::string & read, FixedHeap<FindLocCand>& deepest_nodes);
 
 	// returns the alignment score between the read and the reference sequence at position genome_align_start

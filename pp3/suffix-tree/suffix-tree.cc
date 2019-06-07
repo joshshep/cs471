@@ -5,6 +5,8 @@ namespace suffix_tree {
 int SuffixTree::BuildTreeMccreight(){
 	// the incoming edge label to the root doesn't matter
 	root_ = new SuffixTreeNode("root", 4, nullptr);
+	printf("line=%d: root_ = %p\n", __LINE__, (void *) root_);
+
 	// manually set root to have its suffix link point to itself
 	root_->suffix_link_ = root_;
 	root_->parent_ = root_;
@@ -35,6 +37,7 @@ int SuffixTree::BuildTreeMccreight(){
 
 	// SetInternalNodeIds modifies num_nodes inplace
 	root_->SetInternalNodeIds(num_nodes);
+	printf("line=%d: root_ = %p\n", __LINE__, (void *) root_);
 	return num_nodes;
 }
 

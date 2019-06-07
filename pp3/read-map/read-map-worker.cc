@@ -19,11 +19,11 @@ ReadMapWorker::~ReadMapWorker() {
 	delete local_aligner_;
 }
 
-SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
+const SuffixTreeNode* ReadMapWorker::FindLoc(const std::string & read) {
 	const char * read_bps = read.c_str();
 	int read_len = read.size();
 
-	SuffixTreeNode* longest_match_node = nullptr;
+	const SuffixTreeNode* longest_match_node = nullptr;
 	SuffixTreeNode* search_src = st_.root_; // i.e., T
 	int longest_match_len = ZETA - 1;
 	assert(ZETA > 0);

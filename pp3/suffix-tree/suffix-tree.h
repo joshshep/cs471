@@ -23,6 +23,7 @@ public:
 		//PrintBuildStats();
 	}
 	~SuffixTree(){
+		printf("line=%d: root_ = %p\n", __LINE__, (void *) root_);
 		delete root_;
 	}
 
@@ -90,7 +91,7 @@ public:
 
 	void NodeHops();
 
-	SuffixTreeNode* root_;
+	SuffixTreeNode* root_ = nullptr;
 	const char* str_;
 	int len_;
 
