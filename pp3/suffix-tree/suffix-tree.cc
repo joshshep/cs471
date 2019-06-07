@@ -54,7 +54,8 @@ int SuffixTree::BuildTreeMccreight() {
 	}
 
 	// yes we set the internal node id's after everything
-	// its because these id's don't matter
+	// this is because (by convention) internal nodes are given id's following the id of the 
+	// last leaf id
 	int num_nodes = len_;
 
 	// SetInternalNodeIds modifies num_nodes inplace
