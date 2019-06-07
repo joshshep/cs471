@@ -24,26 +24,24 @@ void push_fixed_size(priority_queue<T, vector<T>, function<bool(T, T)>> & q, T n
 template<typename T>
 class FixedHeap : public priority_queue<T, vector<T>, function<bool(T, T)>> {
 public:
-	FixedHeap(const function<bool(T, T)>& compare, const size_t max_size)
-		: priority_queue<T, vector<T>, function<bool(T, T)>>(compare), max_size_(max_size) {
+	FixedHeap(const function<bool(T, T)>& compare, size_t maximum_size)
+		: priority_queue<T, vector<T>, function<bool(T, T)>>(compare), max_size(maximum_size) {
 		
 	}
-	void fixed_push(T val) {
-		this->push(val);
-		while (this->size() > max_size_) {
+	void fixed_push(T new_val) {
+		if (this->size() < max_size) {
+			// the value doesn't matter if the heap is not already at it's fixed size
+			this->push(new_val);
+			return;
+		}
+		if (this->comp(new_val, this->top())) {
+			// ok we should add this value
 			this->pop();
+			this->push(new_val);
 		}
-		/*
-		if (this->size() >= max_size_) {
-			
-		}
-		if (this->comp(val, this->top())) {
-			// not addable
-			this->push(val);
-		}
-		*/
+		// else this value isn't pushable
 	}
-	const size_t max_size_;
+	const size_t max_size;
 };
 /*
 template<typename T>
