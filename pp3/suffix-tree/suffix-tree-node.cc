@@ -2,6 +2,28 @@
 
 namespace suffix_tree {
 
+SuffixTreeNode::SuffixTreeNode(const char* str, int len, SuffixTreeNode* parent)
+	: incoming_edge_label_(str), edge_len_(len), parent_(parent) {
+	if (parent) {
+		parent->children_[incoming_edge_label_[0]] = this;
+		str_depth_ = parent->str_depth_ + edge_len_;
+	} else {
+		str_depth_ = 0;
+	}
+}
+
+SuffixTreeNode::~SuffixTreeNode() {
+	for (auto child : children_){
+		// if the edge ends in '$', then the node is null
+		if (child.second != nullptr){
+			delete child.second;
+		} else {
+			printf("error: null child?!\n");
+			assert(0);
+		}
+	}
+}
+
 const SuffixTreeNode* SuffixTreeNode::MatchStr(const char* query, int query_len, int &match_len) const {
 	auto search = children_.find(query[0]);
 	if (search == children_.end()){
@@ -131,6 +153,113 @@ SuffixTreeNode* SuffixTreeNode::InsertNode(SuffixTreeNode* child, const char* qu
 	auto new_leaf_node = new SuffixTreeNode(query + index, query_len - index, new_internal_node);
 
 	return new_leaf_node;
+}
+
+// sets the internal node ids starting with id i
+void SuffixTreeNode::SetInternalNodeIds(int & i){
+	if (id_ == -1) {
+		id_ = i;
+		i++;
+	}
+	for (auto child : children_) {
+		child.second->SetInternalNodeIds(i);
+	}
+}
+
+SuffixTreeNode* SuffixTreeNode::GetDeepestInternalNode() {
+	SuffixTreeNode* deepest_internal_node = this;
+	GetDeepestInternalNode(deepest_internal_node);
+	return deepest_internal_node;
+}
+
+void SuffixTreeNode::GetDeepestInternalNode(SuffixTreeNode*& max_depth_node) {
+	for (auto child : children_) {
+		if (child.second->IsLeaf()) {
+			continue;
+		}
+		child.second->GetDeepestInternalNode(max_depth_node);
+	}
+	if (this->str_depth_ > max_depth_node->str_depth_) {
+		max_depth_node = this;
+	}
+}
+
+void SuffixTreeNode::PrintParentage() const {
+	printf("[%d] is the parent of [%d]\n", this->parent_->id_, this->id_);
+	for (auto child : children_) {
+		child.second->PrintParentage();
+	}
+}
+
+// print the children of the current node dfs
+void SuffixTreeNode::PrintChildren() const {
+	PrintNode(this);
+	printf(" (root)\n");
+	for (auto child : children_){
+		// starting at node depth 1
+		child.second->PrintChildren(1);
+	}
+}
+void SuffixTreeNode::PrintNode(const SuffixTreeNode *n) {
+	if (n->suffix_link_) {
+		auto sf = n->suffix_link_;
+		printf("([%d] %*.*s SL->[%d])", 
+			n->id_, 
+			n->edge_len_,  n->edge_len_,  n->incoming_edge_label_, 
+			sf->id_);
+	} else {
+		printf("([%d] %*.*s)", n->id_, 
+			n->edge_len_, n->edge_len_, n->incoming_edge_label_);
+	}
+}
+
+bool SuffixTreeNode::IsLeaf() const {
+	return this->children_.size() == 0;
+}
+
+bool SuffixTreeNode::IsRoot() const {
+	return this->suffix_link_ == this;
+}
+uint64_t SuffixTreeNode::TotalStrDepth() const {
+	uint64_t total = 0;
+	TotalStrDepth(total);
+	return total;
+}
+void SuffixTreeNode::TotalStrDepth(uint64_t& total) const {
+	if (children_.size() != 0) {
+		total += str_depth_;
+	}
+	for (auto child : children_){
+		child.second->TotalStrDepth(total);
+	}
+}
+
+//  ----------------------------------------------
+// private
+void SuffixTreeNode::PrintChildrenShallow(){
+	for (auto child : children_){
+		printf(" ");
+		PrintNode(child.second);
+	}
+	printf("\n");
+}
+
+// given a pointer to a specific node u in the tree, display u's children from left to right; 
+void SuffixTreeNode::PrintChildren(int node_depth){
+	Indent(node_depth);
+	PrintNode(this);
+	if (children_.size() == 0){
+		printf("\n");
+		return;
+	}
+	printf("\n");
+	for (auto child : children_){
+		child.second->PrintChildren(node_depth+1);
+	}
+}
+void SuffixTreeNode::Indent(int indentation){
+	// printf is really cool
+	printf("%*s", indentation*2, "");
 }
 
 } // namespace suffix_tree
